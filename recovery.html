@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="color-scheme" content="light">
+  <title>试玩急救</title>
+  <style>
+    :root {
+      --page: #e8e9e8;
+      --surface: rgba(250, 250, 248, 0.9);
+      --ink: #343735;
+      --muted: #747b76;
+      --line: rgba(52, 55, 53, 0.16);
+      --accent: #7d8980;
+      --focus: #405c49;
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100svh;
+      margin: 0;
+      padding: max(28px, env(safe-area-inset-top)) 20px max(28px, env(safe-area-inset-bottom));
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: var(--page);
+    }
+    main {
+      width: min(100%, 420px);
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 18px 48px rgba(52, 55, 53, 0.1);
+    }
+    h1 { margin: 0 0 24px; font-size: 22px; line-height: 1.25; letter-spacing: 0.02em; }
+    .status { min-height: 22px; margin: 0 0 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .actions { display: grid; gap: 10px; }
+    button, a {
+      min-height: 46px;
+      border-radius: 12px;
+      font: inherit;
+      font-weight: 650;
+    }
+    button {
+      border: 0;
+      color: #fff;
+      background: var(--ink);
+      cursor: pointer;
+    }
+    a {
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.54);
+    }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    button:disabled { opacity: 0.56; cursor: wait; }
+    @media (max-width: 420px) {
+      body { padding-inline: 14px; }
+      main { padding: 24px 20px; border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>试玩急救</h1>
+    <p class="status" id="status" aria-live="polite">本地聊天数据不会被清除。</p>
+    <div class="actions">
+      <button id="repair" type="button">清理静态缓存后重开</button>
+      <a href="./index.html">返回试玩</a>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var button = document.getElementById('repair');
+      var status = document.getElementById('status');
+      button.addEventListener('click', function () {
+        button.disabled = true;
+        status.textContent = '正在清理静态缓存…';
+        var cacheJob = window.caches
+          ? caches.keys().then(function (keys) {
+            return Promise.all(keys.filter(function (key) {
+              return String(key).indexOf('web-trial-v') === 0;
+            }).map(function (key) { return caches.delete(key); }));
+          })
+          : Promise.resolve();
+        var workerJob = navigator.serviceWorker
+          ? navigator.serviceWorker.getRegistrations().then(function (rows) {
+            return Promise.all(rows.map(function (row) { return row.unregister(); }));
+          })
+          : Promise.resolve();
+        Promise.all([cacheJob, workerJob]).then(function () {
+          status.textContent = '完成，正在重新打开…';
+          window.location.replace('/?trial-repair=' + Date.now());
+        }).catch(function () {
+          status.textContent = '清理未完成，请直接返回试玩重试。';
+          button.disabled = false;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1479 @@
+/*
+ * 测试优化中（内部主题 ID 仍为 album）
+ * 低饱和相册主屏：雾白窗光、双拍立得、角色备忘录、细线商业图标。
+ * 只覆盖 .home-album-shell；布局数据、拖拽、图片槽与文字编辑沿用主屏通用实现。
+ */
+
+.home-album-shell {
+  --album-ink: #343735;
+  --album-graphite: #666663;
+  --album-silver: #b8b8b2;
+  --album-canvas: #fffaf2;
+  --album-muted: #78726d;
+  --album-accent: #df7d82;
+  --album-paper: rgba(252, 252, 249, 0.92);
+  --album-paper-solid: #fafaf7;
+  --album-line: rgba(52, 55, 53, 0.12);
+  --album-line-strong: rgba(52, 55, 53, 0.18);
+  --album-hairline: rgba(52, 55, 53, 0.08);
+  --album-highlight: rgba(255, 255, 255, 0.78);
+  --album-shadow: 0 8px 22px rgba(45, 50, 47, 0.065), 0 2px 5px rgba(45, 50, 47, 0.035);
+  --album-shadow-photo: 0 11px 24px rgba(45, 50, 47, 0.105), 0 2px 5px rgba(45, 50, 47, 0.055);
+  --album-shadow-icon: none;
+  --radius-icon: 13px;
+  background:
+    radial-gradient(circle at 88% 13%, rgba(255, 205, 102, 0.13), transparent 27%),
+    linear-gradient(138deg, #fffdf8 0%, #fffaf3 48%, #f7f0e8 100%);
+  color: var(--album-ink);
+  isolation: isolate;
+}
+
+.home-album-shell::before {
+  content: '';
+  position: absolute;
+  inset: calc(8px + var(--safe-top)) 18px calc(8px + var(--safe-bottom));
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background:
+    linear-gradient(90deg, transparent 0 67%, rgba(225, 130, 135, 0.055) 67% 67.5%, transparent 67.5%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 250, 242, 0.08));
+  box-shadow: 20px 8px 52px rgba(48, 55, 51, 0.08);
+  pointer-events: none;
+}
+
+.home-album-shell .home-wallpaper-layer {
+  z-index: 0;
+  opacity: 0.78;
+  filter: saturate(0.92) contrast(0.98) brightness(1.01);
+}
+
+/* 美化页可选的旧版相册质感：沿用历史发布参数，只处理壁纸层。 */
+html.album-gray-filter-on .home-album-shell .home-wallpaper-layer {
+  opacity: 0.34;
+  filter: saturate(0.42) contrast(0.94) brightness(1.06);
+}
+
+.home-album-shell .home-pages-container {
+  z-index: 2;
+}
+
+.home-album-shell .home-page,
+.home-album-shell .page-one {
+  min-height: 0;
+  padding: calc(8px + var(--safe-top)) 26px 10px;
+  gap: 0;
+}
+
+.home-album-shell .album-page-meta {
+  flex: 0 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 2px 10px;
+  border-bottom: 1px solid rgba(62, 68, 64, 0.1);
+  color: var(--album-muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.home-album-shell .album-page-meta span,
+.home-album-shell .album-page-meta i {
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.16em;
+}
+
+.home-album-shell .album-page-meta i {
+  color: rgba(79, 86, 82, 0.68);
+  letter-spacing: 0.12em;
+}
+
+.home-album-shell .app-grid,
+.home-album-shell .page-one .app-grid,
+.home-album-shell .page-three .app-grid {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 100px;
+  gap: 16px 14px;
+  align-content: start;
+  align-items: start;
+}
+
+/* 两排 App 作为一个固定分组，卡片与分组、分组与 Dock 之间使用等高留白。 */
+.home-album-shell [data-home-page="1"] .album-lead-app-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: auto minmax(16px, 1fr) 100px 16px 100px minmax(16px, 1fr);
+  grid-auto-rows: 100px;
+  row-gap: 0;
+  align-content: stretch;
+}
+
+.home-album-shell [data-home-page="1"] .album-lead-app-grid > .album-lead-card {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  width: 100%;
+  height: auto !important;
+  aspect-ratio: 4 / 3;
+}
+
+.home-album-shell [data-home-page="1"] .album-lead-app-grid > .app-item:nth-child(n + 2):nth-child(-n + 5) {
+  grid-row: 3;
+}
+
+.home-album-shell [data-home-page="1"] .album-lead-app-grid > .app-item:nth-child(n + 6):nth-child(-n + 9) {
+  grid-row: 5;
+}
+
+.home-album-shell [data-home-page="1"] .album-lead-app-grid > .app-item {
+  align-self: stretch;
+  justify-content: center;
+}
+
+/* 第三页：左侧播放器为主视觉，右侧笔记与工具形成紧凑的信息列。 */
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: repeat(4, 100px);
+  grid-auto-rows: 100px;
+  gap: 16px 14px;
+  align-content: center;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-music"] {
+  grid-column: 1 / 3 !important;
+  grid-row: 1 / 4 !important;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-notes"] {
+  grid-column: 3 / 5 !important;
+  grid-row: 1 !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-notes"] section {
+  min-width: 0;
+  padding: 12px 10px 9px;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-notes"] section::after,
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-notes"] i {
+  display: none;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-notes"] small {
+  margin-bottom: 7px;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-notes"] b {
+  margin-bottom: 0;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > .app-item:nth-child(3) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > .app-item:nth-child(4) {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > .app-item:nth-child(5) {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > .app-item:nth-child(6) {
+  grid-column: 4;
+  grid-row: 3;
+}
+
+.home-album-shell [data-home-page="3"] .album-editorial-tools-grid > [data-widget="album-strip"] {
+  grid-column: 1 / 5 !important;
+  grid-row: 4 !important;
+}
+
+/* 第四页：完整日历压住页首，纵向主照片与右侧短照片、2 + 1 入口错落衔接。 */
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: repeat(5, 100px);
+  grid-auto-rows: 100px;
+  gap: 16px 14px;
+  align-content: center;
+}
+
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid > [data-widget="calendar-widget"] {
+  grid-column: 1 / 5 !important;
+  grid-row: 1 / 3 !important;
+}
+
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid > [data-widget="polaroid-p1"] {
+  grid-column: 1 / 3 !important;
+  grid-row: 3 / 6 !important;
+}
+
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid > [data-widget="polaroid-p3"] {
+  grid-column: 3 / 5 !important;
+  grid-row: 3 !important;
+}
+
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid > .app-item:nth-child(4) {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid > .app-item:nth-child(5) {
+  grid-column: 4;
+  grid-row: 4;
+}
+
+.home-album-shell [data-home-page="4"] .album-editorial-archive-grid > .app-item:nth-child(6) {
+  grid-column: 3;
+  grid-row: 5;
+}
+
+.home-album-shell .page-extra .page-extra-grid {
+  min-height: 0;
+  margin-top: 0;
+}
+
+.home-album-shell .app-grid .home-grid-builtin,
+.home-album-shell .app-grid .home-custom-widget {
+  width: 100%;
+  height: 100%;
+  align-self: stretch;
+  justify-self: stretch;
+  box-sizing: border-box;
+}
+
+.home-album-shell .app-grid .home-grid-builtin[data-widget-rows="2"],
+.home-album-shell .app-grid .home-custom-widget[data-widget-rows="2"] {
+  height: 100%;
+}
+
+.home-album-shell .app-grid .home-grid-builtin[data-widget-rows="3"],
+.home-album-shell .app-grid .home-custom-widget[data-widget-rows="3"] {
+  height: 100%;
+}
+
+.home-album-shell .album-hero-photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 7px solid var(--album-paper-solid);
+  border-bottom-width: 25px;
+  border-radius: 2px;
+  background: linear-gradient(145deg, #f2eee7, #ddd8d1);
+  box-shadow: var(--album-shadow-photo), inset 0 0 0 1px rgba(52, 55, 53, 0.05);
+  filter: none;
+}
+
+.home-album-shell .album-hero-photo::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  z-index: 4;
+  width: 13px;
+  height: 36px;
+  border: 2px solid rgba(70, 74, 71, 0.58);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+}
+
+.home-album-shell .album-hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-album-shell .album-hero-photo small {
+  position: absolute;
+  right: 7px;
+  bottom: -18px;
+  color: #737975;
+  font: 500 7px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .14em;
+}
+
+.home-album-shell .album-hero-photo-main {
+  background-position: 18% 42%;
+  transform: rotate(-1.35deg);
+}
+
+.home-album-shell .album-hero-photo-main::before {
+  right: 17px;
+  transform: rotate(8deg);
+}
+
+.home-album-shell .album-hero-photo-small {
+  background-position: 76% 59%;
+  transform: rotate(1.2deg);
+  z-index: 2;
+}
+
+.home-album-shell .album-hero-photo-small::before {
+  left: 15px;
+  transform: rotate(-7deg);
+}
+
+.home-album-shell .album-hero-note {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 17px 14px 10px;
+  border: 1px solid var(--album-line);
+  border-radius: 2px 5px 5px 2px;
+  background: rgba(250, 250, 247, 0.94);
+  color: var(--album-ink);
+  box-shadow: var(--album-shadow);
+  z-index: 3;
+}
+
+.home-album-shell .album-hero-note::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 8px;
+  bottom: 8px;
+  width: 6px;
+  background: radial-gradient(circle at 0 50%, rgba(224, 226, 222, 0.96) 0 2px, transparent 2.3px) 0 0 / 6px 13px repeat-y;
+  pointer-events: none;
+}
+
+.home-album-shell .album-hero-note > b {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 11px;
+  font-weight: 580;
+  letter-spacing: 0.02em;
+}
+
+.home-album-shell .album-hero-note p {
+  margin: 0 0 5px;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.home-album-shell .album-hero-note > i {
+  position: absolute;
+  left: calc(100% + 7px);
+  top: 0;
+  padding: 7px 6px 9px;
+  background: #fbfbf8;
+  color: var(--album-muted);
+  font: 600 7px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .16em;
+  writing-mode: vertical-rl;
+  clip-path: polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);
+  box-shadow: 4px 5px 12px rgba(45,50,47,.08);
+}
+
+.home-album-shell .album-hero-piece .home-widget-controls {
+  z-index: 8;
+}
+
+.home-album-shell.is-home-editing .album-hero-piece {
+  outline: 1px dashed rgba(77, 86, 81, 0.28);
+  outline-offset: 3px;
+}
+
+/* 第一页 4 × 3 动态大卡：图片与信息是一个整体，状态条只落在照片内部。 */
+.home-album-shell .album-lead-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 64fr) minmax(0, 36fr);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--album-line);
+  border-radius: 7px;
+  background: var(--album-paper-solid);
+  box-shadow: var(--album-shadow-photo);
+}
+
+.home-album-shell .album-lead-card .home-widget-controls {
+  z-index: 12;
+}
+
+.home-album-shell.is-home-editing .album-lead-card {
+  outline: 1px dashed rgba(77, 86, 81, 0.34);
+  outline-offset: 3px;
+}
+
+.home-album-shell .album-lead-photo-pane {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px 0 6px 6px;
+  background: #fbfaf6;
+}
+
+.home-album-shell .album-lead-photo {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 4px 0 0 4px;
+  background:
+    linear-gradient(145deg, rgba(255, 250, 241, 0.2), rgba(91, 91, 84, 0.08)),
+    #e9e4dc;
+  color: var(--album-muted);
+  cursor: pointer;
+}
+
+.home-album-shell .album-lead-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.78) contrast(0.96) brightness(1.03);
+}
+
+.home-album-shell .album-lead-tape {
+  position: absolute;
+  top: 1px;
+  left: 20px;
+  z-index: 3;
+  width: 46px;
+  height: 13px;
+  border: 1px solid rgba(125, 113, 99, 0.05);
+  background: rgba(241, 228, 209, 0.72);
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+.home-album-shell .album-lead-statusbar {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1px auto 1px minmax(0, 1fr);
+  align-items: center;
+  width: calc(100% - 34px);
+  max-width: 236px;
+  height: 34px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  background: rgba(62, 60, 56, 0.5);
+  box-shadow: 0 6px 18px rgba(35, 35, 32, 0.14);
+  color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px) saturate(0.76);
+  transform: translateX(-50%);
+}
+
+.home-album-shell .album-lead-status-side {
+  --album-lead-inline-font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  font: 500 8px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.home-album-shell .album-lead-status-side svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
+
+.home-album-shell .album-lead-status-divider {
+  width: 1px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.home-album-shell .album-lead-time {
+  --album-lead-inline-font-size: 10px;
+  padding: 0 7px;
+  font: 600 10px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.home-album-shell .album-lead-info {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 0;
+  border-left: 1px solid rgba(52, 55, 53, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.54), transparent 44%),
+    #faf9f5;
+}
+
+.home-album-shell .album-lead-header {
+  display: grid;
+  grid-template-columns: 36px 4px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 8px 0;
+}
+
+.home-album-shell .album-lead-avatar {
+  appearance: none;
+  display: block;
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 55, 53, 0.13);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(45, 50, 47, 0.09);
+  cursor: pointer;
+}
+
+.home-album-shell .album-lead-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  filter: saturate(0.78) contrast(0.97);
+}
+
+.home-album-shell .album-lead-now-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--album-accent);
+  box-shadow: 0 0 0 3px rgba(223, 125, 130, 0.12);
+}
+
+.home-album-shell .album-lead-now {
+  --album-lead-inline-font-size: 8px;
+  color: var(--album-muted);
+  font: 600 8px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.home-album-shell .album-lead-more {
+  justify-self: end;
+  overflow: hidden;
+  color: rgba(52, 55, 53, 0.42);
+  font: 600 8px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.home-album-shell .album-lead-copy {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.home-album-shell .album-lead-title {
+  --album-lead-inline-font-size: 13px;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--album-ink);
+  font: 650 13px/1.22 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-album-shell .album-lead-rule {
+  width: 22px;
+  height: 1px;
+  margin: 8px 0 7px;
+  border-radius: 999px;
+  background: var(--album-accent);
+}
+
+.home-album-shell .album-lead-subtitle {
+  --album-lead-inline-font-size: 9px;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  color: var(--album-muted);
+  font: 500 9px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.07em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-album-shell .album-lead-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: 34px;
+  margin: 0 8px;
+  border-top: 1px dotted rgba(52, 55, 53, 0.2);
+}
+
+.home-album-shell .album-lead-actions > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  color: var(--album-graphite);
+}
+
+.home-album-shell .album-lead-actions svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
+
+.home-album-shell .album-lead-count {
+  --album-lead-inline-font-size: 9px;
+  min-width: 1.2em;
+  font: 600 9px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+}
+
+.home-album-shell .album-lead-card [contenteditable="true"] {
+  cursor: text;
+}
+
+html:is(.pwa-standalone, .ios-webkit)
+  .home-album-shell .album-lead-card .home-inline-editable {
+  font-size: var(--album-lead-inline-font-size, 1em);
+}
+
+html.ios-webkit
+  .home-album-shell .album-lead-card .home-inline-editable:focus {
+  font-size: 16px;
+}
+
+.home-album-shell .page-one .torn-paper {
+  grid-column: 3 / 5 !important;
+  grid-row: 1 / 3 !important;
+}
+
+.home-album-shell .widget-card {
+  margin: 0;
+  border: 1px solid var(--album-line);
+  border-radius: 5px;
+  background: var(--album-paper);
+  box-shadow: var(--album-shadow), inset 0 1px 0 var(--album-highlight);
+  transform: none;
+}
+
+.home-album-shell .deco-tape,
+.home-album-shell .torn-paper::after {
+  display: none;
+}
+
+/* 双照片仍是一个拖拽组件，内部两个图片区保持独立数据槽。 */
+.home-album-shell .film-widget {
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.home-album-shell .film-layout {
+  min-height: 100%;
+  height: 100%;
+}
+
+.home-album-shell .film-ring,
+.home-album-shell .film-sticker {
+  overflow: hidden;
+  border-radius: 1px;
+  border: 7px solid #fafaf7;
+  border-bottom-width: 25px;
+  background-color: #d9ddd8;
+  background-image:
+    linear-gradient(145deg, rgba(102, 112, 105, 0.1), rgba(246, 242, 235, 0.72));
+  background-repeat: no-repeat;
+  filter: none;
+  box-shadow: 0 12px 25px rgba(45, 50, 47, 0.14), 0 1px 4px rgba(45, 50, 47, 0.08);
+}
+
+.home-album-shell .film-ring {
+  left: 0;
+  top: 0;
+  bottom: auto;
+  width: 157px;
+  height: 338px;
+  transform: rotate(-1.5deg);
+  background-size: auto 245%;
+  background-position: 18% 42%;
+  z-index: 1;
+}
+
+.home-album-shell .film-sticker {
+  right: 0;
+  bottom: 0;
+  width: 143px;
+  height: 166px;
+  transform: rotate(1.2deg);
+  background-size: auto 225%;
+  background-position: 76% 59%;
+  z-index: 4;
+}
+
+.home-album-shell .film-ring::after {
+  content: '01 / 08';
+  position: absolute;
+  right: 3px;
+  bottom: -19px;
+  color: #777d79;
+  font: 500 7px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.12em;
+}
+
+.home-album-shell .film-sticker::after {
+  content: '09 / 08';
+  right: 3px;
+  bottom: -19px;
+  width: auto;
+  height: auto;
+  background: none;
+  color: #777d79;
+  opacity: 1;
+  transform: none;
+  font: 500 7px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.12em;
+}
+
+.home-album-shell .film-custom {
+  filter: grayscale(0.25) saturate(0.68) contrast(0.96);
+}
+
+/* 角色写下的备忘录：纯文字就是主体，不再附加头像气泡。 */
+.home-album-shell .torn-paper {
+  width: 112px !important;
+  height: 145px !important;
+  justify-self: end !important;
+  align-self: start !important;
+  padding: 26px 15px 15px;
+  margin: 19px 2px 0 0;
+  overflow: visible;
+  filter: none;
+  background: rgba(250, 250, 247, 0.9);
+  z-index: 2;
+}
+
+.home-album-shell .torn-paper::before {
+  content: 'AUG 09';
+  position: absolute;
+  top: 17px;
+  right: -22px;
+  padding: 7px 6px 6px;
+  border: 1px solid var(--album-line);
+  background: rgba(250, 250, 247, 0.94);
+  color: var(--album-muted);
+  font: 600 7px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.22em;
+  writing-mode: vertical-rl;
+  box-shadow: 4px 5px 14px rgba(45, 50, 47, 0.07);
+}
+
+.home-album-shell .note-title {
+  margin: 0 0 15px;
+  color: var(--album-ink);
+  font: 600 11px/1.1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.18em;
+}
+
+.home-album-shell .note-list {
+  padding: 0;
+  color: var(--album-ink);
+  font-size: 11px;
+  line-height: 1.72;
+  list-style: none;
+}
+
+.home-album-shell .note-list li {
+  margin: 0 0 7px;
+}
+
+.home-album-shell .note-list li::before {
+  content: none;
+}
+
+.home-album-shell .calendar-widget {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 24px 14px;
+  background: rgba(250, 250, 247, 0.88);
+}
+
+.home-album-shell .album-date-widget {
+  display: grid;
+  grid-template-columns: minmax(0, 1.72fr) minmax(88px, 1fr);
+  gap: 0;
+  padding: 7px;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
+.home-album-shell .album-date-photo,
+.home-album-shell .album-music-cover,
+.home-album-shell .album-archive-thumb {
+  background: linear-gradient(145deg, #eee9e2, #ddd8d1);
+  filter: none;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.home-album-shell [data-album-image-slot] { cursor: pointer; }
+.home-album-shell .album-photo-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  padding: 4px 7px;
+  border: 1px solid rgba(52, 55, 53, 0.08);
+  border-radius: 999px;
+  background: rgba(250,250,247,.6);
+  color: #606763;
+  font-size: 8px;
+  line-height: 1;
+  opacity: 0.76;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.home-album-shell [data-album-image-slot]:focus-visible {
+  outline: 2px solid rgba(92,106,96,.72);
+  outline-offset: 3px;
+}
+
+.home-album-shell .album-date-photo { border-radius: 3px 0 0 3px; }
+.home-album-shell .album-date-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,.46);
+  box-shadow: inset 0 0 0 1px rgba(52,55,53,.05);
+  pointer-events: none;
+}
+.home-album-shell .album-date-photo > em {
+  position: absolute;
+  left: 7px;
+  bottom: 6px;
+  z-index: 3;
+  color: rgba(250,250,247,.9);
+  font: 600 6px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-style: normal;
+  letter-spacing: .15em;
+  text-shadow: 0 1px 4px rgba(38,42,40,.42);
+}
+.home-album-shell .album-date-photo img,
+.home-album-shell .album-music-cover img,
+.home-album-shell .album-archive-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.home-album-shell .album-date-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 9px 0 15px;
+  border-left: 1px solid var(--album-hairline);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.home-album-shell .album-date-copy b { font-size: 14px; letter-spacing: .08em; }
+.home-album-shell .album-date-copy span,
+.home-album-shell .album-date-copy i { color: var(--album-muted); font-size: 9px; font-style: normal; }
+.home-album-shell .album-date-copy small {
+  color: var(--album-accent);
+  font-size: 6px;
+  font-weight: 650;
+  letter-spacing: .16em;
+}
+
+.home-album-shell .album-music-widget {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: center;
+  border-radius: 7px;
+}
+.home-album-shell .album-component-kicker {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  margin: 0 1px 7px;
+  color: var(--album-muted);
+  font: 600 6px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  letter-spacing: .14em;
+}
+.home-album-shell .album-component-kicker i { font-style: normal; }
+.home-album-shell .album-music-cover { flex: 1 1 auto; min-height: 0; border-radius: 3px; }
+.home-album-shell .album-music-widget > b { margin: 8px 0 7px; font-size: 13px; font-weight: 520; }
+.home-album-shell .album-music-line { height: 2px; border-radius: 999px; background: rgba(52,55,53,.14); overflow: hidden; }
+.home-album-shell .album-music-line i { display:block; width:52%; height:100%; border-radius:inherit; background:var(--album-ink); }
+.home-album-shell .album-music-widget > small { display:flex; justify-content:space-between; margin-top:5px; font-size:7px; }
+.home-album-shell .album-music-play {
+  position: relative;
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin: 8px auto 0;
+  padding: 0;
+  border: 1px solid var(--album-line-strong);
+  border-radius: 50%;
+  background: rgba(255,255,255,.32);
+  color: var(--album-ink);
+  box-shadow: inset 0 1px 0 var(--album-highlight);
+  font-size: 0;
+  line-height: 0;
+}
+
+.home-album-shell .album-music-play::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 12px;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform: translate(-42%, -50%);
+}
+
+.home-album-shell .album-notes-widget { display:grid; grid-template-rows:1fr 1fr; gap:12px; background:transparent; }
+.home-album-shell .album-notes-widget section { position:relative; padding:15px 15px 14px; border:1px solid var(--album-line); border-radius:5px; background:var(--album-paper); box-shadow:var(--album-shadow), inset 0 1px 0 var(--album-highlight); }
+.home-album-shell .album-notes-widget section::after { content:''; position:absolute; top:0; right:12px; width:17px; height:31px; background:#fff; clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%); box-shadow:0 2px 6px rgba(0,0,0,.08); }
+.home-album-shell .album-notes-widget small { display:block; margin-bottom:8px; color:var(--album-accent); font:600 6px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; letter-spacing:.14em; }
+.home-album-shell .album-notes-widget b { display:block; margin-bottom:14px; font:600 10px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; letter-spacing:.12em; }
+.home-album-shell .album-notes-widget i { display:block; margin-top:12px; border-top:1px dotted rgba(52,55,53,.2); }
+
+.home-album-shell .album-strip-widget {
+  display: grid;
+  grid-template-columns: minmax(76px, .72fr) minmax(0, 1.65fr);
+  gap: 0;
+  padding: 7px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.home-album-shell .album-archive-thumb {
+  min-height: 0;
+  border-radius: 2px;
+  background: linear-gradient(145deg, #ece7df, #dcd6ce);
+  filter: none;
+}
+
+.album-image-source-sheet {
+  width: min(330px, calc(100vw - 36px));
+  padding: 20px;
+  border-radius: 22px;
+}
+
+.album-image-source-title {
+  margin: 0 0 14px;
+  color: #3d3935;
+  font-size: 14px;
+  font-weight: 650;
+  text-align: center;
+}
+
+.album-image-source-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.album-image-source-cancel {
+  display: block;
+  margin: 14px auto 0;
+  padding: 5px 16px;
+  border: 0;
+  background: transparent;
+  color: #77716c;
+  font: inherit;
+}
+.home-album-shell .album-archive-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,.48);
+  box-shadow: inset 0 0 0 1px var(--album-hairline);
+  pointer-events: none;
+}
+.home-album-shell .album-archive-photo-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--album-muted);
+  font: 600 6px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  letter-spacing: .16em;
+}
+.home-album-shell .album-archive-copy {
+  min-width: 0;
+  padding: 9px 13px 7px 15px;
+  border-left: 1px solid var(--album-hairline);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.home-album-shell .album-archive-copy small {
+  display: flex;
+  justify-content: space-between;
+  color: var(--album-accent);
+  font-size: 6px;
+  font-weight: 650;
+  letter-spacing: .15em;
+}
+.home-album-shell .album-archive-copy small i { font-style: normal; }
+.home-album-shell .album-archive-copy p {
+  margin: 9px 0 7px;
+  overflow: hidden;
+  color: var(--album-ink);
+  font-size: 10px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-album-shell .album-archive-copy > span {
+  display: block;
+  color: var(--album-muted);
+  font-size: 6px;
+  letter-spacing: .12em;
+}
+
+.home-album-shell .cal-header {
+  flex: 0 0 auto;
+  margin: 0 0 12px;
+  color: var(--album-ink);
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: 0.12em;
+}
+
+.home-album-shell .cal-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  gap: 5px 4px;
+  align-items: center;
+  color: var(--album-muted);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.home-album-shell .cal-grid .day-name {
+  color: var(--album-accent);
+  font-weight: 550;
+}
+
+.home-album-shell .cal-grid .marked::before {
+  width: 22px;
+  height: 22px;
+  background: #7d8980;
+}
+
+.home-album-shell .polaroid-widget,
+.home-album-shell .home-polaroid-feature,
+.home-album-shell .page-three .polaroid-widget {
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  padding: 8px 8px 13px;
+  display: flex;
+}
+
+.home-album-shell .polaroid-widget .photo-area,
+.home-album-shell .home-polaroid-feature .photo-area,
+.home-album-shell .page-three .polaroid-widget .photo-area {
+  min-height: 0;
+  aspect-ratio: auto;
+  margin: 0 0 8px;
+  border-radius: 0;
+  background: linear-gradient(145deg, #f2eee7, #e5dfd7);
+  filter: none;
+}
+
+.home-album-shell .home-polaroid-feature .photo-area {
+  flex: 1 1 0;
+  height: 0;
+}
+
+.home-album-shell .polaroid-widget .caption,
+.home-album-shell .home-polaroid-feature .caption,
+.home-album-shell .page-three .polaroid-widget .caption {
+  flex: 0 0 auto;
+  min-height: 10px;
+  overflow: hidden;
+  padding: 0;
+  color: var(--album-muted);
+  font: 500 9px/1.1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.09em;
+}
+
+.home-album-shell [data-widget="polaroid-p3"] {
+  flex-direction: row;
+  gap: 7px;
+  overflow: hidden;
+}
+
+.home-album-shell [data-widget="polaroid-p3"] .photo-area {
+  flex: 1 1 auto;
+  width: auto;
+  height: 100%;
+  margin: 0;
+  background-image: linear-gradient(145deg, #ece7df, #dcd6ce);
+}
+
+.home-album-shell [data-widget="polaroid-p3"] .caption {
+  display: block;
+  flex: 0 0 14px;
+  width: 14px;
+  max-height: 100%;
+  overflow: hidden;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 图标与 Dock 共用同一套四列基线，不再给 Dock 加共同胶囊。 */
+.home-album-shell .app-item {
+  gap: 6px;
+  min-width: 0;
+}
+
+.home-album-shell .page-one .app-item { padding-top: 4px; }
+
+.home-album-shell .app-icon,
+.home-album-shell .page-one .app-icon,
+.home-album-shell .dock .app-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 13px;
+  color: #4f5652;
+  background: transparent !important;
+}
+
+.home-album-shell .app-icon::before {
+  background: transparent;
+  border: 0;
+  box-shadow: var(--album-shadow-icon);
+}
+
+.home-album-shell .app-icon::after {
+  display: none;
+}
+
+.home-album-shell .app-icon svg,
+.home-album-shell .dock .app-icon svg {
+  width: 30px;
+  height: 30px;
+  color: currentColor;
+}
+
+.home-album-shell .app-icon.has-album-object-icon .album-object-icon,
+.home-album-shell .dock .app-icon.has-album-object-icon .album-object-icon {
+  width: 44px;
+  height: 44px;
+  overflow: visible;
+  color: transparent;
+}
+
+.home-album-shell .album-object-icon image {
+  pointer-events: none;
+}
+
+/* 用户自定义图标仍保留明确的图片承载面；默认图标则直接落在相册纸面上。 */
+.home-album-shell .app-icon.has-custom-icon::before {
+  background: var(--album-canvas);
+  border: 1px solid var(--album-line);
+  box-shadow: 0 4px 12px rgba(45, 50, 47, 0.055);
+}
+
+.home-album-shell .app-label,
+.home-album-shell .page-one .app-label {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--album-ink);
+  font-size: 11px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-album-shell .home-bottom-chrome {
+  position: relative;
+  z-index: 6;
+  padding: 3px 26px calc(12px + var(--safe-bottom));
+  background: transparent;
+}
+
+.home-album-shell .page-indicators {
+  margin: 0 0 9px;
+  gap: 6px;
+}
+
+.home-album-shell .dot {
+  width: 4px;
+  height: 4px;
+  background: rgba(79, 86, 82, 0.22);
+}
+
+.home-album-shell .dot.active {
+  width: 13px;
+  border-radius: 999px;
+  background: var(--album-accent);
+}
+
+.home-album-shell .dock {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: 82px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.home-album-shell .home-dock-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.home-album-shell .dock .app-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 13px;
+}
+
+.home-album-shell .dock .app-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.home-album-shell .album-dock-label {
+  display: block;
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* 五页共用同一套四列网格；默认顺序负责构图，用户拖动后不被页码 CSS 强制复位。 */
+.home-album-shell [data-home-page="3"] .app-grid,
+.home-album-shell [data-home-page="4"] .app-grid {
+  grid-auto-rows: 100px;
+  row-gap: 16px;
+}
+
+.home-album-shell [data-home-page="5"] .app-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 112px;
+  column-gap: 14px;
+  row-gap: 28px;
+  padding: 10px 0 0;
+  box-sizing: border-box;
+}
+
+.home-album-shell .album-future-widget {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  height: 82px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  border: 1px solid rgba(255,255,255,.82);
+  background: rgba(250,250,247,.88);
+  box-shadow: var(--album-shadow);
+  clip-path: polygon(0 0,100% 0,100% 82%,54% 82%,50% 100%,46% 82%,0 82%);
+}
+
+.home-album-shell .album-future-widget > b {
+  color: var(--album-ink);
+  font: 600 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  letter-spacing: .16em;
+}
+
+.home-album-shell .album-future-widget > span {
+  color: var(--album-muted);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.home-album-shell .app-icon:focus-visible,
+.home-album-shell [contenteditable="true"]:focus-visible,
+.home-album-shell .home-real-edit-action:focus-visible,
+.home-album-shell .home-real-edit-done:focus-visible {
+  outline: 2px solid rgba(92, 106, 96, 0.72);
+  outline-offset: 3px;
+}
+
+.home-album-shell .is-coming-soon .app-icon {
+  color: #7c827e;
+}
+
+.home-album-shell.is-home-editing .home-grid-builtin {
+  outline-color: rgba(92, 106, 96, 0.52);
+}
+
+@media (max-height: 700px) {
+  .home-album-shell .home-page,
+  .home-album-shell .page-one {
+    padding-top: calc(12px + var(--safe-top));
+  }
+
+  .home-album-shell .album-page-meta {
+    flex-basis: 42px;
+    padding-bottom: 8px;
+  }
+
+  .home-album-shell .app-grid,
+  .home-album-shell .page-one .app-grid,
+  .home-album-shell .page-three .app-grid {
+    grid-auto-rows: 78px;
+    gap: 10px 10px;
+  }
+
+  .home-album-shell [data-home-page="1"] .album-lead-app-grid {
+    grid-template-rows: auto minmax(10px, 1fr) 78px 10px 78px minmax(10px, 1fr);
+    grid-auto-rows: 78px;
+    row-gap: 0;
+  }
+
+  .home-album-shell [data-home-page="3"] .album-editorial-tools-grid {
+    grid-template-rows: repeat(4, 78px);
+    grid-auto-rows: 78px;
+    gap: 10px;
+  }
+
+  .home-album-shell [data-home-page="4"] .album-editorial-archive-grid {
+    grid-template-rows: repeat(5, 78px);
+    grid-auto-rows: 78px;
+    gap: 10px;
+  }
+
+  .home-album-shell [data-home-page="3"] .app-grid,
+  .home-album-shell [data-home-page="4"] .app-grid {
+    grid-auto-rows: 78px;
+    row-gap: 10px;
+  }
+
+  .home-album-shell .app-grid .home-grid-builtin[data-widget-rows="2"],
+  .home-album-shell .app-grid .home-custom-widget[data-widget-rows="2"] {
+    height: 100%;
+  }
+
+  .home-album-shell .app-grid .home-grid-builtin[data-widget-rows="3"],
+  .home-album-shell .app-grid .home-custom-widget[data-widget-rows="3"] {
+    height: 100%;
+  }
+
+  .home-album-shell .album-lead-photo-pane {
+    padding: 5px 0 5px 5px;
+  }
+
+  .home-album-shell .album-lead-statusbar {
+    bottom: 10px;
+    width: calc(100% - 26px);
+    height: 30px;
+    padding: 0 7px;
+  }
+
+  .home-album-shell .album-lead-header {
+    grid-template-columns: 34px 4px auto minmax(0, 1fr);
+    gap: 4px;
+    padding: 9px 8px 0;
+  }
+
+  .home-album-shell .album-lead-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .home-album-shell .album-lead-copy {
+    padding: 5px 10px;
+  }
+
+  .home-album-shell .album-lead-title {
+    --album-lead-inline-font-size: 12px;
+    font-size: 12px;
+  }
+
+  .home-album-shell .album-lead-rule {
+    margin: 7px 0 6px;
+  }
+
+  .home-album-shell .album-lead-actions {
+    min-height: 30px;
+    margin: 0 8px;
+  }
+
+  .home-album-shell .film-ring {
+    width: 139px;
+    height: 228px;
+  }
+
+  .home-album-shell .film-sticker {
+    right: 0;
+    width: 124px;
+    height: 116px;
+  }
+
+  .home-album-shell .torn-paper {
+    height: 143px !important;
+    margin-top: 20px;
+  }
+
+  .home-album-shell [data-home-page="4"] .app-icon {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-album-shell *,
+  .home-album-shell *::before,
+  .home-album-shell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

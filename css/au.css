@@ -1,0 +1,218 @@
+/* 特殊设定 / AU · 手账风 */
+
+.au-panel-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.au-panel-scroll {
+  padding-bottom: calc(28px + var(--safe-bottom));
+}
+
+.au-hero {
+  margin-top: 4px;
+}
+
+.au-scheme-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.au-scheme-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--surface-card-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-paper);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+
+.au-scheme-card.is-selected {
+  border-color: rgba(168, 133, 110, 0.45);
+  background: #fffaf6;
+}
+
+.au-scheme-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(241, 185, 143, 0.35);
+  color: var(--accent-orange-ink);
+  flex-shrink: 0;
+}
+
+.au-scheme-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.au-scheme-actions .au-scheme-name {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.au-scheme-actions .au-scheme-delete.is-danger {
+  margin-left: auto;
+}
+
+.au-scheme-actions .au-scheme-delete.is-danger:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.au-subview-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.au-subview-tab {
+  border: 1px solid var(--surface-card-border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: var(--bg-card);
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.au-subview-tab.is-active {
+  background: rgba(241, 185, 143, 0.28);
+  border-color: rgba(168, 133, 110, 0.35);
+  color: var(--ink-brown);
+  font-weight: 600;
+}
+
+.au-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.au-entry-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.au-entry-row--manage {
+  cursor: default;
+}
+
+.au-entry-row--manage.is-selected {
+  border-color: rgba(107, 79, 58, 0.28);
+  background: rgba(241, 230, 212, 0.45);
+}
+
+.au-entry-row--manage .au-entry-body {
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.au-entry-row--readonly {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.au-panel-scroll.has-manage-bar {
+  padding-bottom: 96px;
+}
+
+.au-entry-row input[type="checkbox"] {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.au-entry-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.au-entry-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.au-entry-preview {
+  display: block;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.au-chip {
+  font-size: 10px;
+  line-height: 1.2;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(182, 205, 224, 0.35);
+  color: var(--ink-blue);
+}
+
+.au-chip.is-strong {
+  background: rgba(241, 185, 143, 0.35);
+  color: var(--accent-orange-ink);
+}
+
+.au-empty-hint {
+  padding: 8px 2px 4px;
+}
+
+.au-preset-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.au-preset-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--surface-card-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-paper);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+
+.au-preset-chip:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.au-preset-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.au-preset-name {
+  font-size: var(--font-sm);
+  font-weight: 600;
+}

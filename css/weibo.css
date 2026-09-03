@@ -1,0 +1,2527 @@
+/* 微博 · 自原项目 pages.css 迁移（完整规则体） */
+
+/* Weibo page */
+.weibo-page { padding-bottom: calc(12px + var(--safe-bottom)); }
+.weibo-feed {
+  position: relative;
+}
+.weibo-feed.has-bg {
+  background-repeat: no-repeat;
+}
+.weibo-feed-top {
+  padding-top: 4px;
+}
+.weibo-feed-body {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.weibo-post {
+  background: var(--bg-card);
+  padding: 16px;
+  border-bottom: 8px solid var(--bg);
+}
+.weibo-post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.weibo-post-name { font-weight: 600; font-size: var(--font-md); }
+.weibo-post-meta { font-size: var(--font-xs); color: var(--text-hint); }
+.weibo-post-content { font-size: var(--font-md); line-height: 1.6; margin-bottom: 10px; }
+.social-post-media-strip {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+/* 朋友圈/微博/论坛正文中的 [表情包:名] 内联图与换行 */
+.social-richtext {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.social-richtext .chat-sticker-inline-wrap {
+  vertical-align: text-bottom;
+}
+.weibo-post-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 10px; }
+.weibo-post-images img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
+.weibo-post-actions { display: flex; justify-content: space-around; padding-top: 10px; border-top: 1px solid var(--border); }
+.weibo-action-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: var(--font-sm); color: var(--text-secondary); padding: 4px 8px;
+}
+
+/* Shared page scroll + cards */
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 24px;
+  -webkit-overflow-scrolling: touch;
+}
+.card-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.modal-sheet-tall {
+  max-height: 88vh;
+  overflow: hidden;
+}
+
+/* 分享至聊天：固定弹层高度，列表内滚动，避免空白无限下滑 */
+#modal-container .modal-overlay:has(.wb-share-sheet) {
+  overscroll-behavior: none;
+  touch-action: none;
+}
+#modal-container .modal-sheet.wb-share-sheet {
+  display: flex;
+  flex-direction: column;
+  max-height: min(70dvh, calc(var(--app-height, 100dvh) - 24px));
+  overflow: hidden;
+  padding-bottom: var(--safe-bottom, 0px);
+  touch-action: manipulation;
+}
+#modal-container .modal-sheet.wb-share-sheet .wb-share-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: max(16px, var(--safe-bottom, 0px));
+}
+#modal-container .modal-sheet.wb-share-sheet .wb-share-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(52dvh, 420px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#modal-container .modal-sheet.wb-share-sheet .wb-share-chat {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* Weibo */
+.weibo-page,
+.forum-page,
+.moments-page,
+.schedule-page,
+.world-book-page,
+.timeline-select-page,
+.au-panel-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.weibo-post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.weibo-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated, var(--bg-paper-deep));
+  font-size: 20px;
+}
+.weibo-profile-link {
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.weibo-post-name.weibo-profile-link {
+  display: inline;
+  font-weight: 600;
+  font-size: var(--font-md);
+  color: inherit;
+}
+.weibo-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+.weibo-post-name { font-weight: 600; font-size: var(--font-md); }
+.weibo-v-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  margin-left: 4px;
+  padding: 0 3px;
+  font-size: 10px;
+  line-height: 1;
+  color: #fff;
+  background: #ff3b30;
+  vertical-align: middle;
+}
+.weibo-post-meta { font-size: var(--font-xs); color: var(--text-hint); }
+.weibo-post-content { font-size: var(--font-sm); line-height: 1.5; white-space: pre-wrap; }
+.weibo-repost-origin {
+  margin: 4px 0 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #6b7d95;
+  background: #f6f9ff;
+  border: 1px solid #e4edf9;
+}
+.weibo-images {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+.weibo-images.is-single {
+  grid-template-columns: 1fr;
+  max-width: min(100%, 228px);
+}
+.weibo-images.is-four {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 260px;
+}
+.weibo-images.is-grid {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 320px;
+}
+.weibo-img-cell {
+  position: relative;
+  min-width: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(120, 140, 170, 0.08);
+}
+.weibo-images.is-four .weibo-img-cell,
+.weibo-images.is-grid .weibo-img-cell {
+  aspect-ratio: 1;
+}
+.weibo-images.is-single .weibo-img-cell {
+  aspect-ratio: auto;
+  width: fit-content;
+  max-width: 100%;
+  background: transparent;
+}
+.weibo-img-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  cursor: pointer;
+}
+.weibo-images.is-single .weibo-img-cell img {
+  width: auto;
+  height: auto;
+  max-width: min(100%, 228px);
+  max-height: 272px;
+  object-fit: contain;
+}
+.weibo-img-cell.is-sticker {
+  aspect-ratio: auto;
+  width: fit-content;
+  max-width: min(34vw, 116px);
+  background: transparent;
+}
+.weibo-img-cell.is-sticker img {
+  width: auto;
+  height: auto;
+  max-width: min(34vw, 116px);
+  max-height: 116px;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+.social-textimg-open {
+  cursor: zoom-in;
+}
+.social-textimg-open:focus-visible {
+  outline: 2px solid rgba(86, 127, 184, 0.52);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+.weibo-actions {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 6px;
+  border-top: 1px solid #f0f0f0;
+}
+.weibo-action-btn {
+  min-width: 0;
+  overflow: hidden;
+  padding: 4px 2px;
+  font-size: 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #7f7f7f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  line-height: 1;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.weibo-action-btn > .svg-icon { flex: 0 0 auto; }
+.weibo-action-btn > span:not(.svg-icon) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.weibo-action-btn.is-mini {
+  height: 24px;
+}
+.weibo-action-btn.icon-only {
+  width: 24px;
+  padding: 0;
+  justify-self: center;
+}
+.weibo-action-btn.danger {
+  color: #9a9a9a;
+}
+.weibo-action-btn.danger:hover {
+  color: #e15252;
+}
+.weibo-action-btn.is-liked {
+  color: #e84b5a;
+}
+.weibo-action-btn.is-liked .weibo-act-svg {
+  color: #e84b5a;
+  opacity: 1;
+}
+.weibo-action-btn.is-liked .weibo-act-svg path {
+  fill: currentColor;
+}
+.weibo-act-svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.88;
+}
+.weibo-action-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.weibo-feed-tools {
+  margin: 0 12px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.weibo-feed-tool-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.weibo-post-vis {
+  margin-top: 4px;
+}
+.weibo-vis-badge {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.3;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #eef3f8;
+  color: #5a6d82;
+  border: 1px solid #dde6ef;
+}
+.weibo-comment-modal-stats {
+  font-size: 12px;
+  color: #6f8cab;
+}
+.weibo-comment-modal-tools {
+  min-height: 30px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.weibo-comment-ai-fill {
+  min-height: 30px;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border: 1px solid #cbd9e8;
+  border-radius: 999px;
+  background: #f7faff;
+  color: #587ca3;
+  font-size: 12px;
+  font-weight: 600;
+}
+.weibo-comment-ai-fill:hover {
+  background: #edf4fb;
+}
+#modal-container .modal-sheet.weibo-comment-modal-sheet {
+  height: calc(var(--app-height, 100vh) - 12px);
+  height: min(82dvh, calc(var(--app-height, 100dvh) - 12px));
+  min-height: 0;
+}
+#modal-container .weibo-comment-modal-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-height: none;
+  min-height: 0;
+  overflow: hidden;
+}
+#modal-container .weibo-comment-modal-body .weibo-comment-sheet {
+  flex: 1 1 auto;
+  max-height: none;
+  min-height: 0;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+.weibo-comment-composer {
+  flex: 0 0 auto;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(88, 124, 163, 0.14);
+  background: inherit;
+}
+.weibo-comment-composer .wb-comment {
+  width: 100%;
+  min-height: 56px;
+  max-height: 96px;
+  resize: none;
+}
+.weibo-comment-composer .wb-comment-send {
+  width: 100%;
+  margin-top: 8px;
+}
+html.keyboard-visible #modal-container .weibo-comment-modal-tools {
+  display: none;
+}
+.weibo-detail-metrics-bar {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #5a6d82;
+  font-weight: 600;
+}
+.weibo-hot-comments {
+  margin-top: 10px;
+  background: #fafafa;
+  border: 1px solid #f1f1f1;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.weibo-hot-title {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 6px;
+}
+.weibo-hot-item-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.weibo-hot-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 6px;
+  align-items: baseline;
+  line-height: 1.45;
+  font-size: 13px;
+}
+.weibo-hot-item-wrap .social-post-media-strip {
+  width: 100%;
+}
+.weibo-hot-author {
+  color: #587ca3;
+}
+.weibo-hot-content {
+  color: #343434;
+}
+.weibo-hot-like {
+  color: #9a9a9a;
+  font-size: 12px;
+}
+.weibo-hot-more {
+  margin-top: 6px;
+  border: none;
+  background: transparent;
+  color: #6d8aac;
+  font-size: 12px;
+  padding: 0;
+  cursor: pointer;
+}
+.weibo-comment-sheet {
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  padding-inline-end: 14px;
+  scrollbar-gutter: stable;
+}
+.weibo-comment-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 8px;
+  align-items: start;
+}
+.weibo-comment-main {
+  min-width: 0;
+}
+.weibo-comment-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.weibo-comment-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #eef1f5;
+  color: #67768a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.weibo-comment-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.weibo-comment-reply {
+  margin-left: 6px;
+  font-weight: 400;
+  color: #8aa0b5;
+}
+.weibo-comment-author {
+  font-size: 12px;
+  color: #6f7d90;
+}
+.weibo-comment-text {
+  font-size: 13px;
+  color: #2f2f2f;
+  line-height: 1.45;
+  margin-top: 2px;
+}
+.weibo-comment-like {
+  color: #9a9a9a;
+  font-size: 12px;
+}
+.weibo-comment-del-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid #e5e8ec;
+  background: #fff;
+  color: #9aa2ad;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.weibo-comment-del-btn .weibo-act-svg {
+  width: 11px;
+  height: 11px;
+}
+.wb-comment-pick-sheet {
+  max-height: min(78dvh, 680px);
+  overflow: hidden;
+}
+.wb-comment-pick-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.wb-comment-pick-list {
+  min-height: 0;
+  max-height: min(55dvh, 460px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 0 10px;
+}
+.wb-comment-pick-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  border: 1px solid #e5ebf2;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+.wb-comment-pick-row:has(input:checked) {
+  border-color: #9eb8d3;
+  background: #f5f9fd;
+}
+.wb-comment-pick-check {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: #587ca3;
+}
+.wb-comment-pick-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.wb-comment-pick-copy strong {
+  color: #34485e;
+  font-size: 13px;
+}
+.wb-comment-pick-copy > span {
+  overflow: hidden;
+  color: #2f2f2f;
+  font-size: 13px;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wb-comment-pick-copy small {
+  color: #8190a2;
+  font-size: 11px;
+}
+.wb-comment-pick-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+.weibo-comment-ai-fill:focus-visible,
+.wb-comment-pick-row:has(input:focus-visible),
+.weibo-pick-comments:focus-visible {
+  outline: 2px solid #587ca3;
+  outline-offset: 2px;
+}
+@media (max-width: 380px) {
+  .weibo-feed-tools {
+    align-items: flex-start;
+  }
+  .weibo-feed-tool-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+.weibo-dm-row {
+  padding: 8px 0;
+  border-bottom: 1px solid #edf1f5;
+}
+.weibo-dm-row:last-child {
+  border-bottom: none;
+}
+.weibo-dm-meta {
+  font-size: 12px;
+  color: #7c8b9f;
+}
+.weibo-dm-text {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #2f2f2f;
+  white-space: pre-wrap;
+}
+.weibo-dm-reply-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.weibo-dm-reply {
+  margin-left: 14px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #f6f8fa;
+  border: 1px solid #edf1f5;
+}
+.weibo-dm-reply.is-user {
+  background: #eef6ff;
+  border-color: #dbeafe;
+}
+.weibo-dm-reply.is-user-as-char {
+  background: #fdf3ea;
+  border-color: #f5e3cf;
+}
+.weibo-dm-reply.is-char-ai {
+  background: #f2f0fb;
+  border-color: #e2ddf5;
+}
+.weibo-dm-reply-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.weibo-dm-reply-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7c8b9f;
+}
+.weibo-dm-reply-time {
+  font-size: 11px;
+  color: #9aa2ad;
+}
+.weibo-dm-reply-text {
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #2f2f2f;
+  white-space: pre-wrap;
+}
+.weibo-dm-reply-toggle {
+  margin-top: 8px;
+}
+.weibo-dm-composer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #edf1f5;
+}
+.weibo-dm-reply-input {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  border: 1px solid #e5e8ec;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 13px;
+  color: #2f2f2f;
+  background: #fff;
+}
+.weibo-dm-composer-actions {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.weibo-dm-composer-hint {
+  margin-top: 6px;
+}
+
+.weibo-trend-link {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: #333;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.35;
+}
+.weibo-trend-link:hover {
+  color: #ff7a45;
+}
+
+.wbp-fans-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(0, 0, 0, 0.2);
+}
+.wbp-fans-btn:hover {
+  color: #ff7a45;
+}
+
+.btn-linkish {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--primary, #4a6fa5);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.btn-linkish:hover {
+  opacity: 0.85;
+}
+
+.weibo-topic-page .weibo-topic-title {
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 58vw;
+}
+.weibo-topic-section {
+  margin-bottom: 12px;
+}
+.weibo-topic-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin: 0 0 8px 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.weibo-topic-news {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #444;
+}
+.weibo-topic-post {
+  margin-bottom: 10px;
+}
+.weibo-topic-post.is-official {
+  border-left: 3px solid #e53935;
+}
+.weibo-topic-post.is-repost {
+  border-left: 3px solid #6d8aac;
+}
+.weibo-topic-post-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.weibo-topic-author-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+.weibo-topic-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #eef1f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.weibo-topic-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.weibo-topic-avatar--emoji {
+  color: #67768a;
+}
+.weibo-topic-author {
+  border: none;
+  background: none;
+  padding: 0;
+  font-weight: 600;
+  font-size: var(--font-sm);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  min-width: 0;
+}
+.weibo-topic-time {
+  font-size: 11px;
+  color: #999;
+  flex-shrink: 0;
+}
+.weibo-topic-repost-line {
+  font-size: 12px;
+  color: #6b7d95;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  background: #f6f9ff;
+  border-radius: 8px;
+  border: 1px solid #e4edf9;
+}
+.weibo-topic-body {
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: #2f2f2f;
+}
+.weibo-topic-actions {
+  margin-top: 8px;
+}
+
+/* 微博设置 / 编辑主页：保存钮固定在 sheet 底部，表单单独滚动 */
+.modal-sheet.wb-config-sheet {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.modal-sheet.wb-config-sheet .wb-config-body {
+  flex: 1 1 auto;
+  max-height: none;
+  min-height: 0;
+}
+
+.modal-sheet.wb-config-sheet .wb-config-footer {
+  flex: 0 0 auto;
+  padding: 12px 16px calc(12px + var(--safe-bottom, 0px));
+  border-top: 1px solid rgba(140, 115, 98, 0.14);
+  background: #fffdf8;
+}
+
+/* 微博客户端拟态 · 2026 refresh */
+.weibo-page {
+  --weibo-style-ready: 1;
+  --wb-orange: #ff8200;
+  --wb-red: #f23d4f;
+  --wb-ink: #1d2129;
+  --wb-secondary: #606a78;
+  --wb-muted: #939aa5;
+  --wb-line: #edf0f2;
+  --wb-canvas: #f2f3f5;
+  --wb-surface: #fff;
+  position: relative;
+  overflow: hidden;
+  background: var(--wb-canvas);
+  color: var(--wb-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.weibo-page button,
+.weibo-page input,
+.weibo-page textarea {
+  font-family: inherit;
+}
+
+.weibo-appbar,
+.weibo-page > .navbar {
+  position: relative;
+  z-index: 20;
+  display: grid;
+  min-height: calc(50px + var(--safe-top));
+  flex: 0 0 auto;
+  grid-template-columns: 68px minmax(0, 1fr) 68px;
+  align-items: end;
+  padding: var(--safe-top) 12px 0;
+  border-bottom: 1px solid rgba(31, 35, 41, 0.07);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: none;
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+
+.weibo-appbar-title,
+.weibo-page > .navbar .navbar-title {
+  align-self: center;
+  justify-self: center;
+  margin: 0;
+  color: var(--wb-ink);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.weibo-appbar-title {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  gap: 18px;
+}
+
+.weibo-appbar-title span {
+  position: relative;
+  color: var(--wb-muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.weibo-appbar-title strong::after {
+  display: block;
+  position: absolute;
+  bottom: 1px;
+  width: 20px;
+  height: 3px;
+  margin-left: 7px;
+  border-radius: 999px;
+  background: var(--wb-orange);
+  content: '';
+}
+
+.weibo-appbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.weibo-appbar-btn,
+.weibo-page > .navbar .navbar-btn {
+  display: grid;
+  width: 34px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--wb-ink);
+  font-size: 26px;
+}
+
+.weibo-appbar-btn svg,
+.weibo-page > .navbar .navbar-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.weibo-feed,
+.weibo-page > .page-scroll {
+  min-height: 0;
+  padding: 0 0 calc(24px + var(--safe-bottom));
+  background-color: var(--wb-canvas);
+}
+
+.weibo-page > .page-scroll:not(.weibo-feed) {
+  width: 100%;
+}
+
+.weibo-feed {
+  padding-bottom: calc(72px + var(--safe-bottom));
+  overscroll-behavior-y: contain;
+}
+
+.weibo-pull-refresh {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  height: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  background: var(--wb-canvas);
+  color: var(--wb-muted);
+  font-size: 11px;
+  transition: height 180ms ease, color 180ms ease;
+}
+
+.weibo-pull-refresh.is-pulling {
+  height: min(var(--wb-pull-distance, 0px), 72px);
+  transition: none;
+}
+
+.weibo-pull-refresh.is-refreshing,
+.weibo-pull-refresh.is-done,
+.weibo-pull-refresh.is-error {
+  height: 38px;
+}
+
+.weibo-pull-refresh.is-armed,
+.weibo-pull-refresh.is-refreshing,
+.weibo-pull-refresh.is-done {
+  color: var(--wb-orange);
+}
+
+.weibo-pull-refresh.is-error {
+  color: var(--wb-red);
+}
+
+.weibo-pull-refresh > span {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  opacity: 0.75;
+  transform: rotate(0deg);
+}
+
+.weibo-pull-refresh.is-armed > span {
+  transform: rotate(180deg);
+}
+
+.weibo-pull-refresh.is-refreshing > span {
+  animation: weibo-refresh-spin 750ms linear infinite;
+}
+
+.weibo-pull-refresh.is-done > span {
+  border: 0;
+  border-radius: 0;
+}
+
+.weibo-pull-refresh.is-done > span::before {
+  content: '✓';
+  font-size: 14px;
+}
+
+@keyframes weibo-refresh-spin {
+  to { transform: rotate(360deg); }
+}
+
+.weibo-feed.has-bg::before,
+.weibo-profile-scroll[style*="background-image"]::before {
+  position: absolute;
+  inset: 0;
+  background: rgba(242, 243, 245, 0.76);
+  content: '';
+  pointer-events: none;
+}
+
+.weibo-feed-top,
+.weibo-feed-body,
+.weibo-profile-scroll > * {
+  position: relative;
+  z-index: 1;
+}
+
+.weibo-feed-body {
+  margin-top: 8px;
+  padding-top: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.weibo-searchbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 10px 12px;
+  padding: 8px 11px;
+  border: 1px solid rgba(31, 35, 41, 0.04);
+  border-radius: 9px;
+  background: #e9ebee;
+  color: var(--wb-muted);
+}
+
+.weibo-searchbar > svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+.weibo-search-input {
+  min-width: 0;
+  flex: 1;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--wb-ink);
+  font-size: 14px;
+}
+
+.weibo-search-btn,
+.weibo-quiet-tool {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #49739a;
+  font-size: 12px;
+}
+
+.weibo-hot-panel {
+  margin: 0;
+  padding: 15px 16px 13px;
+  background: var(--wb-surface);
+}
+
+.weibo-hot-head,
+.weibo-feed-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weibo-hot-head strong {
+  font-size: 16px;
+}
+
+.weibo-hot-head span {
+  color: var(--wb-muted);
+  font-size: 11px;
+}
+
+.weibo-hot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  margin-top: 15px;
+}
+
+.weibo-hot-row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 5px;
+  align-items: center;
+}
+
+.weibo-hot-rank {
+  color: var(--wb-muted);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.weibo-hot-rank.is-top {
+  color: var(--wb-orange);
+}
+
+.weibo-hot-row i {
+  padding: 1px 3px;
+  border-radius: 3px;
+  background: var(--wb-orange);
+  color: #fff;
+  font-size: 8px;
+  font-style: normal;
+}
+
+.weibo-trend-link {
+  overflow: hidden;
+  color: var(--wb-ink);
+  font-size: 13px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weibo-hot-empty {
+  grid-column: 1 / -1;
+  padding: 8px 0;
+  color: var(--wb-muted);
+  font-size: 12px;
+}
+
+.weibo-news-ticker {
+  display: flex;
+  margin-top: 15px;
+  padding-top: 11px;
+  overflow: hidden;
+  border-top: 1px solid var(--wb-line);
+  gap: 18px;
+}
+
+.weibo-news-ticker span {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  color: var(--wb-secondary);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weibo-native-ad {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 8px;
+  margin-top: 1px;
+  padding: 12px 16px;
+  background: #fff;
+}
+
+.weibo-native-ad span {
+  grid-row: 1 / span 2;
+  align-self: center;
+  padding: 2px 4px;
+  border: 1px solid #d7dade;
+  border-radius: 3px;
+  color: var(--wb-muted);
+  font-size: 8px;
+}
+
+.weibo-native-ad strong { font-size: 12px; }
+.weibo-native-ad small { color: var(--wb-muted); font-size: 10px; }
+
+.weibo-feed-tools {
+  min-height: 42px;
+  margin: 0;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--wb-line);
+  background: #fff;
+}
+
+.weibo-feed-tabs {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  gap: 22px;
+}
+
+.weibo-feed-tabs button {
+  position: relative;
+  align-self: stretch;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--wb-muted);
+  font-size: 13px;
+}
+.weibo-feed-tabs button.is-active { color: var(--wb-ink); font-weight: 700; }
+.weibo-feed-tabs button.is-active::after {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  left: 2px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--wb-orange);
+  content: '';
+}
+
+.weibo-feed-tool-actions { gap: 14px; }
+
+.weibo-feed-load-more {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 16px 8px;
+  border: 0;
+  background: var(--wb-surface);
+  color: var(--wb-muted);
+  font-size: 12px;
+}
+
+.weibo-feed-load-more:disabled { opacity: 0.65; }
+.weibo-feed-load-more:focus-visible { outline: 2px solid var(--wb-orange); outline-offset: -3px; }
+
+#modal-container .wb-compose-overlay {
+  align-items: stretch;
+  padding: 0;
+  background: rgba(20, 22, 26, 0.26);
+}
+
+#modal-container .wb-compose-sheet {
+  display: grid;
+  width: min(100%, 560px);
+  height: var(--app-visual-height, 100%);
+  max-height: none;
+  margin: 0 auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(24, 28, 34, 0.18);
+  color: var(--wb-ink, #1d2129);
+}
+
+.wb-compose-header {
+  display: grid;
+  min-height: calc(52px + var(--safe-top));
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  align-items: end;
+  padding: var(--safe-top) 12px 0;
+  border-bottom: 1px solid #edf0f2;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.wb-compose-header > * {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+}
+
+.wb-compose-header strong { justify-content: center; font-size: 17px; }
+.wb-compose-cancel { justify-content: flex-start; color: #606a78; font-size: 14px; }
+.wb-compose-publish { justify-content: flex-end; color: #ff8200; font-size: 14px; font-weight: 700; }
+.wb-compose-publish:disabled { opacity: 0.42; }
+
+.wb-compose-body {
+  min-height: 0;
+  padding: 18px 16px 28px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.wb-compose-text {
+  display: block;
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #1d2129;
+  font: inherit;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.wb-compose-text::placeholder { color: #b3b8c0; }
+.wb-compose-count { margin-top: 2px; color: #a2a8b1; font-size: 11px; text-align: right; }
+.wb-compose-body .social-sticker-wrap { margin: 0 0 12px; }
+.wb-compose-body .social-sticker-toggle { border: 0; background: transparent; color: #ff8200; }
+
+.wb-compose-media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  margin: 14px 0;
+}
+
+.wb-compose-media-grid[hidden],
+.wb-compose-gen[hidden],
+.wb-compose-textimg[hidden] { display: none; }
+
+.wb-compose-media-item {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f0f1f2;
+}
+
+.wb-compose-media-preview {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wb-compose-media-preview img { width: 100%; height: 100%; object-fit: cover; }
+.wb-compose-media-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 22, 26, 0.72);
+  color: #fff;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.wb-compose-media-order {
+  display: flex;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  gap: 3px;
+}
+
+.wb-compose-media-order button {
+  width: 25px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(20, 22, 26, 0.66);
+  color: #fff;
+  font-size: 18px;
+}
+
+.wb-compose-media-order button:disabled { opacity: 0.35; }
+.wb-compose-fields { margin-top: 10px; border-top: 1px solid #edf0f2; }
+.wb-compose-fields label {
+  display: grid;
+  min-height: 48px;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: center;
+  border-bottom: 1px solid #edf0f2;
+  color: #606a78;
+  font-size: 13px;
+}
+
+.wb-compose-fields input,
+.wb-compose-fields select {
+  min-width: 0;
+  padding: 8px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #1d2129;
+  font: inherit;
+  text-align: right;
+}
+
+.wb-compose-gen {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #eceff2;
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.wb-compose-textimg {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #eceff2;
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.wb-compose-textimg-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  resize: vertical;
+  border: 1px solid #e4e7eb;
+  border-radius: 9px;
+  background: #fff;
+  color: #1d2129;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.wb-compose-gen-head { display: flex; align-items: center; justify-content: space-between; }
+.wb-compose-gen-head strong { font-size: 14px; }
+.wb-compose-gen-head button { border: 0; background: transparent; color: #ff8200; font-size: 12px; }
+.wb-compose-gen-prompt {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  resize: vertical;
+  border: 1px solid #e4e7eb;
+  border-radius: 9px;
+  background: #fff;
+  color: #1d2129;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.wb-compose-gen-preview {
+  display: grid;
+  min-height: 96px;
+  margin-top: 10px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #f0f1f2;
+  color: #939aa5;
+  font-size: 12px;
+  text-align: center;
+}
+
+.wb-compose-gen-preview.has-image { width: min(100%, 280px); aspect-ratio: 1; }
+.wb-compose-gen-preview button { width: 100%; height: 100%; padding: 0; border: 0; background: transparent; }
+.wb-compose-gen-preview img { width: 100%; height: 100%; object-fit: cover; }
+.wb-compose-gen-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+.wb-compose-gen-actions button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #dfe3e7;
+  border-radius: 8px;
+  background: #fff;
+  color: #606a78;
+}
+.wb-compose-gen-actions button.is-primary { border-color: #ff8200; background: #ff8200; color: #fff; }
+.wb-compose-gen-actions button:disabled { opacity: 0.45; }
+
+.wb-compose-toolbar {
+  display: flex;
+  min-height: calc(54px + var(--safe-bottom));
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 14px var(--safe-bottom);
+  border-top: 1px solid #edf0f2;
+  background: rgba(255, 255, 255, 0.97);
+}
+
+.wb-compose-tool {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 13px;
+  border: 1px solid #ffd6ad;
+  border-radius: 9px;
+  background: #fff8f1;
+  color: #d96700;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wb-compose-tool .svg-icon { width: 17px; height: 17px; }
+.wb-compose-toolbar > input[type="file"] { display: none; }
+.wb-compose-toolbar > span { margin-left: auto; padding-top: 10px; color: #939aa5; font-size: 11px; }
+
+.weibo-post.card-block,
+.weibo-topic-post.card-block {
+  margin: 0 0 8px;
+  padding: 15px 16px 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--wb-surface);
+  box-shadow: none;
+}
+
+.weibo-post-header { align-items: flex-start; margin-bottom: 9px; }
+.weibo-avatar { width: 42px; height: 42px; background: #eef0f2; }
+.weibo-post-headtext { min-width: 0; padding-top: 1px; }
+.weibo-post-name { color: var(--wb-ink); font-size: 14px; font-weight: 650; }
+.weibo-v-badge {
+  min-width: 13px;
+  height: 13px;
+  margin-left: 3px;
+  padding: 0;
+  background: linear-gradient(145deg, #ff9b2f, #ff6a00);
+  font-size: 8px;
+}
+.weibo-post-meta { margin-top: 3px; color: var(--wb-muted); font-size: 10px; }
+.weibo-post-content { color: var(--wb-ink); font-size: 14px; line-height: 1.62; }
+
+.weibo-repost-origin {
+  margin: 8px -2px;
+  padding: 10px 12px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #f5f6f7 !important;
+  color: var(--wb-secondary);
+}
+
+.weibo-images { gap: 3px; margin-top: 9px; }
+.weibo-img-cell { border-radius: 5px; background: #f0f1f2; }
+
+.weibo-hot-comments {
+  margin: 10px 0 0;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: #f7f8fa;
+}
+.weibo-hot-title { color: var(--wb-orange); font-weight: 600; }
+.weibo-hot-author { color: #50789d; }
+.weibo-hot-content { color: var(--wb-ink); }
+
+.weibo-actions {
+  grid-template-columns: repeat(5, 1fr);
+  min-height: 43px;
+  margin: 12px -16px 0;
+  padding: 0 8px;
+  border-top: 1px solid var(--wb-line);
+}
+.weibo-action-btn { color: #717984; font-size: 11px; }
+.weibo-action-btn:hover { background: transparent; color: var(--wb-orange); }
+
+.weibo-tabbar {
+  position: absolute;
+  z-index: 30;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  min-height: calc(55px + var(--safe-bottom));
+  grid-template-columns: repeat(5, 1fr);
+  align-items: start;
+  padding: 4px 5px var(--safe-bottom);
+  border-top: 1px solid rgba(31, 35, 41, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.weibo-tabbar > button {
+  display: flex;
+  height: 48px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #7d848e;
+  font-size: 9px;
+}
+.weibo-tabbar > button svg { width: 20px; height: 20px; }
+.weibo-tabbar > button.is-active { color: var(--wb-orange); }
+.weibo-tabbar > .weibo-tabbar-compose {
+  width: 40px;
+  height: 34px;
+  align-self: center;
+  justify-self: center;
+  border-radius: 10px;
+  background: var(--wb-orange);
+  box-shadow: 0 5px 15px rgba(255, 130, 0, 0.24);
+  color: #fff;
+  font-size: 25px;
+}
+
+/* 主页、详情、话题与私信共用同一客户端骨架 */
+.weibo-profile-scroll,
+.weibo-detail-scroll,
+.weibo-topic-scroll,
+.weibo-dm-scroll { padding: 0 0 calc(28px + var(--safe-bottom)) !important; }
+
+.weibo-profile-hero {
+  margin: 0 0 8px;
+  padding: 22px 16px 18px;
+  border: 0;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: none;
+}
+.weibo-profile-hero .weibo-avatar {
+  width: 62px;
+  min-width: 62px;
+  height: 62px;
+  min-height: 62px;
+  flex: 0 0 62px;
+  aspect-ratio: 1;
+  align-self: flex-start;
+}
+.weibo-profile-hero .weibo-avatar-img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.weibo-profile-hero .btn {
+  min-height: 30px;
+  padding: 5px 10px;
+  border-color: #d9dde1;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: none;
+  color: var(--wb-ink);
+  font-size: 11px;
+}
+.weibo-profile-feed-head {
+  margin: 0;
+  padding: 12px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--wb-line);
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+.wbp-self-tools { display: flex; justify-content: flex-end; gap: 18px; margin: 0; border-bottom: 1px solid var(--wb-line); padding: 10px 16px; background: #fff; }
+.wbp-self-tools button { border: 0; padding: 3px 0; background: none; color: #667789; font-size: var(--wb-text-sm); line-height: 1.25; }
+.wbp-self-tools button:focus-visible { outline: 2px solid var(--wb-orange); outline-offset: 3px; }
+.wbp-list .weibo-post { padding-bottom: 13px; }
+
+.weibo-detail-post,
+.weibo-detail-section,
+.weibo-topic-summary,
+.weibo-topic-scroll > .card-block,
+.weibo-dm-head,
+.weibo-dm-list {
+  margin: 0 0 8px;
+  padding: 16px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+.weibo-detail-post .weibo-post-content { font-size: 16px; line-height: 1.7; }
+.weibo-detail-metrics-bar { color: var(--wb-secondary); font-size: 12px; font-weight: 500; }
+.weibo-detail-section > div:first-child { color: var(--wb-ink); font-size: 14px; }
+.weibo-detail-comments .form-input,
+.weibo-dm-reply-input {
+  border-color: #dfe3e7;
+  border-radius: 9px;
+  background: #f7f8fa;
+  box-shadow: none;
+}
+
+.weibo-topic-summary { padding-block: 18px; }
+.weibo-topic-summary strong { color: var(--wb-orange); }
+.weibo-topic-section { margin: 0 0 8px; background: #fff; }
+.weibo-topic-section-title { margin: 0; padding: 13px 16px 8px; color: var(--wb-ink); }
+.weibo-topic-post.card-block { margin-bottom: 0; border-top: 1px solid var(--wb-line); padding-bottom: 13px; }
+.weibo-topic-post.is-official { border-left: 0; box-shadow: inset 3px 0 var(--wb-orange); }
+.weibo-topic-post.is-repost { border-left: 0; }
+
+.wb-super-navbar { background: rgba(255, 255, 255, 0.94); }
+.wb-super-scroll { padding-bottom: calc(32px + var(--safe-bottom)) !important; background: #f3f4f6; }
+.wb-super-hero { margin-bottom: 8px; background: #fff; }
+.wb-super-cover {
+  height: 112px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.34), transparent 34%),
+    linear-gradient(135deg, #ff9b3d, #ff7800 55%, #f05e36);
+  background-position: center;
+  background-size: cover;
+}
+
+.wb-super-profile {
+  display: grid;
+  position: relative;
+  grid-template-columns: 68px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 0 16px 12px;
+}
+
+.wb-super-avatar {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  margin-top: -24px;
+  place-items: center;
+  border: 3px solid #fff;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffad54, #ff7400);
+  box-shadow: 0 5px 18px rgba(255, 120, 0, 0.22);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.wb-super-identity { min-width: 0; padding-top: 10px; }
+.wb-super-identity h2 { margin: 0; font-size: 18px; line-height: 1.3; }
+.wb-super-identity p {
+  display: -webkit-box;
+  margin: 5px 0 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #7b838d;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.wb-super-follow {
+  min-width: 62px;
+  min-height: 30px;
+  margin-top: 12px;
+  padding: 0 12px;
+  border: 1px solid var(--wb-orange);
+  border-radius: 7px;
+  background: var(--wb-orange);
+  color: #fff;
+  font-size: 12px;
+}
+.wb-super-follow.is-following { border-color: #dfe3e7; background: #fff; color: #747c87; }
+
+.wb-super-stats {
+  display: grid;
+  grid-template-columns: 0.8fr 0.8fr 1.4fr;
+  padding: 0 16px 13px;
+  color: #9aa0a9;
+  font-size: 10px;
+}
+.wb-super-stats span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wb-super-stats strong { margin-right: 4px; color: #343941; font-size: 12px; font-weight: 650; }
+
+.wb-super-actions {
+  display: grid;
+  grid-template-columns: 1fr 0.72fr 1.12fr;
+  gap: 8px;
+  padding: 0 16px 14px;
+}
+.wb-super-actions button {
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #606a78;
+  font-size: 11px;
+}
+.wb-super-actions button:first-child { border-color: #ffd7b0; background: #fff8f1; color: #f47700; }
+.wb-super-actions button.is-done { border-color: #e4e6e9; background: #f7f8f9; color: #9299a3; }
+
+.wb-super-news {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 8px;
+  padding: 11px 16px;
+  overflow: hidden;
+  background: #fff;
+  color: #606a78;
+  font-size: 11px;
+}
+.wb-super-news span { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.wb-super-tabs {
+  display: grid;
+  position: sticky;
+  z-index: 5;
+  top: 0;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--wb-line);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.wb-super-tabs button {
+  position: relative;
+  min-height: 43px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #7b838d;
+  font-size: 13px;
+}
+.wb-super-tabs button.is-active { color: #222831; font-weight: 700; }
+.wb-super-tabs button.is-active::after {
+  position: absolute;
+  right: calc(50% - 11px);
+  bottom: 0;
+  left: calc(50% - 11px);
+  height: 3px;
+  border-radius: 999px;
+  background: var(--wb-orange);
+  content: '';
+}
+
+.wb-super-feed { background: #fff; }
+.wb-super-feed .weibo-topic-post:first-child { border-top: 0; }
+.wb-super-empty { padding: 48px 16px; color: #9aa0a9; font-size: 13px; text-align: center; }
+.wb-super-badge {
+  flex: 0 0 auto;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: #fff1e4;
+  color: #f47700;
+  font-size: 9px;
+}
+.wb-super-badge.is-pinned { background: #fff0f1; color: #e34954; }
+.wb-super-badge.is-host { background: #eef4fb; color: #49739a; }
+.wb-super-post-metrics {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: 11px;
+  color: #8b929c;
+  font-size: 10px;
+}
+
+.weibo-dm-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 11px;
+}
+.weibo-dm-list { padding-block: 0; }
+.weibo-dm-row { padding: 14px 0; border-color: var(--wb-line); }
+.weibo-dm-meta { color: var(--wb-muted); font-size: 11px; }
+.weibo-dm-text { color: var(--wb-ink); font-size: 14px; line-height: 1.6; }
+.weibo-dm-reply { border: 0; border-radius: 7px; background: #f6f7f8; }
+.weibo-dm-composer-hint { display: none; }
+
+/* 私信：会话列表与对话页 */
+.weibo-dm-page {
+  --wbdm-bg: #f5f5f5;
+  --wbdm-orange: #ff8200;
+  background: var(--wbdm-bg);
+}
+.wbdm-navbar { border-bottom-color: #ededed; }
+.wbdm-inbox-scroll { background: #fff; }
+.wbdm-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  height: 44px;
+  padding: 0 16px;
+  gap: 26px;
+  background: rgba(255, 255, 255, .94);
+  border-bottom: 1px solid #f0f0f0;
+  backdrop-filter: blur(12px);
+}
+.wbdm-tabs button {
+  position: relative;
+  border: 0;
+  padding: 0 2px;
+  background: none;
+  color: #777;
+  font-size: 14px;
+}
+.wbdm-tabs button.is-active { color: #111; font-weight: 650; }
+.wbdm-tabs button.is-active::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  left: 2px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--wbdm-orange);
+}
+.wbdm-conversation { position: relative; background: #fff; }
+.wbdm-conversation.is-pinned { background: #fafafa; }
+.wbdm-conversation-main {
+  width: 100%;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 50px 11px 16px;
+  border: 0;
+  border-bottom: 1px solid #f1f1f1;
+  background: transparent;
+  text-align: left;
+}
+.wbdm-avatar {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff0df, #ffd9b1);
+  color: #b65b00;
+  font-size: 14px;
+  font-weight: 700;
+}
+.wbdm-conversation-copy,
+.wbdm-conversation-head { min-width: 0; display: flex; }
+.wbdm-conversation-copy { flex-direction: column; gap: 7px; }
+.wbdm-conversation-head { align-items: center; justify-content: space-between; gap: 8px; }
+.wbdm-conversation-head strong { overflow: hidden; color: #222; font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
+.wbdm-conversation-head time { flex: none; color: #aaa; font-size: 11px; font-weight: 400; }
+.wbdm-conversation-preview { overflow: hidden; color: #8a8a8a; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.wbdm-unread {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #f33;
+  color: #fff;
+  font-size: 10px;
+}
+.wbdm-row-more {
+  position: absolute;
+  right: 12px;
+  top: 25px;
+  width: 32px;
+  border: 0;
+  background: none;
+  color: #aaa;
+  font-size: 15px;
+}
+.wbdm-row-actions,
+.wbdm-thread-settings {
+  position: absolute;
+  z-index: 8;
+  right: 12px;
+  top: 58px;
+  min-width: 116px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 10px;
+  background: rgba(255,255,255,.98);
+  box-shadow: 0 8px 28px rgba(0,0,0,.14);
+}
+.wbdm-row-actions button,
+.wbdm-thread-settings button { width: 100%; display: block; border: 0; border-bottom: 1px solid #f1f1f1; padding: 10px 14px; background: transparent; color: #333; text-align: left; }
+.wbdm-row-actions button:last-child,
+.wbdm-thread-settings button:last-child { border-bottom: 0; color: #e04444; }
+.wbdm-empty { padding: 72px 20px; color: #aaa; font-size: 13px; text-align: center; }
+.wbdm-thread-title { min-width: 0; display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
+.wbdm-thread-title strong { max-width: 190px; overflow: hidden; color: #202020; font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
+.wbdm-thread-title span { margin-top: 3px; color: #999; font-size: 10px; font-weight: 400; }
+.wbdm-thread-scroll { position: relative; padding: 14px 14px calc(76px + var(--safe-bottom)) !important; background: var(--wbdm-bg); }
+.wbdm-thread-settings { top: 8px; right: 10px; }
+.wbdm-message-list { display: flex; flex-direction: column; gap: 6px; }
+.wbdm-typing { width: fit-content; display: flex; align-items: center; gap: 4px; margin: 2px 0 10px; border-radius: 5px 14px 14px 14px; padding: 9px 11px; background: #fff; color: #999; font-size: 11px; }
+.wbdm-typing span { width: 5px; height: 5px; border-radius: 50%; background: #aaa; animation: wbdm-typing 1.1s ease-in-out infinite; }
+.wbdm-typing span:nth-child(2) { animation-delay: .14s; }
+.wbdm-typing span:nth-child(3) { animation-delay: .28s; }
+.wbdm-typing em { margin-left: 3px; font-style: normal; }
+@keyframes wbdm-typing { 0%, 60%, 100% { opacity: .35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+.wbdm-bubble-row { display: flex; }
+.wbdm-bubble-row.is-outgoing { justify-content: flex-end; }
+.wbdm-bubble-wrap { max-width: min(78%, 420px); }
+.wbdm-bubble {
+  overflow: hidden;
+  border-radius: 5px 14px 14px 14px;
+  padding: 9px 11px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,.025);
+}
+.is-outgoing .wbdm-bubble { border-radius: 14px 5px 14px 14px; background: #ffead6; }
+.wbdm-bubble-text { color: #222; font-size: 14px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.wbdm-bubble-text .chat-sticker-slot {
+  margin: 4px 0;
+  cursor: zoom-in;
+}
+.wbdm-bubble-text .chat-sticker img {
+  max-width: min(132px, 100%);
+  max-height: 160px;
+}
+.wbdm-bubble-time { margin: 4px 3px 10px; color: #aaa; font-size: 9px; }
+.is-outgoing .wbdm-bubble-time { text-align: right; }
+.wbdm-bubble-media { display: grid; gap: 4px; }
+.wbdm-bubble-text + .wbdm-bubble-media { margin-top: 7px; }
+.wbdm-bubble-media button { max-width: 230px; border: 0; padding: 0; overflow: hidden; border-radius: 8px; background: none; }
+.wbdm-bubble-media img { display: block; width: 100%; max-height: 300px; object-fit: cover; }
+.wbdm-share-card { width: min(230px, 100%); display: flex; flex-direction: column; gap: 4px; margin-top: 7px; border: 0; border-radius: 8px; padding: 9px; background: rgba(255,255,255,.68); color: #666; text-align: left; }
+.wbdm-share-card strong { color: #333; font-size: 12px; }
+.wbdm-share-card span { display: -webkit-box; overflow: hidden; font-size: 11px; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.wbdm-inputbar {
+  position: absolute;
+  z-index: 7;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  padding: 9px 10px calc(9px + var(--safe-bottom));
+  border-top: 1px solid #e8e8e8;
+  background: rgba(250,250,250,.96);
+  backdrop-filter: blur(14px);
+}
+.wbdm-image-button,
+.wbdm-ai-reply,
+.wbdm-next-reply { flex: none; width: 32px; height: 34px; display: grid; place-items: center; border: 0; background: none; color: #555; font-size: 22px; }
+.wbdm-ai-reply,
+.wbdm-next-reply { font-size: 16px; }
+.wbdm-ai-reply { color: #8b6a4e; }
+.wbdm-next-reply { color: var(--wbdm-orange); }
+.wbdm-ai-reply:disabled,
+.wbdm-next-reply:disabled,
+.wbdm-send:disabled { opacity: .42; }
+.wbdm-image-button.is-disabled { opacity: .42; pointer-events: none; }
+.wbdm-message-input { min-width: 0; flex: 1; min-height: 36px; max-height: 96px; resize: none; border: 1px solid #dedede; border-radius: 18px; padding: 8px 13px; background: #fff; color: #222; font: inherit; font-size: 14px; line-height: 18px; }
+.wbdm-send { flex: none; height: 34px; border: 0; border-radius: 17px; padding: 0 13px; background: var(--wbdm-orange); color: #fff; font-size: 13px; font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .weibo-dm-page * { scroll-behavior: auto !important; }
+  .wbdm-typing span { animation: none !important; }
+}
+
+/* 2026-08 微博客户端高仿皮肤 */
+.weibo-page {
+  --wb-orange: #ff8200;
+  --wb-ink: #191919;
+  --wb-muted: #8a8a8a;
+  --wb-line: #ededed;
+  --wb-bg: #f2f2f5;
+  --wb-text-xs: 11px;
+  --wb-text-sm: 12px;
+  --wb-text-body: 16px;
+  --wb-text-title: 17px;
+  --wb-leading-tight: 1.25;
+  --wb-leading-body: 1.58;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--wb-text-body);
+  line-height: var(--wb-leading-body);
+  background: var(--wb-bg);
+}
+.weibo-page button,
+.weibo-page input,
+.weibo-page textarea { font: inherit; }
+.weibo-page .svg-icon { display: inline-grid; flex: none; place-items: center; line-height: 1; }
+.weibo-page .svg-icon svg { display: block; }
+.wb-home-appbar { min-height: calc(56px + var(--safe-top)); grid-template-columns: 48px minmax(0,1fr) 48px; align-items: end; padding: var(--safe-top) 10px 0; border-bottom: 1px solid #eee; background: rgba(255,255,255,.98); }
+.wb-home-back { grid-column: 1; align-self: center; justify-self: start; width: 40px; height: 40px; border: 0; border-radius: 0; padding: 0; background: transparent; box-shadow: none; color: #242424; }
+.wb-home-back .svg-icon,
+.wb-home-back svg { width: 22px; height: 22px; }
+.wb-home-switch { position: static; grid-column: 2; height: 56px; display: flex; align-items: stretch; justify-self: center; gap: 24px; transform: none; }
+.wb-home-switch button { position: relative; border: 0; padding: 0 2px; background: none; color: #929292; font-size: var(--wb-text-title); line-height: var(--wb-leading-tight); }
+.wb-home-switch button.is-active { color: #191919; font-weight: 750; }
+.wb-home-switch button.is-active::after { content: ''; position: absolute; right: 2px; bottom: 5px; left: 2px; height: 4px; border-radius: 4px; background: linear-gradient(90deg,#ffb500,#ff7c00); }
+.wb-home-appbar .weibo-appbar-actions { position: static; grid-column: 3; width: 48px; height: 56px; display: grid; place-items: center; justify-self: end; }
+.wb-home-appbar .weibo-appbar-actions .weibo-appbar-btn { flex: 0 0 auto; }
+.wb-home-settings { width: 40px; height: 40px; color: #242424; }
+.wb-home-settings .svg-icon { width: 24px; height: 24px; }
+.wb-home-settings svg { width: 24px; height: 24px; stroke-width: 2; }
+.wb-story-rail { display: flex; gap: 13px; overflow-x: auto; padding: 14px 14px 12px; border-bottom: 1px solid #ededed; background: #fff; scrollbar-width: none; }
+.wb-story-rail::-webkit-scrollbar { display: none; }
+.wb-story-item { width: 62px; flex: 0 0 62px; border: 0; padding: 0; background: none; color: #333; }
+.wb-story-ring { position: relative; width: 58px; height: 58px; display: grid; place-items: center; margin: auto; border: 2px solid #ff8200; border-radius: 50%; padding: 2px; background: #fff; }
+.wb-story-ring img, .wb-story-ring b { width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; border-radius: 50%; object-fit: cover; background: #fff0e3; color: #d36500; }
+.wb-story-ring i { position: absolute; right: -4px; bottom: -3px; border: 2px solid #fff; border-radius: 8px; padding: 1px 5px; background: #ff6f1f; color: #fff; font-size: 8px; font-style: normal; white-space: nowrap; }
+.wb-story-item small { display: block; overflow: hidden; margin-top: 8px; font-size: var(--wb-text-xs); line-height: var(--wb-leading-tight); text-overflow: ellipsis; white-space: nowrap; }
+.weibo-feed-body { padding-bottom: calc(68px + var(--safe-bottom, 0px)); }
+.weibo-post.card-block { margin: 8px 0 0; border: 0; border-radius: 0; padding: 15px 14px 0; background: #fff; box-shadow: none; }
+.weibo-post-header { gap: 10px; }
+.weibo-post-headtext { min-width: 0; flex: 1; }
+.wb-card-follow { flex: none; align-self: center; min-width: 62px; height: 30px; border: 1px solid var(--wb-orange); border-radius: 16px; background: #fff; color: var(--wb-orange); font-size: var(--wb-text-sm); }
+.wb-card-follow.is-following { border-color: #ddd; color: #999; }
+.wb-card-edit { width: 34px; height: 34px; flex: none; display: grid; place-items: center; align-self: center; border: 0; border-radius: 50%; padding: 0; background: transparent; color: #7b7b7b; }
+.wb-card-edit .svg-icon { width: 19px; height: 19px; }
+.wb-card-edit:hover { background: #f5f5f5; color: #333; }
+.weibo-avatar { width: 43px; height: 43px; border-radius: 50%; }
+.weibo-post-name { color: #e76f00; font-size: var(--wb-text-title); font-weight: 650; line-height: var(--wb-leading-tight); }
+.weibo-v-badge { display: inline-grid; place-items: center; width: 15px; height: 15px; margin-left: 4px; border-radius: 50%; background: #f4b400; color: #fff; font-size: 9px; }
+.weibo-post-meta { margin-top: 4px; color: #969696; font-size: var(--wb-text-sm); line-height: var(--wb-leading-tight); }
+.weibo-post-content { margin-top: 10px; color: #191919; font-size: var(--wb-text-body); line-height: var(--wb-leading-body); letter-spacing: 0; }
+.weibo-page .weibo-translate-btn { font-size: var(--wb-text-sm); line-height: 1.35; }
+.weibo-page .chat-bubble-translation-text { font-size: 13px; line-height: 1.55; }
+.weibo-images { margin-top: 10px; gap: 4px; }
+.weibo-img-cell { border-radius: 4px; }
+.weibo-hot-comments { margin: 12px 0 0; border: 0; border-radius: 4px; padding: 9px 10px; background: #fff8f3; }
+.weibo-hot-title { color: #f04444; font-weight: 750; }
+.weibo-page .weibo-hot-more { color: #63788c; font-size: 12px; line-height: 1.45; }
+.weibo-actions { min-height: 48px; margin: 12px -14px 0; border-top: 1px solid #f0f0f0; }
+.weibo-action-btn { color: #626262; font-size: var(--wb-text-sm); }
+.weibo-action-btn .weibo-act-svg { width: 21px; height: 21px; }
+.weibo-tabbar { height: calc(64px + var(--safe-bottom, 0px)); min-height: calc(64px + var(--safe-bottom, 0px)); align-items: start; padding: 6px 5px var(--safe-bottom, 0px); box-sizing: border-box; border-top: 1px solid #e8e8e8; background: rgba(255,255,255,.98); box-shadow: 0 -2px 10px rgba(0,0,0,.035); }
+.weibo-tabbar > button { color: #222; }
+.weibo-tabbar > button.is-active { color: var(--wb-orange); }
+.weibo-tabbar > .weibo-tabbar-compose { width: 43px !important; height: 43px !important; display: grid !important; align-self: center; justify-self: center; place-items: center !important; gap: 0; padding: 0 !important; border-radius: 13px !important; background: linear-gradient(145deg,#ff9e20,#ff7600) !important; box-shadow: 0 5px 14px rgba(255,130,0,.28); line-height: 0; }
+.weibo-tabbar > button:not(.weibo-tabbar-compose) { height: 52px; display: grid; grid-template-rows: 25px 14px; align-content: center; justify-items: center; row-gap: 5px; padding: 0; font-size: var(--wb-text-xs); line-height: 1; }
+.weibo-tabbar .weibo-tabbar-label { position: static; min-width: 2em; height: 14px; display: block; overflow: visible; font-size: var(--wb-text-xs); line-height: 14px; text-align: center; white-space: nowrap; }
+.weibo-tabbar > button:not(.weibo-tabbar-compose) > .svg-icon { width: 25px; height: 25px; align-self: center; }
+.weibo-tabbar > button .svg-icon svg { width: 25px; height: 25px; stroke-width: 2; }
+.weibo-tabbar > .weibo-tabbar-compose .svg-icon { width: 22px; height: 22px; align-self: center; justify-self: center; margin: 0; transform: none; }
+.weibo-tabbar > .weibo-tabbar-compose .svg-icon svg { width: 22px; height: 22px; stroke-width: 2; }
+
+/* 发现页 */
+.weibo-search-page { background: #eef4fa; }
+.wbdiscover-hero { flex: none; padding: calc(16px + env(safe-area-inset-top)) 14px 14px; background: linear-gradient(155deg,#77b5e6 0%,#c4def1 55%,#eef4fa 100%); }
+.wbdiscover-search { height: 46px; margin: 0; border: 0; border-radius: 24px; padding-left: 14px; background: rgba(255,255,255,.96); box-shadow: 0 6px 24px rgba(58,108,150,.12); }
+.wbdiscover-search .weibo-search-btn { color: var(--wb-orange); font-size: 15px; font-weight: 700; }
+.wbdiscover-scroll { padding: 0 0 calc(64px + var(--safe-bottom, 0px)); background: #f3f3f5; }
+.wbdiscover-hot-card { margin: 0; border-radius: 18px 18px 0 0; padding: 16px 15px 13px; background: #fff; }
+.wbdiscover-section-head { display: flex; align-items: center; justify-content: space-between; }
+.wbdiscover-section-head strong { font-size: 17px; }
+.wbdiscover-section-head > span { display: flex; align-items: center; gap: 12px; }
+.wbdiscover-section-head button { border: 0; background: none; color: var(--wb-orange); font-size: 12px; }
+.wbdiscover-hot-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 22px; margin-top: 10px; }
+.wbdiscover-hot-grid button { min-width: 0; display: flex; align-items: center; gap: 5px; border: 0; padding: 7px 0; background: none; color: #222; text-align: left; }
+.wbdiscover-hot-grid button span { overflow: hidden; flex: 1; text-overflow: ellipsis; white-space: nowrap; }
+.wbdiscover-hot-grid i { flex: none; border-radius: 3px; padding: 1px 3px; background: #ff8b28; color: #fff; font-size: 9px; font-style: normal; }
+.wbdiscover-more { display: block; margin: 7px auto 0; border: 0; background: none; color: var(--wb-orange); font-size: 13px; }
+.wbdiscover-banner { width: calc(100% - 24px); min-height: 112px; display: flex; flex-direction: column; justify-content: center; margin: 10px 12px; overflow: hidden; border: 0; border-radius: 9px; padding: 20px 24px; background: radial-gradient(circle at 78% 30%,rgba(255,255,255,.34),transparent 23%),linear-gradient(135deg,#ffb428,#ff7000); color: #fff; text-align: left; box-shadow: 0 6px 18px rgba(239,114,0,.18); }
+.wbdiscover-banner span { font-size: 13px; opacity: .88; }
+.wbdiscover-banner strong { margin-top: 4px; font-size: 23px; }
+.wbdiscover-banner i { margin-top: 9px; font-size: 11px; font-style: normal; opacity: .9; }
+.wbdiscover-categories { height: 48px; display: grid; grid-template-columns: repeat(5,1fr); border-bottom: 1px solid #eee; background: #fff; }
+.wbdiscover-categories button { position: relative; border: 0; background: none; color: #666; font-size: 14px; }
+.wbdiscover-categories button.is-active { color: #111; font-weight: 750; }
+.wbdiscover-categories button.is-active::after { content: ''; position: absolute; right: 31%; bottom: 1px; left: 31%; height: 3px; border-radius: 3px; background: var(--wb-orange); }
+.wbdiscover-feed { margin-top: 8px; background: #fff; }
+.wbdiscover-post { width: 100%; display: flex; align-items: center; gap: 11px; border: 0; border-bottom: 1px solid #eee; padding: 13px 15px; background: #fff; text-align: left; }
+.wbdiscover-post-avatar { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 50%; background: #fff0e3; color: #d86c00; font-weight: 700; }
+.wbdiscover-post > span:last-child { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.wbdiscover-post strong { color: #e56c00; }
+.wbdiscover-post small { overflow: hidden; color: #333; text-overflow: ellipsis; white-space: nowrap; }
+.wbdiscover-empty { grid-column: 1/-1; padding: 26px 10px; color: #aaa; font-size: 12px; text-align: center; }
+
+/* 热搜榜 */
+.weibo-hot-rank-page { background: #fff; }
+.wbhot-rank-hero { height: 188px; flex: none; display: grid; grid-template-columns: 44px 1fr 44px; align-items: start; padding: calc(15px + env(safe-area-inset-top)) 10px 0; background: radial-gradient(circle at 50% 60%,rgba(255,214,69,.6),transparent 34%),linear-gradient(155deg,#ffc424,#ff6a00); color: #fff; }
+.wbhot-rank-back,.wbhot-rank-more { width: 44px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; background: none; color: #fff; }
+.wbhot-rank-back svg,.wbhot-rank-more svg { width: 24px; height: 24px; stroke-width: 1.8; }
+.wbhot-rank-hero > div { align-self: center; display: flex; flex-direction: column; align-items: center; transform: translateY(12px); }
+.wbhot-rank-hero strong { font-size: 39px; font-style: italic; letter-spacing: -3px; text-shadow: 0 5px 0 rgba(220,75,0,.2); }
+.wbhot-rank-hero span { margin-top: 3px; font-size: 12px; letter-spacing: 4px; }
+.wbhot-rank-tabs { height: 52px; display: flex; overflow-x: auto; border-bottom: 1px solid #eee; background: #fff; }
+.wbhot-rank-tabs button { min-width: 72px; position: relative; border: 0; background: none; color: #909090; font-size: 16px; }
+.wbhot-rank-tabs button.is-active { color: #222; font-weight: 750; }
+.wbhot-rank-tabs button.is-active::after { content: ''; position: absolute; right: 26px; bottom: 4px; left: 26px; height: 3px; border-radius: 3px; background: #ffb000; }
+.wbhot-rank-caption { height: 30px; padding: 6px 13px; background: #f2f2f2; color: #999; font-size: 12px; }
+.wbhot-rank-scroll { background: #fff; }
+.wbhot-rank-row { width: 100%; min-height: 55px; display: grid; grid-template-columns: 38px minmax(0,1fr) 28px; align-items: center; border: 0; border-bottom: 1px solid #eee; padding: 0 15px; background: #fff; text-align: left; }
+.wbhot-rank-row > b { color: #ff8a00; font-size: 18px; font-style: italic; }
+.wbhot-rank-row:nth-child(-n+3) > b { color: #f45a52; font-weight: 800; }
+.wbhot-rank-row > span { min-width: 0; display: flex; align-items: baseline; gap: 9px; }
+.wbhot-rank-row strong { overflow: hidden; color: #222; font-size: 16px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.wbhot-rank-row small { color: #aaa; font-size: 11px; }
+.wbhot-rank-row i { justify-self: end; border-radius: 3px; padding: 2px 4px; background: #ff8a00; color: #fff; font-size: 10px; font-style: normal; }
+.wbhot-rank-row i[data-mark="新"] { background: #f45b84; }
+.wbhot-rank-row i[data-mark="爆"] { background: #e83c34; }
+
+.wb-topic-generator-body { padding-top: 10px; }
+#modal-container .modal-sheet.wb-topic-generator-sheet > .wb-topic-generator-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  scroll-padding-block: 14px 24px;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+html.capacitor-native #modal-container .modal-sheet.wb-topic-generator-sheet {
+  height: calc(var(--app-height, 100vh) - 12px);
+  max-height: calc(var(--app-height, 100vh) - 12px);
+}
+.wb-hot-refresh-only { width: 100%; display: grid; grid-template-columns: 36px minmax(0,1fr) 18px; align-items: center; gap: 10px; border: 1px solid #f1e4d7; border-radius: 12px; padding: 12px; background: #fff8f1; color: var(--wb-orange); text-align: left; }
+.wb-hot-refresh-only > .svg-icon:first-child { width: 22px; height: 22px; }
+.wb-hot-refresh-only > span { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.wb-hot-refresh-only strong { color: var(--wb-ink); font-size: 15px; }
+.wb-hot-refresh-only small { color: var(--wb-muted); font-size: 11px; }
+.wb-topic-generator-label { margin: 18px 0 8px; color: var(--wb-ink); }
+
+/* 话题、详情和评论页向客户端密度对齐 */
+.weibo-super-topic-page .wb-super-hero { border-radius: 0 0 18px 18px; background: linear-gradient(155deg,#6f6250,#2b2926); color: #fff; }
+.weibo-super-topic-page .wb-super-title, .weibo-super-topic-page .wb-super-title strong { color: #fff; }
+.weibo-super-topic-page .wb-super-profile { background: rgba(25,22,19,.78); }
+.weibo-super-topic-page .wb-super-identity h2 { color: #fff; font-size: 18px; }
+.weibo-super-topic-page .wb-super-identity p { color: rgba(255,255,255,.7); }
+.weibo-super-topic-page .wb-super-stats { background: rgba(25,22,19,.78); }
+.weibo-super-topic-page .wb-super-stats span, .weibo-super-topic-page .wb-super-stats strong { color: rgba(255,255,255,.78); }
+.weibo-super-topic-page .wb-super-avatar { border: 2px solid #fff; background: linear-gradient(145deg,#ffb025,#ff7100); color: #fff; }
+.weibo-super-topic-page .wb-super-actions { background: rgba(25,22,19,.78); }
+.weibo-detail-page .navbar, .weibo-interactions-page .weibo-appbar { min-height: 56px; background: #fff; }
+.weibo-detail-page > .weibo-detail-scroll {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.weibo-detail-page .weibo-detail-scroll > .card-block {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.weibo-detail-page .weibo-detail-post > *,
+.weibo-detail-page .weibo-detail-section > *,
+.weibo-detail-page .wb-detail-comment-body > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.weibo-detail-page .weibo-post-name,
+.weibo-detail-page .weibo-post-meta,
+.weibo-detail-page .weibo-post-content,
+.weibo-detail-page .social-richtext,
+.weibo-detail-page .chat-bubble-translation-text,
+.weibo-detail-page .wb-detail-comment-text {
+  width: 100%;
+  writing-mode: horizontal-tb;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.weibo-detail-post.card-block { margin: 8px 0 0; border-radius: 0; padding: 16px 15px; }
+.weibo-detail-post .weibo-post-content { font-size: 17px; line-height: 1.68; }
+.weibo-detail-section.card-block { margin: 8px 0 0; border-radius: 0; }
+.weibo-detail-page .weibo-detail-metrics-bar { width: auto; min-width: 0; margin: 12px -15px -4px; border-top: 1px solid #eee; }
+.weibo-detail-metrics-bar button { min-height: 46px; }
+.weibo-detail-metrics-bar button strong { display: block; color: #222; font-size: 16px; }
+.wbint-tabs { height: 58px; background: #fff; }
+.wbint-tabs button { font-size: 15px; }
+.wbint-comment { min-height: 92px; grid-template-columns: 45px minmax(0,1fr) auto; padding: 17px 14px; }
+.wbint-copy > span { font-size: 15px; line-height: 1.58; }
+.wbint-appbar {
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: 34px 34px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 9px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.wbint-author-avatar { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 50%; background: #fff0e3; color: #d76b00; font-weight: 700; }
+.wbint-appbar .weibo-appbar-title {
+  width: 100%;
+  min-width: 0;
+  height: 56px;
+  justify-self: stretch;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+.wbint-appbar .weibo-appbar-title strong,
+.wbint-appbar .weibo-appbar-title span {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wbint-appbar .weibo-appbar-title strong { position: static; font-size: 14px; }
+.wbint-appbar .weibo-appbar-title span { font-size: 11px; font-weight: 400; }
+.wbint-appbar .weibo-appbar-title strong::after { display: none; }
+.wbint-appbar .wbint-detail {
+  width: 44px;
+  justify-self: end;
+  color: var(--wb-ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+.wbint-comment.is-child { grid-template-columns: 35px minmax(0,1fr) auto; margin-left: 58px; width: calc(100% - 58px); background: #fafafa; }
+.wbint-comment.is-child .wbsearch-avatar { width: 34px; height: 34px; }
+.wbint-scroll { padding-bottom: calc(64px + var(--safe-bottom, 0px)); }
+.wbint-bottom-actions { position: absolute; z-index: 7; right: 0; bottom: 0; left: 0; height: calc(58px + var(--safe-bottom, 0px)); display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid #e5e5e5; padding-bottom: var(--safe-bottom, 0px); background: rgba(255,255,255,.98); }
+.wbint-bottom-actions button { display: flex; align-items: center; justify-content: center; gap: 7px; border: 0; background: none; color: #222; font-size: 15px; font-weight: 650; }
+.wbint-bottom-actions .svg-icon svg { width: 24px; height: 24px; stroke-width: 1.7; }
+.wbint-bottom-actions button.is-active .svg-icon { color: var(--wb-orange); }
+.wbhot-rank-tabs { scrollbar-width: none; }
+.wbhot-rank-tabs::-webkit-scrollbar { display: none; }
+
+@media (max-width: 380px) {
+  .wb-home-switch { gap: 17px; }
+  .wb-story-item { width: 58px; flex-basis: 58px; }
+  .wbdiscover-hot-grid { gap: 0 13px; }
+  .wbhot-rank-hero strong { font-size: 34px; }
+}
+
+/* 消息中心 */
+.weibo-messages-page { background: #f5f5f5; }
+.wbmsg-scroll {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 var(--safe-bottom, 0px) !important;
+  background: #fff;
+}
+.wbmsg-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid #ededed;
+  backdrop-filter: blur(12px);
+}
+.wbmsg-tabs button { position: relative; height: 46px; border: 0; background: none; color: #777; font-size: 13px; }
+.wbmsg-tabs button.is-active { color: #111; font-weight: 650; }
+.wbmsg-tabs button.is-active::after { content: ''; position: absolute; right: 25%; bottom: 0; left: 25%; height: 3px; border-radius: 3px; background: #ff8200; }
+.wbmsg-list { flex: 1 0 auto; background: #fff; }
+.wbmsg-row {
+  position: relative;
+  width: 100%;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 16px;
+  background: #fff;
+  text-align: left;
+}
+.wbmsg-avatar { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: #fff0df; color: #b45b00; font-weight: 700; }
+.wbmsg-copy { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.wbmsg-copy strong { overflow: hidden; color: #222; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.wbmsg-copy span { overflow: hidden; color: #777; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.wbmsg-row time { align-self: start; margin-top: 4px; color: #aaa; font-size: 10px; }
+.wbmsg-row i { position: absolute; right: 16px; bottom: 15px; min-width: 8px; height: 8px; padding: 0 4px; border-radius: 9px; background: #f33; color: #fff; font-size: 9px; font-style: normal; text-align: center; line-height: 16px; }
+.wbmsg-row i:not(:empty) { min-width: 16px; height: 16px; }
+.wbmsg-empty { padding: 72px 16px; color: #aaa; font-size: 13px; text-align: center; }
+
+/* 详情评论楼中楼 */
+.wb-detail-comment-tree { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+.wb-detail-comment-node { position: relative; padding: 11px 48px 11px 12px; border-bottom: 1px solid #f0f0f0; background: #fff; }
+.wb-detail-comment-node.is-child { margin-top: 7px; padding: 9px 40px 9px 11px; border: 0; border-radius: 9px; background: #f7f7f7; }
+.wb-detail-comment-body { width: 100%; display: flex; flex-direction: column; align-items: flex-start; border: 0; padding: 0; background: none; text-align: left; }
+.wb-detail-comment-author { color: #5d7695; font-size: 12px; }
+.wb-detail-comment-author span { margin-left: 5px; color: #999; }
+.wb-detail-comment-text { margin-top: 5px; color: #222; font-size: 14px; line-height: 1.55; }
+.wb-detail-comment-like { position: absolute; top: 10px; right: 4px; border: 0; padding: 3px 6px; background: none; color: #999; font-size: 11px; }
+.wb-detail-comment-like.is-liked { color: #ff8200; }
+.wb-detail-comment-children { margin-top: 5px; }
+.wb-detail-replying { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; border-radius: 8px; padding: 7px 10px; background: #fff5eb; color: #a75500; font-size: 12px; }
+.wb-detail-replying[hidden] { display: none; }
+.wb-detail-replying button { border: 0; background: none; color: #888; font-size: 12px; }
+.wb-detail-comment-node.is-focused { animation: wb-comment-focus 1.4s ease-out; }
+@keyframes wb-comment-focus { 0%, 35% { background: #fff0d9; } 100% { background: #fff; } }
+@media (prefers-reduced-motion: reduce) { .wb-detail-comment-node.is-focused { animation: none; background: #fff7eb; } }
+.weibo-tabbar [data-wb-tab="message"] { position: relative; }
+.weibo-nav-badge { position: absolute; top: 3px; left: calc(50% + 8px); min-width: 15px; height: 15px; border-radius: 8px; padding: 0 4px; background: #f33; color: #fff; font-size: 9px; font-style: normal; line-height: 15px; text-align: center; }
+
+/* 搜索页 */
+.wbsearch-head { gap: 8px; }
+.wbsearch-form { flex: 1; margin: 0; min-width: 0; }
+.wbsearch-tabs { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border-bottom: 1px solid var(--wb-line); }
+.wbsearch-tabs button { min-height: 44px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--wb-muted); font-size: 14px; }
+.wbsearch-tabs button.is-active { color: var(--wb-ink); border-bottom-color: var(--wb-orange); font-weight: 650; }
+.wbsearch-scroll { background: var(--wb-bg); padding-bottom: calc(18px + var(--safe-bottom, 0px)); }
+.wbsearch-scroll section { margin: 8px 0; background: #fff; border-block: 1px solid var(--wb-line); }
+.wbsearch-scroll section h2 { margin: 0; padding: 13px 16px 8px; font-size: 14px; color: var(--wb-ink); }
+.wbsearch-user { display: flex; align-items: center; gap: 11px; min-height: 72px; padding: 10px 16px; border-top: 1px solid var(--wb-line); }
+.wbsearch-avatar { width: 44px; height: 44px; flex: 0 0 44px; border: 0; border-radius: 50%; background: #fff0e8; color: var(--wb-orange); font-weight: 700; }
+
+.wbsearch-avatar img,
+.wbdiscover-post-avatar img,
+.wbint-author-avatar img,
+.wbmsg-avatar img,
+.wbdm-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+.wbsearch-user-copy { min-width: 0; flex: 1; padding: 0; border: 0; background: none; text-align: left; }
+.wbsearch-user-copy strong, .wbsearch-user-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wbsearch-user-copy strong { color: var(--wb-ink); font-size: 15px; }
+.wbsearch-user-copy span { margin-top: 4px; color: var(--wb-muted); font-size: 12px; }
+.wbsearch-follow { min-width: 64px; height: 30px; border: 1px solid var(--wb-orange); border-radius: 6px; background: #fff; color: var(--wb-orange); }
+.wbsearch-follow.is-following { border-color: #dfe3e7; color: var(--wb-muted); }
+.wbsearch-post, .wbsearch-topic { display: block; width: 100%; padding: 13px 16px; border: 0; border-top: 1px solid var(--wb-line); background: #fff; text-align: left; }
+.wbsearch-post > span { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wbsearch-post time, .wbsearch-post small, .wbsearch-topic small { color: var(--wb-muted); font-size: 12px; font-weight: 400; }
+.wbsearch-post p { margin: 7px 0; color: var(--wb-ink); line-height: 1.55; }
+.wbsearch-topic { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; min-height: 62px; }
+.wbsearch-topic > span { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: #fff3eb; color: var(--wb-orange); font-size: 20px; }
+.wbsearch-empty { padding: 72px 16px; color: var(--wb-muted); text-align: center; }
+.wbrel-tabs { grid-template-columns: repeat(2, 1fr); }
+.wbrel-list { margin-top: 8px !important; }
+.wbp-relations-btn { border: 0; padding: 0; background: none; color: inherit; font: inherit; }
+.wbint-tabs { grid-template-columns: repeat(3, 1fr); }
+.wbint-scroll { background: #fff; padding-bottom: calc(18px + var(--safe-bottom, 0px)); }
+.wbint-comment { width: 100%; min-height: 76px; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: start; gap: 11px; border: 0; border-bottom: 1px solid var(--wb-line); padding: 12px 16px; background: #fff; text-align: left; }
+.wbint-copy { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.wbint-copy strong { color: var(--wb-ink); font-size: 14px; }
+.wbint-copy strong i { color: var(--wb-muted); font-size: 12px; font-style: normal; font-weight: 400; }
+.wbint-copy > span { color: #333; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.wbint-copy time, .wbint-comment > small { color: var(--wb-muted); font-size: 10px; }
+.weibo-detail-metrics-bar { display: grid; grid-template-columns: repeat(3, 1fr); }
+.weibo-detail-metrics-bar button { border: 0; padding: 10px 4px; background: none; color: var(--wb-muted); font-size: 12px; }
+.weibo-detail-metrics-bar button strong { color: var(--wb-ink); font-size: 14px; }
+.weibo-rich-link { color: #eb7350; cursor: pointer; }
+.weibo-rich-link:hover { text-decoration: underline; }
+.weibo-img-cell img.is-progressive { opacity: .22; transition: opacity .22s ease; }
+.weibo-img-cell img.is-progressive.is-loaded { opacity: 1; }
+.weibo-feed-skeleton { height: 100%; overflow: hidden; padding: calc(70px + env(safe-area-inset-top)) 16px 20px; background: #f5f5f5; }
+.weibo-feed-skeleton i { display: block; height: 152px; margin-bottom: 10px; border-radius: 8px; background: linear-gradient(100deg, #eceeef 20%, #f7f8f8 38%, #eceeef 58%); background-size: 200% 100%; animation: wb-skeleton 1.2s linear infinite; }
+@keyframes wb-skeleton { to { background-position-x: -200%; } }
+.weibo-new-posts-hint { position: absolute; z-index: 12; top: calc(56px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); border: 0; border-radius: 18px; padding: 8px 16px; background: #ff8200; color: #fff; box-shadow: 0 5px 18px rgba(255,130,0,.26); font-size: 12px; }
+.weibo-back-to-top { position: absolute; z-index: 9; right: 16px; bottom: calc(74px + var(--safe-bottom, 0px)); width: 42px; height: 42px; border: 1px solid rgba(0,0,0,.08); border-radius: 50%; background: rgba(255,255,255,.94); color: #555; box-shadow: 0 4px 16px rgba(0,0,0,.12); font-size: 20px; backdrop-filter: blur(10px); }
+.weibo-back-to-top .svg-icon { transform: rotate(-90deg); }
+.weibo-back-to-top[hidden] { display: none; }
+.weibo-hot-row i[data-mark="新"] { background: #ff8200; }
+.weibo-hot-row i[data-mark="爆"] { background: #e53935; }
+
+@media (max-width: 420px) {
+  .wbsearch-tabs button { font-size: 13px; }
+  .wbsearch-topic { grid-template-columns: 36px 1fr; }
+  .wbsearch-topic small { grid-column: 2; }
+}
+
+.weibo-page :focus-visible {
+  outline: 2px solid var(--wb-orange);
+  outline-offset: 2px;
+}
+
+@media (min-width: 760px) {
+  .weibo-feed,
+  .weibo-page > .page-scroll,
+  .weibo-tabbar {
+    width: min(100%, 760px);
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .weibo-hot-grid { grid-template-columns: 1fr; gap: 11px; }
+  .weibo-news-ticker span:nth-child(n + 2) { display: none; }
+  .weibo-feed-tool-actions { gap: 9px; }
+  .weibo-actions { grid-template-columns: repeat(4, 1fr); }
+  .weibo-actions .danger { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weibo-page *,
+  .weibo-page *::before,
+  .weibo-page *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,7001 @@
+.cphone-chat-toolbar,
+.cphone-chat-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 2px 14px;
+}
+
+.cphone-chat-auto {
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color, #302d2a) 12%, transparent);
+  padding: 4px 2px 12px;
+}
+
+.cphone-chat-auto summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.cphone-chat-auto-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  padding-top: 12px;
+  font-size: 13px;
+}
+
+.cphone-chat-auto-grid label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cphone-chat-auto-grid input[type="number"] {
+  width: 56px;
+}
+
+.cphone-chat-list {
+  display: grid;
+  gap: 0;
+}
+
+.cphone-chat-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 12px;
+  width: 100%;
+  padding: 14px 2px;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color, #302d2a) 12%, transparent);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.cphone-chat-row-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cphone-chat-row-main b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-chat-row-main em,
+.cphone-chat-row time {
+  color: var(--text-muted, #85817d);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.cphone-chat-row-preview {
+  overflow: hidden;
+  color: var(--text-muted, #85817d);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-chat-row time {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.cphone-chat-thread {
+  min-height: 280px;
+  padding: 8px 0 18px;
+}
+
+.cphone-chat-thread .chat-msg-row {
+  margin-block: 8px;
+}
+
+.cphone-chat-thread .chat-bubble {
+  max-width: min(78%, 420px);
+}
+
+.cphone-subpage.is-chat-thread-page .cphone-chat-thread {
+  min-height: 100%;
+}
+
+.cphone-open-full-chat {
+  display: block;
+  width: 100%;
+  margin: 8px 0 2px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--cphone-ink);
+  color: #fff;
+  font-size: 11px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-chat-row {
+    transition: none;
+  }
+}
+
+/* Chat · 仿真消息产品
+ * token: porcelain #f6f7f8 / paper #fff / ink #151719 / muted #737980 /
+ * sea-gray #6c8796 / hairline rgba(21,23,25,.10). 仅底栏保留极轻透明。 */
+.cphone-os-content.is-chat .cphone-subpage {
+  --chat-porcelain: #f6f7f8;
+  --chat-paper: #fff;
+  --chat-ink: #151719;
+  --chat-muted: #737980;
+  --chat-sea: #6c8796;
+  --chat-line: rgba(21, 23, 25, 0.1);
+  gap: 0;
+  background: var(--chat-porcelain);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: var(--chat-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.cphone-os-content.is-chat .cphone-subpage-head {
+  grid-template-columns: 32px minmax(0, 1fr) max-content;
+  gap: 8px;
+  min-height: 56px;
+  padding: 5px 13px 4px;
+  border-bottom: 0;
+  background: var(--chat-porcelain);
+}
+
+.cphone-os-content.is-chat .cphone-subpage-title {
+  color: var(--chat-ink);
+  font-size: 22px;
+  font-weight: 760;
+  letter-spacing: -0.035em;
+  text-align: left;
+}
+
+.cphone-os-content.is-chat .cphone-phone-home {
+  background: transparent;
+}
+
+.cphone-subpage-head-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.cphone-os-content.is-chat .cphone-app-more > summary {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--chat-ink);
+}
+
+.cphone-os-content.is-chat .cphone-app-more > summary {
+  font-size: 17px;
+}
+
+.cphone-os-content.is-chat .cphone-subpage-body {
+  background: var(--chat-porcelain);
+}
+
+.cphone-os-content.is-chat .cphone-chat-section {
+  padding: 2px 14px 12px;
+  background: var(--chat-porcelain);
+}
+
+.cphone-os-content.is-chat .cphone-chat-search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  width: 100%;
+  min-height: 34px;
+  margin: 2px 0 5px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 10px;
+  background: #eceef0;
+  color: #858b91;
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+}
+
+.cphone-os-content.is-chat .cphone-chat-search .svg-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.cphone-os-content.is-chat .cphone-chat-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--chat-ink);
+  font: inherit;
+}
+
+.cphone-os-content.is-chat .cphone-chat-search input::placeholder {
+  color: #858b91;
+  opacity: 1;
+}
+
+.cphone-os-content.is-chat .cphone-chat-row {
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  min-height: 70px;
+  padding: 10px 0;
+  border-bottom-color: var(--chat-line);
+}
+
+.cphone-os-content.is-chat .cphone-chat-avatar,
+.cphone-os-content.is-chat .cphone-chat-group-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #dfe2e4;
+}
+
+.cphone-os-content.is-chat .cphone-chat-group-avatar {
+  border-radius: 15px;
+}
+
+.cphone-os-content.is-chat .cphone-chat-row-main {
+  gap: 5px;
+}
+
+.cphone-os-content.is-chat .cphone-chat-row-main b {
+  color: var(--chat-ink);
+  font-size: 14px;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+
+.cphone-os-content.is-chat .cphone-chat-row-preview {
+  color: var(--chat-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.cphone-os-content.is-chat .cphone-chat-row time {
+  padding-top: 4px;
+  color: #92979c;
+  font-size: 9px;
+}
+
+.cphone-os-content.is-chat .cphone-chat-tabs {
+  min-height: 56px;
+  padding: 5px 11px 3px;
+  border-top-color: var(--chat-line);
+  background: rgba(250, 251, 252, 0.96);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.cphone-os-content.is-chat .cphone-chat-tabs button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 44px;
+  min-height: 44px;
+  color: #747a80;
+  font-size: 9px;
+}
+
+.cphone-os-content.is-chat .cphone-chat-tabs button > .svg-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.cphone-os-content.is-chat .cphone-chat-tabs button > span:not(.svg-icon) {
+  font-size: 9px;
+  line-height: 1.1;
+}
+
+.cphone-os-content.is-chat .cphone-chat-tabs button.is-active {
+  color: var(--chat-sea);
+}
+
+.cphone-os-content.is-chat .cphone-contact-shortcuts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 8px;
+  border-block: 1px solid var(--chat-line);
+  background: var(--chat-paper);
+}
+
+.cphone-os-content.is-chat .cphone-contact-shortcuts > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 10px;
+  border: 0;
+  border-right: 1px solid var(--chat-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--chat-ink);
+  box-shadow: none;
+  text-align: left;
+}
+
+.cphone-os-content.is-chat .cphone-contact-shortcuts > button:last-child {
+  border-right: 0;
+}
+
+.cphone-os-content.is-chat .cphone-contact-shortcuts .svg-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--chat-sea);
+}
+
+.cphone-os-content.is-chat .cphone-contact-shortcuts b {
+  font-size: 11px;
+  font-weight: 620;
+}
+
+.cphone-os-content.is-chat .cphone-contact-letter {
+  padding: 10px 2px 5px;
+  color: #8c9297;
+  font-size: 9px;
+  font-weight: 560;
+  letter-spacing: 0.02em;
+}
+
+.cphone-os-content.is-chat .cphone-contact-row,
+.cphone-os-content.is-chat .cphone-contact-row-wrap {
+  background: transparent;
+}
+
+.cphone-os-content.is-chat .cphone-contact-row .cphone-chat-avatar,
+.cphone-os-content.is-chat .cphone-contact-row .cphone-chat-group-avatar {
+  border-radius: 50%;
+}
+
+.cphone-os-content.is-chat .cphone-contact-meta em {
+  color: var(--chat-muted);
+}
+
+.cphone-user-contact-row > .svg-icon {
+  justify-self: end;
+  width: 15px;
+  height: 15px;
+  color: #a0a5aa;
+}
+
+.cphone-os-content.is-chat :is(button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--chat-sea);
+  outline-offset: 2px;
+}
+
+.cphone-chat-debug-sheet {
+  width: min(92vw, 420px);
+  max-height: min(78vh, 620px);
+  overflow: hidden;
+  border: 1px solid rgba(21, 23, 25, 0.12);
+  border-radius: 22px 22px 0 0;
+  background: #f6f7f8;
+  color: #151719;
+  box-shadow: 0 -16px 48px rgba(16, 20, 24, 0.16);
+}
+
+.cphone-chat-debug-sheet > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(21, 23, 25, 0.1);
+}
+
+.cphone-chat-debug-sheet h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cphone-chat-debug-sheet > header button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.cphone-chat-debug-list {
+  display: grid;
+  overflow-y: auto;
+  padding: 8px 16px calc(16px + var(--safe-bottom));
+}
+
+.cphone-chat-debug-list button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 2px;
+  border: 0;
+  border-bottom: 1px solid rgba(21, 23, 25, 0.1);
+  background: transparent;
+  color: #151719;
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+}
+
+.cphone-chat-debug-list button:disabled {
+  opacity: 0.38;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-os-content.is-chat *,
+  .cphone-chat-debug-sheet * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+.cphone-chat-back {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--cphone-ink);
+  font-size: 22px;
+}
+
+.cphone-os-content.is-chat .cphone-subpage-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 联系人编辑长表单未包进 .cphone-chat-section，需自行恢复滚动。
+ * 不使用 :has()：部分 vivo APK 的旧 System WebView 不支持它，会让整页被 overflow:hidden 截断。 */
+.cphone-os-content.is-chat .cphone-subpage-body.is-contact-edit {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 8px 12px calc(22px + var(--safe-bottom));
+}
+
+.cphone-os-content.is-chat .cphone-subpage.is-chat-thread-page .cphone-subpage-body {
+  display: block;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 12px calc(22px + var(--safe-bottom));
+}
+
+.cphone-chat-section {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 10px 14px 16px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+.cphone-chat-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background: rgba(24, 26, 29, 0.055);
+  color: var(--cphone-muted);
+  font-size: 11px;
+}
+
+.cphone-chat-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 0 11px;
+  align-items: center;
+  min-height: 64px;
+  padding: 8px 1px;
+  border: 0;
+  border-bottom: 1px solid var(--cphone-hairline);
+  background: transparent;
+  color: var(--cphone-ink);
+  text-align: left;
+}
+
+.cphone-chat-avatar,
+.cphone-chat-group-avatar {
+  grid-column: 1;
+  grid-row: 1;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #d9dcda;
+}
+
+.cphone-chat-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-chat-avatar.is-user {
+  display: grid;
+  place-items: center;
+  color: var(--cphone-muted);
+  font-size: 11px;
+}
+
+.cphone-chat-group-avatar {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  padding: 4px;
+}
+
+.cphone-chat-group-avatar i {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #60656a;
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-chat-row-main {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  align-self: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.cphone-chat-row-main b {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 670;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-chat-row-preview {
+  overflow: hidden;
+  color: var(--cphone-muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-chat-row time {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+  padding-top: 3px;
+  color: #969a9f;
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cphone-chat-tabs {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  min-height: 52px;
+  padding: 4px 12px 2px;
+  border-top: 1px solid var(--cphone-hairline);
+  background: rgba(247, 247, 245, 0.94);
+}
+
+.cphone-intercept-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px 6px;
+}
+
+.cphone-intercept-head strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  color: #1f2328;
+}
+
+.cphone-intercept-head em {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 11px;
+  color: #8a8e92;
+}
+
+.cphone-intercept-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.cphone-intercept-head-actions button {
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 999px;
+  background: #fff;
+  color: #3a3f45;
+  font-size: 11px;
+  padding: 5px 10px;
+}
+
+.cphone-intercept-head-actions button:disabled {
+  opacity: 0.45;
+}
+
+.cphone-intercept-head + .cphone-chat-manage-bar {
+  margin: 0 0 6px;
+  padding: 0 14px;
+}
+
+.cphone-chat-row.is-intercept .cphone-chat-row-preview {
+  color: #a33a32;
+}
+
+.cphone-chat-row.is-blocked .cphone-chat-row-main b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cphone-chat-blocked-tag {
+  display: inline-block;
+  margin: 0;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: #a33a32;
+  background: rgba(163, 58, 50, 0.1);
+}
+
+.cphone-chat-tabs button {
+  display: grid;
+  place-items: center;
+  gap: 1px;
+  border: 0;
+  background: transparent;
+  color: #8a8e92;
+  font-size: 9px;
+}
+
+.cphone-chat-tabs button span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cphone-chat-tabs button.is-active {
+  color: #3f5f58;
+}
+
+.cphone-contact-shortcuts,
+.cphone-contact-index {
+  display: grid;
+}
+
+.cphone-contact-shortcuts > button,
+.cphone-contact-row {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 11px;
+  align-items: center;
+  min-height: 58px;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--cphone-hairline);
+  background: transparent;
+  color: var(--cphone-ink);
+  text-align: left;
+  /* 列表几乎全是 button：允许在行上起手纵向滑动，避免 WebView 当成点击拖拽锁死回滑 */
+  touch-action: pan-y;
+}
+
+.cphone-contact-row-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid var(--cphone-hairline);
+  touch-action: pan-y;
+}
+
+.cphone-contact-row-wrap .cphone-contact-row {
+  min-width: 0;
+  border-bottom: 0;
+}
+
+.cphone-contact-chat-start {
+  min-width: 48px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--cphone-sea) 42%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cphone-sea) 10%, transparent);
+  color: #3f5f58;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 650;
+  touch-action: pan-y;
+}
+
+.cphone-contact-chat-start:disabled {
+  opacity: 0.45;
+}
+
+.cphone-contact-chat-start:focus-visible {
+  outline: 2px solid var(--cphone-sea);
+  outline-offset: 2px;
+}
+
+.cphone-contact-row.is-static {
+  pointer-events: none;
+}
+
+.cphone-contact-orphan-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: stretch;
+}
+
+.cphone-contact-orphan-dismiss {
+  min-width: 48px;
+  padding: 7px 10px;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 999px;
+  background: transparent;
+  color: #8a8e92;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 650;
+  touch-action: pan-y;
+}
+
+.cphone-contact-row-wrap.is-session-orphan {
+  align-items: start;
+  padding-block: 4px;
+}
+
+.cphone-contact-shortcuts > button > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: #9aa8a4;
+  color: #fff;
+  font-size: 14px;
+}
+
+.cphone-contact-shortcuts b,
+.cphone-contact-row b {
+  font-size: 12px;
+  font-weight: 640;
+}
+
+.cphone-contact-meta {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cphone-contact-meta b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-contact-meta em {
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.2;
+}
+
+.cphone-contact-shortcuts em {
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.cphone-contact-letter {
+  margin: 10px -14px 0;
+  padding: 5px 16px;
+  background: rgba(24, 26, 29, 0.035);
+  color: var(--cphone-muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.cphone-contact-row .cphone-chat-avatar,
+.cphone-contact-row .cphone-chat-group-avatar {
+  width: 42px;
+  height: 42px;
+}
+
+.cphone-discover-list {
+  display: grid;
+  gap: 10px;
+}
+
+.cphone-discover-list button {
+  display: grid;
+  grid-template-columns: 38px minmax(0, auto) 1fr auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 54px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--cphone-ink);
+  text-align: left;
+}
+
+.cphone-discover-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: #8a9b96;
+  color: #fff;
+}
+
+.cphone-discover-list b {
+  font-size: 12px;
+}
+
+.cphone-discover-list em {
+  overflow: hidden;
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-discover-list i {
+  color: #9b9fa2;
+  font-style: normal;
+}
+
+.cphone-chat-thread {
+  min-height: 100%;
+  padding: 8px 3px 18px;
+}
+
+.cphone-chat-thread-day {
+  width: max-content;
+  margin: 2px auto 14px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(24, 26, 29, 0.06);
+  color: var(--cphone-muted);
+  font-size: 9px;
+}
+
+.cphone-chat-thread .chat-bubble {
+  max-width: 76%;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.cphone-chat-thread .chat-msg-row.is-user .chat-bubble,
+.cphone-chat-thread .chat-msg-row.is-self .chat-bubble {
+  background: #8da49d;
+  color: #fff;
+}
+
+.cphone-chat-peek-note {
+  margin: 12px auto 0;
+  color: var(--cphone-muted);
+  font-size: 9px;
+  text-align: center;
+}
+
+.cphone-call-list,
+.cphone-phone-music-list {
+  display: grid;
+}
+
+.cphone-call-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 4px 11px;
+  align-items: center;
+  min-height: 62px;
+  padding: 8px 1px;
+  border-bottom: 1px solid var(--cphone-hairline);
+}
+
+.cphone-call-avatar {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #dfe2df;
+  color: #59605f;
+  font-size: 13px;
+}
+
+.cphone-call-row > span:nth-child(2) {
+  display: grid;
+  gap: 4px;
+}
+
+.cphone-call-row strong {
+  font-size: 13px;
+}
+
+.cphone-call-row.is-missed strong {
+  color: #c44f4f;
+}
+
+.cphone-call-row em,
+.cphone-call-row time {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-call-row .cphone-call-summary {
+  grid-column: 2 / -1;
+  margin: -2px 0 3px;
+  color: var(--cphone-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.cphone-phone-music-row {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 24px;
+  gap: 11px;
+  align-items: center;
+  min-height: 62px;
+  padding: 7px 1px;
+  border: 0;
+  border-bottom: 1px solid var(--cphone-hairline);
+  background: transparent;
+  color: var(--cphone-ink);
+  text-align: left;
+}
+
+.cphone-music-cover {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #7d8e91, #b1bbb8);
+  color: #fff;
+}
+
+.cphone-phone-music-row > span:nth-child(2) {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.cphone-phone-music-row strong,
+.cphone-phone-music-row em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-phone-music-row strong {
+  font-size: 12px;
+}
+
+.cphone-phone-music-row em {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-phone-music-row i {
+  color: var(--cphone-muted);
+  font-style: normal;
+  letter-spacing: 1px;
+}
+
+.cphone-music-source {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.cphone-phone-music-row {
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  min-height: 64px;
+}
+
+.cphone-phone-music-row.is-current {
+  margin-inline: -5px;
+  padding-inline: 6px;
+  border-radius: 15px;
+  background: linear-gradient(110deg, rgba(130, 150, 158, 0.14), rgba(255, 255, 255, 0.3));
+}
+
+.cphone-music-cover {
+  overflow: hidden;
+  border: 1px solid rgba(21, 23, 25, 0.08);
+  background: #edf0f2;
+  color: var(--cphone-ink);
+  box-shadow: none;
+}
+
+.cphone-music-cover.has-image {
+  border: 0;
+  background: transparent;
+}
+
+.cphone-music-placeholder-icon,
+.cphone-music-placeholder-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.cphone-music-placeholder-icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cphone-music-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-phone-music-main,
+.cphone-widget-music-main {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+}
+
+.cphone-phone-music-main {
+  display: grid;
+  gap: 5px;
+}
+
+.cphone-phone-music-main strong,
+.cphone-phone-music-main em,
+.cphone-widget-music-main strong,
+.cphone-widget-music-main em {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-phone-music-main strong {
+  font-size: 12px;
+}
+
+.cphone-phone-music-main em {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-music-search-action {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.52);
+  color: var(--cphone-muted);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.cphone-music-empty-state {
+  display: grid;
+  justify-items: start;
+  gap: 7px;
+  padding: 18px 2px 6px;
+  color: var(--cphone-muted);
+}
+
+.cphone-music-empty-state > span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: rgba(130, 150, 158, 0.13);
+  color: var(--cphone-sea);
+}
+
+.cphone-music-empty-state p {
+  margin: 0;
+  font-size: 11px;
+}
+
+.cphone-phone-music-main:focus-visible,
+.cphone-widget-music-main:focus-visible,
+.cphone-music-search-action:focus-visible,
+.cphone-music-controls:focus-visible {
+  outline: 2px solid var(--cphone-sea);
+  outline-offset: 3px;
+}
+
+.cphone-settings-list {
+  display: grid;
+  gap: 18px;
+}
+
+.cphone-settings-group {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.cphone-settings-group h2 {
+  margin: 0;
+  padding: 10px 13px 7px;
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-weight: 680;
+  letter-spacing: 0.09em;
+}
+
+.cphone-settings-row,
+.cphone-settings-wallpaper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+  margin-left: 13px;
+  padding: 7px 13px 7px 0;
+  border-top: 1px solid var(--cphone-hairline);
+}
+
+.cphone-settings-row span,
+.cphone-settings-wallpaper > span:nth-child(2) {
+  display: grid;
+  gap: 2px;
+}
+
+.cphone-settings-row b,
+.cphone-settings-wallpaper b {
+  font-size: 12px;
+  font-weight: 610;
+}
+
+.cphone-settings-row em,
+.cphone-settings-wallpaper em {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-settings-row input[type="number"] {
+  width: 72px;
+  padding: 6px 7px;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--cphone-ink);
+  text-align: right;
+}
+
+.cphone-mute-hours-inputs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cphone-mute-hours-inputs input[type="number"] {
+  width: 48px;
+  text-align: center;
+}
+
+.cphone-mute-hours-inputs small {
+  color: var(--cphone-muted);
+  font-size: 10px;
+}
+
+.cphone-mute-hours-range.is-disabled {
+  opacity: 0.45;
+}
+
+.cphone-settings-row select {
+  max-width: 128px;
+  border: 0;
+  background: transparent;
+  color: var(--cphone-muted);
+  font-size: 11px;
+  text-align: right;
+}
+
+.cphone-page .cphone-autonomy-status {
+  min-height: 56px;
+}
+
+.cphone-page .cphone-autonomy-status button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--cphone-sea);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.cphone-page .cphone-autonomy-details {
+  border-top: 1px solid var(--cphone-hairline);
+}
+
+.cphone-page .cphone-autonomy-details summary {
+  min-height: 42px;
+  margin-left: 13px;
+  padding: 0 13px 0 0;
+  color: var(--cphone-muted);
+  font-size: 11px;
+  line-height: 42px;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.cphone-page .cphone-autonomy-details[open] summary {
+  color: var(--cphone-ink);
+}
+
+.cphone-page .cphone-autonomy-details .cphone-settings-row:first-of-type {
+  border-top: 1px solid var(--cphone-hairline);
+}
+
+.cphone-page .cphone-autonomy-details summary:focus-visible,
+.cphone-page .cphone-autonomy-status button:focus-visible {
+  outline: 2px solid var(--cphone-sea);
+  outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+  .cphone-page .cphone-autonomy-status {
+    gap: 8px;
+  }
+
+  .cphone-page .cphone-autonomy-status button {
+    max-width: 92px;
+  }
+}
+
+.cphone-settings-row-stack {
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 7px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.cphone-shell-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cphone-shell-checks label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 27px;
+  padding: 0 8px;
+  border-radius: 9px;
+  background: rgba(24, 26, 29, 0.045);
+  color: var(--cphone-muted);
+  font-size: 10px;
+}
+
+.cphone-shell-checks input {
+  margin: 0;
+  accent-color: var(--cphone-sea);
+}
+
+.cphone-settings-wallpaper {
+  grid-template-columns: 52px minmax(0, 1fr);
+  cursor: pointer;
+}
+
+.cphone-settings-wallpaper-preview {
+  grid-row: 1;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 68px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #e5e5e1, #c5cfcc);
+  color: var(--cphone-muted);
+}
+
+.cphone-settings-wallpaper-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-settings-wallpaper-preview i {
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-settings-link {
+  margin: 2px 13px 9px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #b44949;
+  font-size: 10px;
+}
+
+.cphone-settings-link.is-library {
+  color: var(--cphone-ink);
+}
+
+.cphone-wallpaper-library {
+  padding: 0 12px 9px;
+}
+
+.cphone-wallpaper-library[hidden] {
+  display: none;
+}
+
+.cphone-wallpaper-library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  max-height: 210px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.cphone-wallpaper-library-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.cphone-wallpaper-library-item {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.cphone-wallpaper-library-item.is-active {
+  border-color: var(--cphone-ink);
+  box-shadow: 0 0 0 1px var(--cphone-ink);
+}
+
+.cphone-wallpaper-library-item:focus-visible {
+  outline: 2px solid var(--cphone-sea);
+  outline-offset: 2px;
+}
+
+.cphone-wallpaper-library-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-wallpaper-library-item span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  padding: 12px 5px 4px;
+  background: linear-gradient(transparent, rgba(20, 22, 25, 0.62));
+  color: #fff;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-wallpaper-library-status {
+  grid-column: 1 / -1;
+  padding: 12px 0;
+  color: var(--cphone-muted);
+  font-size: 9px;
+  text-align: center;
+}
+
+.cphone-calendar-card {
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.cphone-calendar-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cphone-calendar-card header strong {
+  font-size: 14px;
+}
+
+.cphone-calendar-card header span {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cphone-calendar-week,
+.cphone-calendar-month {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.cphone-calendar-week span {
+  padding: 3px 0;
+  color: var(--cphone-muted);
+  font-size: 8px;
+  text-align: center;
+}
+
+.cphone-calendar-month button,
+.cphone-calendar-month > span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cphone-ink);
+}
+
+.cphone-calendar-month button.is-selected {
+  background: rgba(130, 150, 158, 0.2);
+}
+
+.cphone-calendar-month button.is-today {
+  background: var(--cphone-ink);
+  color: #fff;
+}
+
+.cphone-calendar-month b {
+  font-size: 10px;
+  font-weight: 580;
+}
+
+.cphone-calendar-month i {
+  position: absolute;
+  bottom: 3px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cphone-browser-chrome {
+  margin: -12px -15px 12px;
+  padding: 10px 13px 8px;
+  border-bottom: 1px solid var(--cphone-hairline);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.cphone-browser-address {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  border-radius: 11px;
+  background: rgba(24, 26, 29, 0.055);
+  color: var(--cphone-muted);
+  font-size: 10px;
+}
+
+.cphone-browser-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px 0;
+  color: #636a6e;
+  font-size: 13px;
+}
+
+.cphone-browser-history-title {
+  margin: 4px 2px 8px;
+  font-size: 18px;
+  font-weight: 720;
+}
+
+.cphone-browser-history .cphone-browser-record {
+  border: 0;
+  border-bottom: 1px solid var(--cphone-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.cphone-browser-record-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cphone-browser-record-content > .cphone-record-main {
+  width: 100%;
+}
+
+.cphone-browser-record-translation {
+  min-width: 0;
+  padding: 0 10px 10px;
+}
+
+.cphone-browser-record-translation .chat-bubble-translate-btn {
+  margin-top: 0;
+}
+
+.cphone-browser-record-translation .chat-bubble-translation {
+  min-width: 0;
+}
+
+.cphone-settings-contact {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-height: 44px;
+  margin-left: 13px;
+  padding: 5px 13px 5px 0;
+  border-top: 1px solid var(--cphone-hairline);
+}
+
+.cphone-settings-contact > span {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #d9dedb;
+  color: #59635f;
+  font-size: 11px;
+}
+
+.cphone-settings-contact b {
+  font-size: 11px;
+}
+
+.cphone-settings-contact em {
+  color: var(--cphone-muted);
+  font-size: 8px;
+  font-style: normal;
+}
+
+.cphone-settings-empty {
+  padding: 12px 13px;
+  color: var(--cphone-muted);
+  font-size: 10px;
+}
+
+.cphone-settings-form {
+  display: grid;
+  gap: 7px;
+  margin: 9px;
+  padding: 9px;
+  border-radius: 13px;
+  background: rgba(24, 26, 29, 0.035);
+}
+
+.cphone-settings-form input,
+.cphone-settings-form select {
+  min-width: 0;
+  padding: 8px 9px;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--cphone-ink);
+  font-size: 10px;
+}
+
+.cphone-settings-form button {
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--cphone-ink);
+  color: #fff;
+  font-size: 10px;
+}
+
+.cphone-group-member-picker {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  max-width: 100%;
+  margin: 0 -2px;
+  padding: 2px 2px 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scrollbar-width: thin;
+}
+
+.cphone-group-member-picker::-webkit-scrollbar {
+  height: 3px;
+}
+
+.cphone-group-member-picker::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(24, 26, 29, 0.18);
+}
+
+.cphone-group-member-chip {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-rows: auto auto;
+  gap: 4px;
+  justify-items: center;
+  width: 52px;
+  padding: 4px 2px;
+  border-radius: 12px;
+  color: var(--cphone-ink);
+  font-size: 9px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  scroll-snap-align: start;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cphone-group-member-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cphone-group-member-chip-face {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+}
+
+.cphone-group-member-chip-avatar,
+.cphone-group-member-chip-face .cphone-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(24, 26, 29, 0.08);
+}
+
+.cphone-group-member-chip-avatar img,
+.cphone-group-member-chip-face .cphone-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.cphone-group-member-chip-face::after {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  background: rgba(24, 26, 29, 0.18);
+  content: '';
+}
+
+.cphone-group-member-chip:has(input:checked) {
+  background: rgba(24, 26, 29, 0.06);
+}
+
+.cphone-group-member-chip:has(input:checked) .cphone-group-member-chip-face::after {
+  background: var(--cphone-ink);
+  box-shadow: inset 0 0 0 1.5px #fff;
+}
+
+.cphone-group-member-chip:has(input:focus-visible) .cphone-group-member-chip-face {
+  outline: 2px solid var(--cphone-ink);
+  outline-offset: 2px;
+}
+
+.cphone-group-member-chip-name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--cphone-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-group-member-chip:has(input:checked) .cphone-group-member-chip-name {
+  color: var(--cphone-ink);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-group-member-picker {
+    scroll-snap-type: none;
+  }
+}
+
+.cphone-contact-tool-sheet {
+  width: min(420px, calc(100vw - 24px));
+  max-height: min(720px, calc(100dvh - 28px));
+  overflow: hidden;
+  border: 1px solid rgba(24, 26, 29, 0.08);
+  border-radius: 22px;
+  background: rgba(252, 253, 252, 0.98);
+  box-shadow: 0 24px 70px rgba(24, 26, 29, 0.2);
+}
+
+.cphone-contact-tool-sheet .modal-header,
+.cphone-contact-tool-sheet .modal-footer {
+  border-color: rgba(24, 26, 29, 0.08);
+}
+
+.cphone-contact-tool-body {
+  display: grid;
+  gap: 14px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.cphone-contact-tool-field {
+  display: grid;
+  gap: 7px;
+}
+
+.cphone-contact-tool-field > span,
+.cphone-contact-tool-types legend {
+  color: #747b78;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.cphone-contact-tool-field input,
+.cphone-contact-tool-field select,
+.cphone-contact-tool-field textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid rgba(24, 26, 29, 0.12);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #242826;
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.cphone-contact-tool-field textarea {
+  resize: vertical;
+}
+
+.cphone-contact-tool-field input:focus-visible,
+.cphone-contact-tool-field select:focus-visible,
+.cphone-contact-tool-field textarea:focus-visible,
+.cphone-contact-tool-directory:focus-visible,
+.cphone-contact-tool-members input:focus-visible + span {
+  outline: 2px solid #78988f;
+  outline-offset: 2px;
+}
+
+.cphone-contact-tool-directory {
+  width: 100%;
+  border: 1px solid rgba(63, 95, 88, 0.22);
+  border-radius: 13px;
+  background: rgba(120, 152, 143, 0.09);
+  color: #3f5f58;
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 680;
+}
+
+.cphone-contact-tool-types {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cphone-contact-tool-types > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.cphone-contact-tool-types label {
+  position: relative;
+}
+
+.cphone-contact-tool-types input {
+  position: absolute;
+  opacity: 0;
+}
+
+.cphone-contact-tool-types span {
+  display: block;
+  border: 1px solid rgba(24, 26, 29, 0.1);
+  border-radius: 999px;
+  background: #fff;
+  color: #737a77;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+.cphone-contact-tool-types input:checked + span {
+  border-color: rgba(63, 95, 88, 0.42);
+  background: rgba(120, 152, 143, 0.13);
+  color: #36534d;
+}
+
+.cphone-contact-tool-types input:focus-visible + span {
+  outline: 2px solid #78988f;
+  outline-offset: 2px;
+}
+
+.cphone-contact-tool-owner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(24, 26, 29, 0.08);
+  padding: 2px 2px 10px;
+}
+
+.cphone-contact-tool-owner span,
+.cphone-contact-tool-members em {
+  color: #8a908d;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.cphone-contact-tool-owner b,
+.cphone-contact-tool-members b {
+  color: #242826;
+  font-size: 12px;
+}
+
+.cphone-contact-tool-members {
+  display: grid;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.cphone-contact-tool-members > label {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 52px;
+  border-bottom: 1px solid rgba(24, 26, 29, 0.07);
+}
+
+.cphone-contact-tool-members > label[hidden] {
+  display: none;
+}
+
+.cphone-contact-tool-members input {
+  width: 18px;
+  height: 18px;
+  accent-color: #5d7e75;
+}
+
+.cphone-contact-tool-members span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cphone-contact-tool-footer {
+  gap: 9px;
+}
+
+.cphone-contact-tool-footer .btn {
+  flex: 1;
+}
+
+@media (max-width: 560px) {
+  .cphone-contact-tool-overlay {
+    align-items: flex-end;
+  }
+
+  .cphone-contact-tool-sheet {
+    width: 100%;
+    max-height: min(760px, calc(100dvh - 18px));
+    border-radius: 22px 22px 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-contact-tool-sheet,
+  .cphone-contact-tool-overlay {
+    animation: none;
+    transition: none;
+  }
+}
+
+.cphone-generation-hud {
+  position: absolute;
+  z-index: 24;
+  right: 14px;
+  bottom: 42px;
+  left: 14px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 10px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  background: rgba(28, 31, 33, 0.88);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  color: #fff;
+  backdrop-filter: blur(16px);
+}
+
+.cphone-generation-hud strong,
+.cphone-generation-hud em {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-generation-hud strong { font-size: 11px; }
+.cphone-generation-hud em { margin-top: 2px; color: rgba(255,255,255,.68); font-size: 9px; font-style: normal; }
+.cphone-generation-hud button { border: 0; background: transparent; color: #fff; font-size: 10px; }
+.cphone-generation-spinner { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.28); border-top-color: #fff; border-radius: 50%; animation: cphone-spin .7s linear infinite; }
+@keyframes cphone-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .cphone-generation-spinner { animation: none; } }
+
+.cphone-moments-feed {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 4px 0 16px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.cphone-moments-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 0 8px;
+}
+
+.cphone-moments-head-title {
+  min-width: 0;
+}
+
+.cphone-moments-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.cphone-moments-head strong,
+.cphone-moments-head em {
+  display: block;
+}
+
+.cphone-moments-head strong { font-size: 15px; }
+.cphone-moments-head em { margin-top: 2px; color: var(--cphone-muted); font-size: 9px; font-style: normal; }
+.cphone-moments-head button { padding: 6px 9px; border: 0; border-radius: 9px; background: var(--cphone-ink); color: #fff; font-size: 10px; white-space: nowrap; }
+.cphone-moments-feed .moment-post {
+  margin: 0;
+  padding: 11px;
+  border-radius: 16px;
+  box-shadow: none;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.cphone-moments-feed .moment-post-body {
+  font-size: 12px;
+  line-height: 1.58;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.cphone-moments-feed .moment-post-avatar { width: 30px; height: 30px; }
+.cphone-moments-feed .moment-images,
+.cphone-moments-feed .moment-images.is-single,
+.cphone-moments-feed .moment-images.is-four,
+.cphone-moments-feed .moment-images.is-grid {
+  max-width: 100%;
+}
+.cphone-moments-feed .moment-comment-line,
+.cphone-moments-feed .moment-post-name {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.cphone-settings-hint {
+  margin: 0 13px;
+  padding: 8px 0;
+  border-top: 1px solid var(--cphone-hairline);
+  color: var(--cphone-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.cphone-settings-inline-input {
+  display: flex;
+  gap: 6px;
+  padding: 7px 12px;
+}
+
+.cphone-settings-inline-input input,
+.cphone-settings-inline-input select {
+  min-width: 0;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 9px;
+  background: rgba(255,255,255,.6);
+  color: var(--cphone-ink);
+  font: inherit;
+  font-size: 10px;
+}
+
+.cphone-settings-inline-input input { flex: 1; padding: 7px 8px; }
+.cphone-settings-inline-input select { max-width: 72px; padding: 0 4px; }
+.cphone-settings-inline-input button,
+.cphone-appearance-presets button { border: 0; border-radius: 9px; background: var(--cphone-ink); color: #fff; font-size: 10px; }
+.cphone-settings-inline-note { margin: 0 12px 8px; color: var(--cphone-muted); font-size: 9px; line-height: 1.45; }
+.cphone-settings-icon-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; padding: 8px 12px 4px; }
+.cphone-settings-icon-item { display: grid; place-items: center; gap: 3px; min-width: 0; color: var(--cphone-ink); font-size: 9px; text-align: center; }
+.cphone-settings-icon-item .cphone-app-badge { width: 33px; height: 33px; border-width: 2px; border-radius: 10px; }
+.cphone-settings-icon-item .cphone-app-badge svg { width: 24px; height: 24px; }
+.cphone-settings-icon-item .cphone-app-badge img,
+.cphone-app-badge.has-custom-icon img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.cphone-settings-icon-item span:last-of-type { overflow: hidden; max-width: 100%; text-overflow: ellipsis; white-space: nowrap; }
+.cphone-appearance-presets { display: grid; gap: 5px; padding: 5px 12px 11px; }
+.cphone-appearance-presets > div { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 6px; align-items: center; min-height: 32px; padding: 0 8px; border: 1px solid var(--cphone-hairline); border-radius: 10px; font-size: 10px; }
+.cphone-appearance-presets b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cphone-appearance-presets button { padding: 5px 7px; }
+.cphone-appearance-presets button:last-child { background: rgba(24,26,29,.14); color: var(--cphone-ink); }
+/* 他的手机 · 手账设备视图（第一刀：生活骨架 + 结构化备忘录） */
+
+.cphone-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cphone-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 14px calc(20px + var(--safe-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cphone-scroll.is-loading {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.cphone-intro-title {
+  font-size: var(--font-md);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.cphone-intro-text {
+  margin: 0 0 12px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.cphone-no-char,
+.cphone-empty,
+.cphone-empty-note {
+  text-align: center;
+  padding: 20px 12px;
+  font-size: var(--font-sm);
+  color: var(--text-hint);
+}
+
+.cphone-app-opening {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--cphone-muted);
+  font-size: 11px;
+}
+
+.cphone-app-opening > span {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: cphone-opening-spin 0.65s linear infinite;
+}
+
+@keyframes cphone-opening-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-app-opening > span { animation: none; }
+}
+
+.cphone-chooser {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cphone-chooser.is-compact {
+  padding: 10px;
+  border: 1px solid rgba(234, 223, 211, 0.8);
+  border-radius: 16px;
+  background: rgba(255, 253, 249, 0.72);
+}
+
+.cphone-chooser.is-collapsed {
+  display: block;
+}
+
+.cphone-current-char {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(234, 223, 211, 0.9);
+  border-radius: 16px;
+  background: rgba(255, 253, 249, 0.82);
+  color: var(--text);
+  text-align: left;
+}
+
+.cphone-current-switch,
+.cphone-chooser-collapse {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(241, 185, 143, 0.18);
+  color: var(--accent-ink, #9b5f35);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  padding: 6px 9px;
+}
+
+.cphone-chooser-collapse {
+  align-self: flex-end;
+}
+
+.cphone-character-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid rgba(234, 223, 211, 0.95);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.cphone-character-search svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-hint);
+  flex: 0 0 auto;
+}
+
+.cphone-character-search-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: var(--font-sm);
+}
+
+.cphone-character-search-clear {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(94, 86, 76, 0.08);
+  color: var(--text-secondary);
+}
+
+.cphone-chooser-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cphone-chooser.is-compact .cphone-chooser-sections {
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.cphone-chooser-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cphone-chooser-section-title {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  font-weight: 700;
+  padding: 0 2px;
+}
+
+.cphone-char-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  gap: 8px;
+}
+
+.cphone-char-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.cphone-char {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: var(--surface, #fdf8f4);
+  cursor: pointer;
+  text-align: left;
+}
+
+.cphone-char-row.is-active .cphone-char {
+  border-color: rgba(241, 185, 143, 0.65);
+  background: rgba(241, 185, 143, 0.12);
+  box-shadow: 0 2px 8px rgba(213, 138, 92, 0.15);
+}
+
+.cphone-char-row.is-pinned .cphone-char {
+  border-color: rgba(182, 205, 224, 0.62);
+}
+
+.cphone-char-pin {
+  width: 34px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--text-hint);
+  display: grid;
+  place-items: center;
+}
+
+.cphone-char-pin svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.cphone-char-pin.is-on {
+  color: var(--ink-blue, #5c7b8f);
+  background: rgba(182, 205, 224, 0.24);
+}
+
+.cphone-char-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.cphone-char-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cphone-char-name {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-char-meta {
+  font-size: var(--font-xs);
+  color: var(--text-hint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-today {
+  position: relative;
+  padding-top: 22px;
+  overflow: visible;
+}
+
+.cphone-schedule-hero {
+  position: relative;
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  border: 1px solid rgba(232, 238, 243, 0.88);
+  box-shadow: var(--shadow-paper, 2px 4px 12px rgba(140, 115, 98, 0.08));
+  transform: rotate(-0.7deg);
+}
+
+.cphone-hero-tape {
+  top: -10px;
+  left: 50%;
+  width: 58px;
+  height: 18px;
+  transform: translateX(-50%) rotate(1deg);
+  background: var(--tape-blue, #a8c2d8);
+}
+
+.cphone-schedule-open {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.cphone-schedule-pill {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(248, 211, 197, 0.56);
+  color: var(--ink-brown, #8c7362);
+  font-size: var(--font-xs);
+  font-weight: 700;
+}
+
+.cphone-device {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 2px;
+}
+
+.cphone-device-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cphone-device-name {
+  font-size: var(--font-md);
+  font-weight: 800;
+  color: var(--ink-brown, #8c7362);
+}
+
+.cphone-device-status {
+  margin-top: 5px;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.cphone-device-section-title {
+  font-size: var(--font-sm);
+  font-weight: 800;
+  color: var(--ink-brown, #8c7362);
+  padding-left: 2px;
+}
+
+.cphone-app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px 12px;
+}
+
+.cphone-phone-app {
+  position: relative;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--ink-brown, #8c7362);
+  padding: 0;
+}
+
+.cphone-app-badge {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-icon, 22px);
+  border: 4px solid #fff;
+  box-shadow: 0 4px 10px rgba(140, 115, 98, 0.15);
+}
+
+.cphone-app-badge.is-peach { background: var(--icon-peach, #f4c9b1); }
+.cphone-app-badge.is-blue { background: var(--icon-blue, #8faab9); }
+.cphone-app-badge.is-blue-light { background: var(--icon-blue-light, #c8dbe4); }
+.cphone-app-badge.is-cream { background: var(--icon-cream, #f7efe5); }
+
+.cphone-app-badge svg {
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+
+.cphone-app-badge .cphone-custom-icon {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.cphone-phone-app b {
+  max-width: 72px;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-phone-app em {
+  position: absolute;
+  top: -5px;
+  right: calc(50% - 31px);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #e2895f;
+  color: #fff;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 18px;
+  box-shadow: 0 4px 10px rgba(226, 137, 95, 0.28);
+}
+
+.cphone-map-preview {
+  padding: 6px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 4px 12px rgba(140, 115, 98, 0.08);
+}
+
+.cphone-map-preview img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 26 / 11;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cphone-map-live {
+  position: relative;
+  overflow: hidden;
+  min-height: 210px;
+  padding: 6px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 250, 242, 0.92), rgba(236, 246, 244, 0.88)),
+    repeating-linear-gradient(0deg, rgba(128, 150, 138, 0.08) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(90deg, rgba(128, 150, 138, 0.08) 0 1px, transparent 1px 22px);
+  box-shadow: 0 4px 12px rgba(140, 115, 98, 0.08);
+}
+
+.cphone-map-live-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 198px;
+  aspect-ratio: 26 / 11;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.cphone-map-live-status {
+  position: absolute;
+  inset: 6px;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+  text-align: center;
+  pointer-events: none;
+  background: rgba(255, 250, 242, 0.78);
+}
+
+.cphone-map-live.is-ready .cphone-map-live-status {
+  display: none;
+}
+
+.cphone-map-live.is-text-only .cphone-map-live-status {
+  inset: auto 10px 10px;
+  min-height: 24px;
+  padding: 6px 10px;
+  border: 1px solid rgba(236, 224, 214, 0.8);
+  border-radius: 999px;
+  background: rgba(255, 250, 242, 0.86);
+  place-items: center;
+}
+
+.cphone-faux-road {
+  position: absolute;
+  display: block;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(209, 188, 170, 0.32);
+}
+
+.cphone-faux-road.road-a {
+  left: -6%;
+  right: 12%;
+  top: 44%;
+  transform: rotate(-9deg);
+}
+
+.cphone-faux-road.road-b {
+  left: 18%;
+  right: -8%;
+  top: 58%;
+  transform: rotate(18deg);
+}
+
+.cphone-faux-road.road-c {
+  left: 42%;
+  width: 13px;
+  height: 120%;
+  top: -8%;
+  transform: rotate(8deg);
+}
+
+.cphone-faux-area {
+  position: absolute;
+  left: 6%;
+  top: 10%;
+  width: 30%;
+  height: 34%;
+  border-radius: 18px 28px 20px 24px;
+  background: rgba(181, 215, 184, 0.48);
+  box-shadow:
+    205px 42px 0 16px rgba(183, 211, 225, 0.32),
+    98px 104px 0 12px rgba(246, 214, 173, 0.36);
+}
+
+.cphone-faux-pin {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  max-width: min(42%, 150px);
+  transform: translate(-12px, -12px);
+  padding: 3px 7px 3px 3px;
+  border: 1px solid rgba(224, 199, 181, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 250, 242, 0.94);
+  box-shadow: 0 4px 10px rgba(140, 115, 98, 0.12);
+}
+
+.cphone-faux-pin b {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #e77878;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.cphone-faux-pin.is-current b {
+  background: #7da8a0;
+}
+
+.cphone-faux-pin.is-itinerary b {
+  background: #f1b98f;
+}
+
+.cphone-faux-pin em {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 11px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-record-list.has-live-map .cphone-map-static-fallback {
+  display: none;
+}
+
+.cphone-map-state,
+.cphone-map-itinerary,
+.cphone-map-pin {
+  display: block;
+  padding: 10px 12px;
+}
+
+.cphone-map-card-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cphone-map-card-body strong,
+.cphone-map-card-body span,
+.cphone-map-card-body em {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.cphone-map-card-body strong {
+  font-size: var(--font-sm);
+  line-height: 1.42;
+  color: var(--text);
+}
+
+.cphone-map-card-body span {
+  font-size: var(--font-xs);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.cphone-map-card-body em {
+  font-style: normal;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-hint);
+}
+
+.cphone-subpage {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cphone-subpage-head {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 8px;
+}
+
+.cphone-phone-home {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--text-secondary);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.cphone-subpage-title {
+  text-align: center;
+  font-size: var(--font-md);
+  font-weight: 800;
+}
+
+.cphone-subpage-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cphone-select-hint {
+  font-size: var(--font-xs, 12px);
+  color: var(--text-secondary, #8c7362);
+  padding: 2px 2px 6px;
+}
+
+.cphone-subpage.is-record-selecting [data-record-id].cphone-record-selectable {
+  position: relative;
+  cursor: pointer;
+}
+
+.cphone-subpage.is-record-selecting [data-record-id].cphone-record-selectable::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(140, 115, 98, 0.5);
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 3;
+  box-sizing: border-box;
+}
+
+.cphone-subpage.is-record-selecting [data-record-id].is-selected {
+  outline: 2px solid var(--accent, #e8a06a);
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+.cphone-subpage.is-record-selecting [data-record-id].is-selected::after {
+  content: '✓';
+  border-color: var(--accent, #e8a06a);
+  background: var(--accent, #e8a06a);
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.cphone-today-plain {
+  padding: 22px 0 0;
+}
+
+.cphone-today-ribbon {
+  position: absolute;
+  top: -8px;
+  left: 14px;
+  padding: 3px 12px;
+  font-size: var(--font-xs);
+  color: #fff;
+  background: linear-gradient(135deg, #b6cde0, #7ea7c4);
+  border-radius: 999px;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 3px 8px rgba(126, 167, 196, 0.35);
+}
+
+.cphone-today-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cphone-today-name {
+  font-size: var(--font-md);
+  font-weight: 700;
+}
+
+.cphone-today-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.cphone-today-tags span {
+  font-size: var(--font-xs);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(182, 205, 224, 0.25);
+  color: var(--text-secondary);
+}
+
+.cphone-today-theme {
+  margin-top: 8px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.cphone-today-empty {
+  margin-top: 6px;
+  font-size: var(--font-sm);
+  color: var(--text-hint);
+}
+
+.cphone-schedule-reference-note {
+  margin: -4px 0 12px;
+  font-size: var(--font-xs);
+  line-height: 1.45;
+  color: var(--text-hint);
+}
+
+.cphone-now-label {
+  font-size: var(--font-xs);
+  color: var(--text-accent);
+  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+}
+
+.cphone-live-override {
+  display: grid;
+  gap: 3px;
+  margin: 2px 0 14px;
+  padding: 11px 12px;
+  border-left: 2px solid var(--text-accent);
+  background: rgba(182, 205, 224, 0.16);
+}
+
+.cphone-live-override span,
+.cphone-live-override em {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  font-style: normal;
+}
+
+.cphone-live-override strong {
+  font-size: var(--font-sm);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.cphone-section-title {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.cphone-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cphone-section-head .cphone-section-title {
+  margin-bottom: 0;
+}
+
+.cphone-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cphone-block {
+  position: relative;
+  padding: 14px 14px 12px;
+}
+
+.cphone-block::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed rgba(140, 115, 98, 0.22);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.cphone-block.is-current {
+  border-color: rgba(241, 185, 143, 0.55);
+  box-shadow: 0 4px 14px rgba(213, 138, 92, 0.12);
+}
+
+.cphone-block.is-busy {
+  opacity: 0.88;
+}
+
+.cphone-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.cphone-block-time {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--text-accent, #c98a5c);
+}
+
+.cphone-block-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.cphone-block-busy {
+  font-size: var(--font-xs);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(140, 115, 98, 0.12);
+  color: var(--text-hint);
+}
+
+.cphone-block-changed {
+  font-size: var(--font-xs);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(182, 205, 224, 0.24);
+  color: var(--ink-blue, #5c7b8f);
+}
+
+.cphone-block.is-changed {
+  opacity: 0.72;
+}
+
+.cphone-block.is-changed .cphone-block-act {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(140, 115, 98, 0.34);
+}
+
+.cphone-block-act {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.cphone-change-reason {
+  margin: 4px 0 8px;
+  font-size: var(--font-xs);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.cphone-block-meta {
+  font-size: var(--font-xs);
+  color: var(--text-hint);
+  margin-bottom: 8px;
+}
+
+.cphone-route-hint {
+  margin: 8px 0 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(182, 205, 224, 0.18);
+  border: 1px dashed rgba(126, 167, 196, 0.32);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cphone-route-hint strong {
+  font-size: var(--font-xs);
+  line-height: 1.4;
+  color: var(--ink-blue, #5c7b8f);
+}
+
+.cphone-route-hint span {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text-hint);
+}
+
+.cphone-flow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0 12px;
+  padding-left: 4px;
+}
+
+.cphone-flow::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 12px;
+  bottom: 12px;
+  border-left: 1px dashed rgba(241, 185, 143, 0.48);
+}
+
+.cphone-flow-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.cphone-flow-dot {
+  position: relative;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(241, 185, 143, 0.55);
+  color: var(--text-accent, #c98a5c);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.cphone-flow-step.is-active .cphone-flow-dot {
+  background: #f1b98f;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(226, 137, 95, 0.28);
+}
+
+.cphone-flow-body {
+  min-width: 0;
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.54);
+  border: 1px solid rgba(140, 115, 98, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cphone-flow-step.is-active .cphone-flow-body {
+  border-color: rgba(241, 185, 143, 0.48);
+  background: rgba(241, 185, 143, 0.14);
+}
+
+.cphone-flow-body strong {
+  font-size: var(--font-xs);
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.cphone-flow-body em,
+.cphone-flow-body small {
+  font-style: normal;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.cphone-flow-body small {
+  color: var(--text-accent);
+}
+
+.cphone-block-body p {
+  margin: 0 0 8px;
+  font-size: var(--font-sm);
+  line-height: 1.82;
+  text-indent: 2em;
+  color: var(--text);
+}
+
+.cphone-block-body p:last-child {
+  margin-bottom: 0;
+}
+
+.cphone-block .chat-bubble-translate-btn {
+  margin-top: 5px;
+}
+
+.cphone-block-body {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(140, 115, 98, 0.14);
+}
+
+.cphone-block-live-status {
+  margin-top: 9px;
+  font-size: var(--font-xs);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.cphone-block-event-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--accent, #b3763f);
+  background: rgba(179, 118, 63, 0.08);
+  border-radius: 4px;
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.cphone-block-share {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-soft, #ece0d6);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cphone-block-share span {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cphone-memo-card {
+  padding: 14px;
+}
+
+.cphone-notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cphone-notes-done-label {
+  margin: 14px 0 8px;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted, #9a8b7a);
+}
+
+.cphone-notes-done {
+  opacity: 0.92;
+}
+
+.cphone-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--border-soft, #ece0d6);
+}
+
+.cphone-note.is-done {
+  opacity: 0.55;
+}
+
+.cphone-note.is-done .cphone-note-text {
+  text-decoration: line-through;
+  text-decoration-color: rgba(154, 139, 122, 0.55);
+}
+
+.cphone-note-check {
+  flex: 0 0 auto;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+}
+
+.cphone-note-check input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.cphone-note-box {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(241, 185, 143, 0.7);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.cphone-note-check input:checked + .cphone-note-box {
+  background: linear-gradient(135deg, #f1b98f, #e2895f);
+  border-color: transparent;
+}
+
+.cphone-note-title {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.cphone-note-text {
+  font-size: var(--font-sm);
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.cphone-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cphone-auto-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.cphone-auto-row > span {
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.cphone-proactive-count,
+.cphone-proactive-gap,
+.cphone-busy-mode {
+  min-width: 92px;
+  max-width: 52%;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 10px;
+  padding: 6px 8px;
+  background: var(--surface-card, #fffdf8);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--font-sm);
+}
+
+.cphone-proactive-status {
+  margin-top: -4px;
+  font-size: var(--font-xs);
+  color: var(--text-hint);
+}
+
+.cphone-proactive-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cphone-proactive-stats-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px dashed rgba(224, 199, 181, 0.95);
+  border-radius: 10px;
+  background: rgba(255, 250, 242, 0.86);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--font-sm);
+  text-align: left;
+}
+
+.cphone-proactive-stats-btn b {
+  flex: 0 0 auto;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(241, 185, 143, 0.24);
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.cphone-proactive-stats-btn:focus-visible {
+  outline: 2px solid var(--accent, #7da8a0);
+  outline-offset: 2px;
+}
+
+.cphone-proactive-stats-panel {
+  padding: 10px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.cphone-proactive-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(224, 199, 181, 0.75);
+  font-size: var(--font-xs);
+}
+
+.cphone-proactive-stats-grid span {
+  color: var(--text-hint);
+}
+
+.cphone-proactive-stats-grid strong {
+  color: var(--text);
+}
+
+.cphone-proactive-log {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.cphone-proactive-log-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+  font-size: 11px;
+}
+
+.cphone-proactive-log-row span,
+.cphone-proactive-log-row em {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-hint);
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-proactive-log-row strong {
+  color: #7da8a0;
+}
+
+.cphone-proactive-log-row.is-failed strong {
+  color: #d56f65;
+}
+
+.cphone-proactive-log-row.is-skipped strong {
+  color: var(--text-hint);
+}
+
+.cphone-proactive-log-evidence {
+  margin: 5px 0 2px 42px;
+  color: var(--text-hint);
+  font-size: 11px;
+}
+
+.cphone-proactive-log-evidence summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--text-soft);
+}
+
+.cphone-proactive-log-evidence p {
+  margin: 6px 0;
+}
+
+.cphone-proactive-log-evidence section {
+  margin-top: 8px;
+}
+
+.cphone-proactive-log-evidence section b {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+
+.cphone-proactive-log-evidence pre {
+  max-height: 42vh;
+  margin: 0;
+  padding: 8px;
+  overflow: auto;
+  border: 1px solid rgba(224, 199, 181, 0.75);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.cphone-proactive-log-empty {
+  padding-top: 8px;
+  color: var(--text-hint);
+  font-size: var(--font-xs);
+}
+
+.cphone-reroll-theme-row {
+  display: flex;
+  position: relative;
+  z-index: 2;
+}
+
+.cphone-reroll-theme-row .cphone-reroll-theme-input {
+  width: 100%;
+  pointer-events: auto;
+  touch-action: manipulation;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.cphone-action-row {
+  display: flex;
+  gap: 8px;
+}
+
+.cphone-action-row .btn {
+  flex: 1;
+}
+
+.cphone-generating-panel {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 4px 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px dashed rgba(126, 167, 196, 0.45);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.cphone-generating-panel span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(126, 167, 196, 0.28);
+  border-top-color: #7ea7c4;
+  animation: cphone-spin 0.8s linear infinite;
+}
+
+.cphone-generating-panel strong {
+  color: var(--ink-blue, #5c7b8f);
+  font-size: var(--font-sm);
+}
+
+.cphone-generating-panel em {
+  grid-column: 2;
+  font-style: normal;
+  color: var(--text-hint);
+  font-size: var(--font-xs);
+}
+
+.cphone-change-plan-hint {
+  margin: -4px 0 0;
+  font-size: var(--font-xs);
+  line-height: 1.45;
+  color: var(--text-hint);
+}
+
+@keyframes cphone-spin {
+  to { transform: rotate(360deg); }
+}
+
+.cphone-start-activity {
+  width: 100%;
+}
+
+.cphone-start-activity-hero {
+  margin-top: 12px;
+  min-height: 46px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 18px rgba(196, 132, 82, 0.18);
+}
+
+.cphone-schedule-hero .cphone-start-activity-hero {
+  margin-top: 10px;
+}
+
+.cphone-block.is-tappable {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cphone-block.is-tappable:active,
+.cphone-block.is-tappable:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(140, 115, 98, 0.14);
+}
+
+.cphone-block-go {
+  font-size: 11px;
+  font-weight: 800;
+  color: #b85c5c;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(241, 185, 143, 0.28);
+}
+
+.cphone-activity-card.is-resumable .cphone-resume-activity {
+  margin-top: 10px;
+}
+
+.cphone-change-plan {
+  width: 100%;
+}
+
+.cphone-section-head .cphone-start-activity {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.cphone-record-list,
+.cphone-record-grid,
+.cphone-activity-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cphone-record,
+.cphone-mini-record,
+.cphone-activity-card {
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.cphone-record {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.cphone-record-main {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.cphone-record-main strong,
+.cphone-mini-record strong,
+.cphone-activity-card b {
+  font-size: var(--font-sm);
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.cphone-record-main span,
+.cphone-mini-record span {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cphone-record-main em,
+.cphone-mini-record em,
+.cphone-activity-card em {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--text-hint);
+  line-height: 1.35;
+}
+
+.cphone-record-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+
+.cphone-record-share-status {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.cphone-record-share-status.is-pending {
+  background: rgba(241, 185, 143, 0.2);
+  color: var(--text-accent);
+}
+
+.cphone-record-share-status.is-shared {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text-hint);
+}
+
+.cphone-record-open {
+  align-self: center;
+  margin-right: 10px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(241, 185, 143, 0.17);
+  color: var(--text-accent);
+  font-size: var(--font-xs);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cphone-record-open.is-local {
+  color: var(--text-hint);
+}
+
+.cphone-record-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cphone-mini-record {
+  padding: 10px;
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cphone-mini-record a {
+  margin-top: auto;
+  color: var(--text-accent);
+  font-size: var(--font-xs);
+  text-decoration: none;
+}
+
+.cphone-mini-record button {
+  align-self: flex-start;
+  margin-top: auto;
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(182, 205, 224, 0.24);
+  color: var(--ink-blue, #5c7b8f);
+  font-size: var(--font-xs);
+}
+
+.cphone-avatar-import,
+.cphone-music-library {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.cphone-avatar-import strong {
+  color: var(--text);
+  font-size: var(--font-sm);
+}
+
+.cphone-avatar-upload {
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.cphone-avatar-desc {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.64);
+  color: var(--text);
+  padding: 9px 10px;
+  font: inherit;
+  font-size: var(--font-sm);
+}
+
+.cphone-avatar-grid {
+  margin-top: 8px;
+}
+
+.cphone-avatar-record {
+  content-visibility: auto;
+  contain-intrinsic-size: 220px;
+}
+
+.cphone-avatar-record .btn {
+  align-self: stretch;
+}
+
+.cphone-avatar-record strong,
+.cphone-avatar-record > span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.cphone-avatar-pending {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px dashed var(--border-soft, #ece0d6);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.cphone-avatar-pending img {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(232, 238, 243, 0.75);
+}
+
+.cphone-avatar-pending span {
+  min-width: 0;
+  color: var(--text-hint);
+  font-size: var(--font-xs);
+  line-height: 1.4;
+}
+
+.cphone-music-user-lib {
+  margin: 14px 0 10px;
+  border: 1px dashed var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.cphone-music-user-lib summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  color: var(--text-hint);
+  font-size: var(--font-sm);
+  font-weight: 700;
+}
+
+.cphone-music-user-lib-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 12px 12px;
+}
+
+.cphone-music-user-lib-body > .btn {
+  align-self: flex-start;
+}
+
+.cphone-music-lib-empty-link {
+  display: block;
+  width: 100%;
+  margin: 14px 0 10px;
+  padding: 10px 12px;
+  border: 1px dashed var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: none;
+  color: var(--text-hint);
+  font-size: var(--font-sm);
+  text-align: left;
+}
+
+.cphone-music-playlists {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.cphone-music-chip {
+  min-width: 116px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--text);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 800;
+}
+
+.cphone-music-chip small {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-hint);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cphone-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cphone-photo-section + .cphone-photo-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-soft, #ece0d6);
+}
+
+.cphone-photo-section h3 {
+  margin: 0 0 9px;
+  color: var(--text-hint);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.cphone-photo-load-more {
+  display: block;
+  margin: 16px auto 2px;
+}
+
+.cphone-photo-record {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.cphone-photo-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  background: rgba(232, 238, 243, 0.75);
+  display: grid;
+  place-items: center;
+  color: var(--text-hint);
+  font-size: var(--font-xs);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.cphone-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cphone-photo-thumb img,
+.cphone-photo-card img,
+.cphone-widget-photos img {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+.cphone-photo-thumb.is-textimg {
+  background: linear-gradient(165deg, rgba(255, 251, 244, 0.96), rgba(236, 244, 252, 0.88));
+  color: var(--text-secondary);
+}
+
+.cphone-photo-textimg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.cphone-photo-textimg b {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.cphone-photo-textimg em {
+  display: block;
+  font-size: 10px;
+  line-height: 1.35;
+  font-style: normal;
+  color: var(--text-hint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-photo-record.is-photo-selectable,
+.cphone-photo-record.is-photo-openable {
+  cursor: pointer;
+}
+
+.cphone-photo-record.is-photo-selectable.is-selected {
+  outline: 2px solid rgba(231, 120, 120, 0.72);
+  outline-offset: 2px;
+}
+
+.cphone-photo-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.cphone-photo-card .textimg-detail-card {
+  margin: 0 auto;
+}
+
+.cphone-photo-record strong {
+  min-width: 0;
+  font-size: var(--font-xs);
+  line-height: 1.35;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-photo-record span,
+.cphone-photo-record em {
+  min-width: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-style: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.cphone-activity-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.cphone-activity-card summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 11px 12px;
+}
+
+.cphone-activity-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.cphone-activity-card summary span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cphone-activity-detail {
+  padding: 0 12px 12px;
+  border-top: 1px dashed var(--border-soft, #ece0d6);
+}
+
+.cphone-activity-detail p {
+  margin: 10px 0 0;
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.cphone-activity-card.is-expired {
+  opacity: 0.72;
+}
+
+.cphone-activity-expired-note {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(140, 115, 98, 0.08);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.cphone-waypoints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.cphone-waypoints span {
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(182, 205, 224, 0.22);
+  color: var(--text-secondary);
+}
+
+.cphone-record-judgement,
+.cphone-record-action {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.cphone-record-judgement {
+  background: rgba(241, 185, 143, 0.16);
+  color: #9a5a36;
+}
+
+.cphone-record-action {
+  background: rgba(182, 205, 224, 0.2);
+  color: #4d6f84;
+}
+
+.cphone-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px 14px calc(20px + var(--safe-bottom));
+  background: rgba(58, 45, 38, 0.28);
+}
+
+.cphone-modal-card {
+  position: relative;
+  width: min(620px, 100%);
+  max-height: min(78vh, 680px);
+  overflow: auto;
+  padding: 18px;
+  border-radius: 16px 16px 12px 12px;
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid var(--border-soft, #ece0d6);
+  box-shadow: 0 18px 50px rgba(68, 45, 31, 0.22);
+}
+
+.cphone-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 253, 248, 0.96);
+  color: var(--text, #5c4a3f);
+  font-size: 22px;
+  line-height: 1;
+  box-shadow: 0 1px 6px rgba(68, 45, 31, 0.16);
+  cursor: pointer;
+}
+
+.cphone-modal-card h2 {
+  margin: 4px 34px 8px 0;
+  font-size: var(--font-lg);
+  line-height: 1.35;
+}
+
+.cphone-modal-summary,
+.cphone-modal-body p {
+  font-size: var(--font-sm);
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.cphone-modal-summary {
+  color: var(--text-secondary);
+}
+
+.cphone-modal-link {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.cphone-web-card {
+  height: min(82vh, 760px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.cphone-web-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-right: 34px;
+}
+
+.cphone-web-head h2 {
+  margin-right: 0;
+}
+
+.cphone-web-frame {
+  flex: 1;
+  min-height: 320px;
+  width: 100%;
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.cphone-web-hint {
+  font-size: 11px;
+  color: var(--text-hint);
+  text-align: center;
+}
+
+.cphone-web-chrome {
+  display: grid;
+  grid-template-columns: 8px 8px 8px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  padding: 9px 42px 9px 10px;
+  border: 1px solid rgba(170, 139, 108, 0.2);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fffaf0, #f5eadb);
+}
+
+.cphone-web-chrome span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #f0a18c;
+}
+
+.cphone-web-chrome span:nth-child(2) {
+  background: #f1c86f;
+}
+
+.cphone-web-chrome span:nth-child(3) {
+  background: #8fc7a8;
+}
+
+.cphone-web-chrome div {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-hint);
+  font-size: 11px;
+}
+
+.cphone-web-frame-wrap {
+  width: 100%;
+  min-height: min(48vh, 420px);
+  border: 1px solid var(--border-soft, #ece0d6);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.cphone-record-cover {
+  position: relative;
+  width: 100%;
+  margin: 0 0 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-soft, #ece0d6);
+}
+
+.cphone-record-cover img {
+  display: block;
+  width: 100%;
+  max-height: min(42vh, 360px);
+  object-fit: cover;
+}
+
+.cphone-record-cover-count {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.48);
+  color: #fff;
+  font-size: 11px;
+}
+
+.cphone-faux-web-page.is-social-snapshot .cphone-faux-web-body {
+  margin-top: 4px;
+}
+
+.cphone-faux-web-page .cphone-web-frame {
+  display: block;
+  width: 100%;
+  min-height: min(48vh, 420px);
+  border: 0;
+  border-radius: 0;
+}
+
+.cphone-faux-web-page {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid rgba(170, 139, 108, 0.18);
+  border-radius: 14px;
+  background:
+    linear-gradient(90deg, rgba(182, 205, 224, 0.12) 1px, transparent 1px),
+    linear-gradient(180deg, #fffdf8 0%, #fffaf1 100%);
+  background-size: 24px 24px, auto;
+  padding: 18px;
+}
+
+.cphone-faux-web-header {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed rgba(170, 139, 108, 0.24);
+}
+
+.cphone-faux-web-header h2 {
+  margin: 6px 0 8px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.cphone-faux-web-header p,
+.cphone-faux-web-body p {
+  color: var(--text);
+  font-size: var(--font-sm);
+  line-height: 1.8;
+}
+
+.cphone-faux-web-header p {
+  color: var(--text-secondary);
+}
+
+.cphone-faux-web-body {
+  display: grid;
+  gap: 10px;
+}
+
+.cphone-faux-web-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.cphone-faux-web-tags span {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(182, 205, 224, 0.18);
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.cphone-faux-web-page.is-weibo {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 219, 156, 0.24), transparent 34%),
+    linear-gradient(180deg, #fffdf8, #fff7f2);
+}
+
+.cphone-photo-card {
+  background: rgba(255, 253, 248, 0.96);
+  padding: 14px;
+  /* 给右上角关闭钮留空，避免文字图/大图顶边把它盖住 */
+  padding-top: 42px;
+}
+
+.cphone-photo-card img {
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+}
+
+.cphone-photo-modal-caption {
+  margin-top: 12px;
+  max-height: 30vh;
+  overflow: auto;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ---- 兴趣关键词表（搜索候选词池） ---- */
+
+.cphone-interest-keywords {
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.9);
+  border: 1px solid rgba(241, 185, 143, 0.22);
+}
+
+.cphone-int-row {
+  border-bottom: 1px dashed rgba(241, 185, 143, 0.25);
+}
+
+.cphone-int-row:last-of-type {
+  border-bottom: none;
+}
+
+.cphone-int-row-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 2px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cphone-int-row-title {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.cphone-int-row-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-brown, #6b4f3a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cphone-int-row-subtag {
+  flex-shrink: 0;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--accent-soft, rgba(214, 158, 110, 0.16));
+  color: var(--accent, #b3763f);
+  white-space: nowrap;
+}
+
+.cphone-int-row-tags {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+
+.cphone-int-row-caret {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+}
+
+.cphone-int-row-topic {
+  margin: -4px 2px 8px;
+  padding-left: 2px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-hint, #b3a293);
+}
+
+.cphone-int-row-detail {
+  margin: 0 2px 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(241, 185, 143, 0.1);
+  border: 1px dashed rgba(241, 185, 143, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cphone-int-detail-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cphone-int-backstory-field {
+  align-items: flex-start;
+}
+
+.cphone-int-backstory-input {
+  flex: 1 1 160px;
+  min-height: 48px;
+  font-size: var(--font-xs);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.cphone-int-detail-label {
+  flex: 0 0 auto;
+  width: 32px;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+}
+
+.cphone-int-detail-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 2px;
+}
+
+.cphone-int-row-del {
+  border: none;
+  background: none;
+  padding: 0 2px;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.cphone-interest-progress-card {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--bg-card, #fffdf8);
+  border: 1px dashed rgba(241, 185, 143, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cphone-interest-progress-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+}
+
+.cphone-interest-progress-field .cphone-interest-progress-stage {
+  flex: 1;
+  height: 26px;
+  font-size: 12px;
+}
+
+.cphone-interest-progress-log {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cphone-interest-progress-log-line {
+  font-size: 11px;
+  color: var(--ink-brown, #6b4f3a);
+  opacity: 0.85;
+}
+
+.cphone-interest-progress-goals {
+  font-size: 11px;
+  color: var(--accent, #b3763f);
+}
+
+.cphone-interest-kw-add {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.cphone-interest-kw-add .cphone-interest-kw-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.cphone-interest-kw-manual {
+  flex: 0 0 auto;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid rgba(241, 185, 143, 0.4);
+  border-radius: 8px;
+  background: rgba(241, 185, 143, 0.12);
+  color: var(--accent, #b3763f);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.cphone-interest-kw-manual:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cphone-interest-kw-avoid {
+  flex: 0 0 auto;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid rgba(182, 205, 224, 0.5);
+  border-radius: 8px;
+  background: rgba(182, 205, 224, 0.14);
+  color: var(--ink-blue, #5a7a96);
+  font-size: 11px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cphone-interest-kw-avoid.is-safe {
+  border-color: rgba(140, 179, 150, 0.5);
+  background: rgba(140, 179, 150, 0.16);
+  color: #3f7a52;
+}
+
+.cphone-interest-tutorial-link {
+  text-align: center;
+  padding: 10px 0 4px;
+}
+
+.cphone-quiet-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.cphone-interest-track-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cphone-interest-track-toggle input {
+  accent-color: var(--accent, #b3763f);
+}
+
+.cphone-share-impulse-input {
+  width: 64px;
+  flex: none;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.cphone-interest-channel-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.cphone-interest-channel-label {
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  flex-shrink: 0;
+}
+
+.cphone-interest-channel-seg {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.cphone-interest-channel-opt {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(241, 185, 143, 0.3);
+  background: transparent;
+  color: var(--text-hint, #b3a293);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.cphone-interest-channel-opt.is-active {
+  background: var(--accent-soft, rgba(214, 158, 110, 0.18));
+  border-color: var(--accent, #b3763f);
+  color: var(--accent, #b3763f);
+  font-weight: 600;
+}
+
+.cphone-material-pool-row span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cphone-material-pool-row a {
+  color: var(--accent, #b3763f);
+  text-decoration: underline;
+}
+
+.cphone-material-pool-reason {
+  display: block;
+  font-style: normal;
+  font-size: 10px;
+  color: var(--text-hint, #b3a293);
+}
+
+.cphone-interest-kw-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.cphone-usage-stats-panel {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(182, 205, 224, 0.12);
+  border: 1px dashed rgba(182, 205, 224, 0.4);
+}
+
+.cphone-usage-stats-line {
+  font-size: 11px;
+  color: var(--ink-brown, #6b4f3a);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.cphone-usage-stats-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  padding: 2px 0;
+}
+
+.cphone-usage-stats-empty {
+  justify-content: flex-start;
+}
+
+.cphone-share-post-section {
+  margin-top: 10px;
+}
+
+.cphone-debug-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+}
+
+.cphone-debug-line-btn {
+  flex: none;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 11px;
+  color: var(--ink-brown, #6b4f3a);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cphone-debug-line-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cphone-share-post-comments {
+  margin-top: 8px;
+}
+
+/* 词表卡工具行：AI 补充按钮在左，手动查渠道 pills 靠右收着 */
+.cphone-interest-kw-toolbar {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cphone-interest-kw-toolbar .cphone-interest-channel-picker {
+  margin-bottom: 0;
+}
+
+/* 页尾后台数据条：今日调用/素材池是查数据用的，做成安静的文字按钮，不和功能按钮抢眼 */
+.cphone-interest-databar {
+  display: flex;
+  gap: 14px;
+  margin: 2px 2px 10px;
+}
+
+.cphone-databar-toggle {
+  border: none;
+  background: none;
+  padding: 2px 0;
+  font-size: 11px;
+  color: var(--text-hint, #b3a293);
+  cursor: pointer;
+  text-decoration: underline dashed rgba(179, 162, 147, 0.5);
+  text-underline-offset: 3px;
+}
+
+.cphone-databar-toggle:hover,
+.cphone-databar-toggle:focus-visible {
+  color: var(--accent, #b3763f);
+}
+
+.cphone-interest-databar + .cphone-usage-stats-panel,
+.cphone-usage-stats-panel + .cphone-usage-stats-panel {
+  margin: 0 0 10px;
+}
+
+@media (max-width: 420px) {
+  .cphone-record-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cphone-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cphone-app-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px 8px;
+  }
+
+  .cphone-app-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+  }
+}
+
+/* 仿真角色手机 v2：材质与应用壳严格限制在 cphone 作用域 */
+.cphone-page {
+  --cphone-porcelain: #f4f4f1;
+  --cphone-mist: #e6e7e4;
+  --cphone-ink: #181a1d;
+  --cphone-muted: #666a70;
+  --cphone-sea: #82969e;
+  --cphone-white: #fff;
+  --cphone-glass: rgba(255, 255, 255, 0.74);
+  --cphone-hairline: rgba(24, 26, 29, 0.1);
+  background: #dededb;
+  color: var(--cphone-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.cphone-scroll.is-device-mode {
+  display: grid;
+  place-items: center;
+  padding: 12px max(12px, var(--safe-right)) calc(12px + var(--safe-bottom));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.7), transparent 34%),
+    linear-gradient(145deg, #e9e9e6, #cfcfcb);
+}
+
+.cphone-scroll.is-picker-mode {
+  width: min(760px, 100%);
+  margin-inline: auto;
+  padding: 22px 18px calc(28px + var(--safe-bottom));
+}
+
+.cphone-stage {
+  position: relative;
+  width: min(100%, 430px);
+  height: min(860px, calc(100dvh - 24px - var(--safe-top) - var(--safe-bottom)));
+  min-height: 580px;
+}
+
+.cphone-device-frame {
+  position: relative;
+  height: 100%;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  border-radius: 48px;
+  background: #191b1f;
+  box-shadow:
+    0 30px 70px rgba(20, 22, 24, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.11);
+}
+
+.cphone-device-screen {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 40px;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(130, 150, 158, 0.22), transparent 30%),
+    radial-gradient(circle at 12% 82%, rgba(255, 255, 255, 0.8), transparent 34%),
+    var(--cphone-porcelain);
+}
+
+.cphone-device-frame.is-wallpaper-mist .cphone-device-screen {
+  background:
+    radial-gradient(circle at 82% 14%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(155deg, #eef1ef, #cbd2d0);
+}
+
+.cphone-device-frame.is-wallpaper-sea .cphone-device-screen {
+  background:
+    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.65), transparent 23%),
+    linear-gradient(160deg, #bfd4d8 0%, #92adb1 48%, #dce6e3 100%);
+}
+
+.cphone-device-frame.is-wallpaper-window .cphone-device-screen {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(145deg, #d9e0dc, #a7b6b2 56%, #e8e7df);
+  background-size: 58px 58px, 58px 58px, auto;
+}
+
+.cphone-device-wallpaper,
+.cphone-device-wallpaper-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+}
+
+.cphone-device-wallpaper {
+  object-fit: cover;
+}
+
+.cphone-device-wallpaper-overlay {
+  z-index: -1;
+  background: rgba(244, 244, 241, var(--cphone-wallpaper-overlay, 0.28));
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.cphone-statusbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 23px 2px;
+  color: var(--cphone-ink);
+  font-size: 11px;
+  font-weight: 680;
+  font-variant-numeric: tabular-nums;
+}
+
+.cphone-power-off {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cphone-power-off svg {
+  width: 15px;
+  height: 15px;
+}
+
+.cphone-power-off:hover {
+  background: rgba(24, 26, 29, 0.08);
+}
+
+.cphone-power-off:focus-visible {
+  background: rgba(24, 26, 29, 0.08);
+  outline: 2px solid var(--cphone-sea, #6c8796);
+  outline-offset: 2px;
+}
+
+.cphone-status-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cphone-status-icons svg {
+  width: 14px;
+  height: 10px;
+}
+
+.cphone-os-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cphone-home-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 18px 20px calc(24px + var(--safe-bottom));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.cphone-home-screen::-webkit-scrollbar,
+.cphone-subpage-body::-webkit-scrollbar {
+  display: none;
+}
+
+.cphone-home-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cphone-home-date {
+  font-size: 11px;
+  font-weight: 720;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.cphone-home-clock {
+  margin-top: 3px;
+  font-size: clamp(60px, 18vw, 88px);
+  font-weight: 650;
+  line-height: 0.98;
+  letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cphone-home-owner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 8px 0 17px 2px;
+  color: var(--cphone-muted);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.cphone-home-owner-avatar {
+  width: 22px;
+  height: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 50%;
+  box-shadow: 0 2px 7px rgba(24, 26, 29, 0.12);
+}
+
+.cphone-home-owner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-widget-grid {
+  display: grid;
+  grid-template-columns: 1.22fr 0.78fr;
+  grid-template-rows: 114px 94px;
+  gap: 10px;
+}
+
+.cphone-widget-grid.is-empty {
+  display: none;
+}
+
+.cphone-widget {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 23px;
+  background: var(--cphone-glass);
+  color: var(--cphone-ink);
+  text-align: left;
+  box-shadow: 0 9px 22px rgba(24, 26, 29, 0.07);
+  backdrop-filter: blur(18px) saturate(1.1);
+}
+
+.cphone-widget-calendar {
+  grid-column: 1 / -1;
+}
+
+.cphone-widget-label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-weight: 720;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cphone-mini-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cphone-mini-week > span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 4px 0 7px;
+  border-radius: 12px;
+}
+
+.cphone-mini-week > span.is-today {
+  background: var(--cphone-ink);
+  color: #fff;
+}
+
+.cphone-mini-week small {
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.cphone-mini-week b {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cphone-mini-week i {
+  position: absolute;
+  bottom: 3px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cphone-widget > strong,
+.cphone-widget > em {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-widget > strong {
+  font-size: 14px;
+}
+
+.cphone-widget > em {
+  margin-top: 4px;
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.cphone-music-controls {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 10px;
+}
+
+.cphone-widget-music {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 92% 6%, rgba(255, 255, 255, 0.7), transparent 29%),
+    rgba(255, 255, 255, 0.67);
+}
+
+.cphone-widget-music .cphone-widget-label {
+  margin-bottom: 0;
+}
+
+.cphone-widget-music-body {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-width: 0;
+}
+
+.cphone-music-cover.is-compact {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+}
+
+.cphone-widget-music-main {
+  display: grid;
+  gap: 3px;
+}
+
+.cphone-widget-music-main strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.cphone-widget-music-main em {
+  display: block;
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+  line-height: 1.25;
+}
+
+.cphone-widget-music .cphone-music-controls {
+  right: 9px;
+  bottom: 7px;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(24, 26, 29, 0.07);
+  color: var(--cphone-muted);
+  font: inherit;
+  font-size: 9px;
+}
+
+.cphone-widget-photos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 0;
+  background: #d5d6d2;
+}
+
+.cphone-widget-photos > * {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cphone-widget-photos img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-widget-photos.photo-count-1 {
+  grid-template-columns: 1fr;
+}
+
+.cphone-widget-photos.photo-count-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cphone-widget-photos.photo-count-3 {
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.cphone-widget-photos.photo-count-3 > :first-child {
+  grid-row: 1 / -1;
+}
+
+.cphone-widget-photos .cphone-photo-textimg {
+  justify-content: center;
+  padding: 6px;
+  background: linear-gradient(165deg, #fffaf2, #e9f0f5);
+}
+
+.cphone-widget-photos .cphone-photo-textimg b {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 9px;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.cphone-widget-photos .cphone-photo-textimg em {
+  display: none;
+}
+
+.cphone-widget-photos.has-cover {
+  grid-template-columns: 1fr;
+}
+
+.cphone-photo-placeholder {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  color: var(--cphone-muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.cphone-app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px 8px;
+  margin-top: 20px;
+}
+
+.cphone-phone-app {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cphone-ink);
+  font-size: 10px;
+}
+
+.cphone-phone-app b {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: 620;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-app-badge {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 7px 15px rgba(24, 26, 29, 0.09);
+}
+
+.cphone-app-badge svg {
+  width: 32px;
+  height: 32px;
+}
+
+.cphone-device-frame.is-graphite .cphone-app-badge {
+  filter: grayscale(0.72) saturate(0.65);
+}
+
+.cphone-phone-app > em {
+  position: absolute;
+  top: -5px;
+  right: 5px;
+  display: grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #e55151;
+  color: #fff;
+  font-size: 9px;
+  font-style: normal;
+}
+
+.cphone-dock {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  flex: 0 0 auto;
+  margin-top: 24px;
+  padding: 10px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(20px) saturate(1.15);
+}
+
+.cphone-dock .cphone-app-badge {
+  width: 47px;
+  height: 47px;
+}
+
+.cphone-more-menu {
+  position: relative;
+  z-index: 12;
+}
+
+.cphone-more-menu summary {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  height: 30px;
+  border: 0;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--cphone-ink);
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 1px;
+  list-style: none;
+}
+
+.cphone-more-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.cphone-more-popover {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  min-width: 168px;
+  overflow: hidden;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  border-radius: 17px;
+  background: rgba(248, 248, 246, 0.93);
+  box-shadow: 0 16px 38px rgba(24, 26, 29, 0.18);
+  backdrop-filter: blur(22px);
+}
+
+.cphone-more-popover button {
+  width: 100%;
+  padding: 10px 11px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--cphone-ink);
+  text-align: left;
+  font: inherit;
+  font-size: 12px;
+}
+
+.cphone-more-popover button:hover,
+.cphone-more-popover button:focus-visible {
+  background: rgba(24, 26, 29, 0.07);
+}
+
+.cphone-subpage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: rgba(247, 247, 245, 0.9);
+  backdrop-filter: blur(22px);
+}
+
+.cphone-subpage-head {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  align-items: center;
+  min-height: 48px;
+  padding: 4px 12px 6px;
+  border-bottom: 1px solid var(--cphone-hairline);
+}
+
+.cphone-phone-home {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--cphone-ink);
+  font-size: 22px;
+}
+
+.cphone-subpage-title {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 720;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-subpage-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 15px 22px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+.cphone-app-more {
+  justify-self: end;
+}
+
+.cphone-home-indicator {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 118px;
+  height: 5px;
+  margin: 5px 0 7px;
+  border: 0;
+  border-radius: 5px;
+  background: rgba(24, 26, 29, 0.72);
+}
+
+.cphone-intro {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.cphone-intro-title {
+  margin-bottom: 18px;
+  color: var(--cphone-ink);
+  font-size: 27px;
+  letter-spacing: -0.03em;
+}
+
+.cphone-chooser {
+  gap: 13px;
+}
+
+.cphone-char-option,
+.cphone-current-char {
+  border-color: rgba(24, 26, 29, 0.1);
+  background: rgba(255, 255, 255, 0.64);
+  color: var(--cphone-ink);
+  box-shadow: 0 8px 20px rgba(24, 26, 29, 0.05);
+}
+
+@media (max-width: 620px) {
+  .cphone-scroll.is-device-mode {
+    display: block;
+    padding: 0;
+  }
+
+  .cphone-stage {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .cphone-device-frame {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .cphone-device-screen {
+    border-radius: 0;
+  }
+
+  .cphone-statusbar {
+    min-height: calc(30px + var(--safe-top));
+    padding-top: calc(7px + var(--safe-top));
+  }
+
+  .cphone-home-screen {
+    padding-inline: max(17px, var(--safe-left));
+    padding-bottom: calc(30px + var(--safe-bottom));
+  }
+
+  .cphone-dock {
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-device-screen,
+  .cphone-more-popover {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}
+
+/* 手机 Chat 借用主聊天的真实 DOM，只在设备壳内压缩尺寸。 */
+.cphone-chat-thread {
+  --chat-bubble-avatar-size: 32px;
+  --chat-user-avatar-size: 32px;
+  --chat-role-avatar-size: 32px;
+  --chat-bubble-avatar-radius: 10px;
+  --chat-bubble-font-size: 13px;
+  --chat-paper: var(--cphone-white);
+  --role-bubble-bg: var(--cphone-white);
+  --role-bubble-ink: var(--cphone-ink);
+  --user-bubble-bg: #8da49d;
+  --user-bubble-ink: #fff;
+  padding: 8px 2px 18px;
+}
+
+.cphone-chat-thread .chat-bubble-row,
+.cphone-chat-thread .chat-msg-group {
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.cphone-chat-thread .chat-bubble-col,
+.cphone-chat-thread .chat-msg-group-col {
+  max-width: min(80%, calc(100% - 44px));
+}
+
+.cphone-chat-thread .scrapbook-bubble {
+  padding: 7px 9px;
+  border-radius: 13px 13px 13px 4px;
+  box-shadow: none;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.cphone-chat-thread .chat-bubble-row.is-user .scrapbook-bubble,
+.cphone-chat-thread .chat-msg-group.is-user .scrapbook-bubble {
+  border-radius: 13px 13px 4px 13px;
+}
+
+.cphone-chat-thread .chat-bubble-avatar {
+  font-size: 12px;
+}
+
+.cphone-chat-thread .chat-bubble-avatar-letter {
+  font-size: 12px;
+}
+
+.cphone-chat-thread .chat-bubble-time,
+.cphone-chat-thread .chat-msg-group-time {
+  margin-top: 2px;
+  font-size: 9px;
+}
+
+.cphone-chat-thread .chat-time-divider {
+  margin: 10px 0;
+  font-size: 9px;
+}
+
+.cphone-chat-avatar,
+.cphone-chat-group-avatar,
+.cphone-settings-contact-avatar {
+  display: grid;
+  place-items: center;
+  grid-template-columns: none;
+  padding: 0;
+  overflow: hidden;
+  background: #d9dcda;
+  color: #59605f;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.cphone-chat-avatar img,
+.cphone-chat-group-avatar img,
+.cphone-settings-contact-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-chat-avatar.is-letter,
+.cphone-chat-group-avatar.is-letter {
+  letter-spacing: -0.04em;
+}
+
+.cphone-chat-group-avatar.is-collage,
+.cphone-settings-contact-avatar.is-collage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2px;
+  padding: 3px;
+  place-items: stretch;
+  font-size: 0;
+}
+
+.cphone-chat-group-avatar.is-collage i,
+.cphone-settings-contact-avatar.is-collage i {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #60656a;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.cphone-chat-group-avatar.is-collage i img,
+.cphone-settings-contact-avatar.is-collage i img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-settings-contact {
+  grid-template-columns: 34px minmax(0, 1fr) auto auto auto;
+}
+
+.cphone-settings-contact button.cphone-settings-avatar-action {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+}
+
+.cphone-settings-contact-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+
+.cphone-settings-avatar-action {
+  color: var(--cphone-muted);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+/* ---- 手机 Chat 复用重构：裸图标头部 / 白底选机页 / 补记录入口 ---- */
+
+/* 选机页回到干净白底，卡片只留细线 */
+.cphone-page {
+  background: #fff;
+}
+
+.cphone-scroll.is-picker-mode {
+  background: #fff;
+}
+
+.cphone-chooser.is-compact {
+  border-color: rgba(24, 26, 29, 0.08);
+  background: #fff;
+}
+
+.cphone-character-search {
+  border-color: rgba(24, 26, 29, 0.1);
+  background: #fff;
+}
+
+.cphone-char-option,
+.cphone-current-char {
+  border-color: rgba(24, 26, 29, 0.08);
+  background: #fff;
+  box-shadow: none;
+}
+
+.cphone-chooser-collapse {
+  background: rgba(24, 26, 29, 0.05);
+  color: var(--cphone-ink, #181a1d);
+}
+
+/* 子页头部按钮：去掉白色圆片，只留裸图标 */
+.cphone-phone-home,
+.cphone-chat-back {
+  border: 0;
+  background: transparent;
+  color: var(--cphone-ink);
+}
+
+.cphone-more-menu summary {
+  background: transparent;
+}
+
+.cphone-more-menu summary:hover,
+.cphone-phone-home:hover,
+.cphone-chat-back:hover {
+  background: rgba(24, 26, 29, 0.06);
+}
+
+/* 消息页顶部的补记录入口已收纳进右上角菜单 */
+
+.cphone-chat-manage-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 0 2px;
+}
+
+.cphone-chat-manage-bar button {
+  border: 1px solid rgba(24, 26, 29, 0.12);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--cphone-ink, #181a1d);
+  font-size: 12px;
+  padding: 7px 12px;
+}
+
+.cphone-chat-manage-delete:disabled {
+  opacity: 0.45;
+}
+
+.cphone-chat-row.is-selecting,
+.cphone-contact-row.is-selecting {
+  display: grid;
+  grid-template-columns: 18px 46px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 2px;
+  border-bottom: 1px solid rgba(24, 26, 29, 0.06);
+}
+
+.cphone-contact-row.is-selecting {
+  min-height: 58px;
+  padding: 6px 2px;
+  border-bottom: 1px solid var(--cphone-hairline);
+}
+
+.cphone-contact-row.is-selecting.is-disabled {
+  opacity: 0.45;
+  grid-template-columns: 46px minmax(0, 1fr);
+}
+
+.cphone-chat-row.is-selecting input,
+.cphone-contact-row.is-selecting input {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  justify-self: center;
+}
+
+.cphone-chat-row.is-selecting .cphone-chat-avatar,
+.cphone-chat-row.is-selecting .cphone-chat-group-avatar,
+.cphone-contact-row.is-selecting .cphone-chat-avatar,
+.cphone-contact-row.is-selecting .cphone-chat-group-avatar {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.cphone-chat-row.is-selecting .cphone-chat-row-main,
+.cphone-contact-row.is-selecting .cphone-contact-meta {
+  grid-column: 3;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.cphone-chat-row.is-selecting time {
+  grid-column: 4;
+  grid-row: 1;
+  align-self: start;
+  padding-top: 3px;
+}
+
+.cphone-chat-row.is-checked,
+.cphone-contact-row.is-checked {
+  background: rgba(24, 26, 29, 0.03);
+}
+
+.cphone-contact-edit {
+  display: grid;
+  gap: 14px;
+  padding: 4px 2px 20px;
+}
+
+.cphone-contact-edit-hero {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 8px 0 4px;
+  text-align: center;
+}
+
+.cphone-contact-edit-hero b {
+  font-size: 14px;
+  font-weight: 640;
+}
+
+.cphone-contact-edit-hero em {
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.cphone-contact-edit-avatar-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.cphone-contact-edit-avatar-wrap > span {
+  color: var(--cphone-muted);
+  font-size: 10px;
+}
+
+.cphone-contact-edit-avatar {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: #d9dedb;
+  color: #59635f;
+  font-size: 18px;
+  overflow: hidden;
+}
+
+.cphone-contact-edit-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cphone-contact-edit-form {
+  display: grid;
+  gap: 8px;
+}
+
+.cphone-contact-edit-form label {
+  display: grid;
+  gap: 4px;
+}
+
+.cphone-contact-edit-form label > span {
+  color: var(--cphone-muted);
+  font-size: 10px;
+}
+
+.cphone-contact-edit-form input,
+.cphone-contact-edit-form select,
+.cphone-contact-edit-form textarea {
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid var(--cphone-hairline);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--cphone-ink);
+  font-size: 12px;
+  resize: vertical;
+}
+
+.cphone-contact-edit-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cphone-contact-edit-actions button {
+  padding: 10px 12px;
+  border: 1px solid rgba(24, 26, 29, 0.12);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--cphone-ink);
+  font-size: 12px;
+}
+
+.cphone-contact-edit-actions .cphone-contact-edit-primary {
+  border: 0;
+  background: var(--cphone-ink);
+  color: #fff;
+}
+
+.cphone-contact-edit-actions .cphone-contact-edit-remove {
+  border-color: rgba(180, 60, 60, 0.28);
+  color: #a33;
+}
+
+.cphone-moments-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cphone-moments-head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.cphone-moments-head button {
+  flex: 0 0 auto;
+}
+
+/* 选机页：一人一行的白底通讯录式列表，星标并入行内 */
+.cphone-scroll.is-picker-mode .cphone-char-list {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.cphone-scroll.is-picker-mode .cphone-char-row {
+  grid-template-columns: minmax(0, 1fr) 40px;
+  gap: 0;
+  align-items: center;
+  border-bottom: 1px solid rgba(24, 26, 29, 0.06);
+}
+
+.cphone-scroll.is-picker-mode .cphone-char-row:last-child {
+  border-bottom: 0;
+}
+
+.cphone-scroll.is-picker-mode .cphone-char {
+  padding: 11px 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.cphone-scroll.is-picker-mode .cphone-char-row.is-active .cphone-char {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.cphone-scroll.is-picker-mode .cphone-char-avatar {
+  width: 44px;
+  height: 44px;
+}
+
+.cphone-scroll.is-picker-mode .cphone-char-pin {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.cphone-scroll.is-picker-mode .cphone-char-pin.is-on {
+  color: var(--cphone-ink, #181a1d);
+  background: transparent;
+}
+
+.cphone-scroll.is-picker-mode .cphone-chooser-section-title {
+  padding: 14px 2px 4px;
+  color: rgba(24, 26, 29, 0.45);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+/* --- Touch feedback (desktop + APK) --- */
+.cphone-phone-app,
+.cphone-widget[data-app],
+.cphone-phone-home,
+.cphone-power-off {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cphone-phone-app .cphone-app-badge,
+.cphone-widget {
+  transition: transform 0.12s ease;
+}
+
+.cphone-phone-app.is-pressed .cphone-app-badge,
+.cphone-phone-app:active .cphone-app-badge {
+  transform: scale(0.9);
+}
+
+.cphone-widget[data-app].is-pressed,
+.cphone-widget[data-app]:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-phone-app .cphone-app-badge,
+  .cphone-widget {
+    transition: none;
+  }
+}
+
+/*
+ * Capacitor / Android WebView: backdrop-filter is expensive and often flickers.
+ * Prefer solid translucent fills; drop badge grayscale filter (forces extra layers).
+ */
+html.capacitor-native .cphone-widget,
+html.capacitor-native .cphone-dock,
+html.capacitor-native .cphone-more-popover,
+html.capacitor-native .cphone-subpage,
+html.capacitor-native .cphone-generation-hud,
+html.capacitor-native .cphone-device-wallpaper-overlay,
+html.capacitor-native .cphone-more-menu summary {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html.capacitor-native .cphone-widget {
+  background: rgba(248, 248, 246, 0.92);
+}
+
+html.capacitor-native .cphone-dock {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+html.capacitor-native .cphone-subpage {
+  background: rgba(247, 247, 245, 0.98);
+}
+
+html.capacitor-native .cphone-more-popover {
+  background: rgba(248, 248, 246, 0.97);
+}
+
+html.capacitor-native .cphone-generation-hud {
+  background: rgba(28, 31, 33, 0.94);
+}
+
+html.capacitor-native .cphone-device-frame.is-graphite .cphone-app-badge {
+  filter: none;
+}
+
+html.capacitor-native .cphone-scroll.is-loading {
+  opacity: 1;
+}
+
+html.capacitor-native .cphone-device-wallpaper {
+  /* Own compositor layer so soft app swaps don't re-decode / flash wallpaper. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+html.capacitor-native .cphone-device-screen {
+  contain: layout style;
+}
+
+html.capacitor-native .cphone-os-content {
+  contain: layout style;
+}
+
+/* 他的手机 · iOS desktop pass
+ * 主体：像一部被真实使用的手机；主屏签名元素是居中的角色头像，地图仍保留人物位置戳。 */
+.cphone-page {
+  --cphone-porcelain: #f6f7f8;
+  --cphone-mist: #e6e9eb;
+  --cphone-ink: #151719;
+  --cphone-muted: #6f7479;
+  --cphone-sea: #6c8796;
+  --cphone-glass: rgba(255, 255, 255, 0.68);
+  --cphone-hairline: rgba(21, 23, 25, 0.11);
+  --cphone-frost-surface: linear-gradient(150deg, rgba(255, 255, 255, 0.86), rgba(236, 240, 242, 0.7));
+  --cphone-frost-border: rgba(255, 255, 255, 0.78);
+  --cphone-frost-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58), 0 3px 12px rgba(21, 23, 25, 0.08);
+  --cphone-home-section-gap: 18px;
+  --cphone-home-dock-bottom-gap: 6px;
+}
+
+.cphone-statusbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  min-height: 38px;
+  padding: 8px 22px 2px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.cphone-status-time {
+  justify-self: start;
+  color: currentColor;
+  font-size: 12px;
+  font-weight: 680;
+  letter-spacing: -0.02em;
+}
+
+.cphone-dynamic-island {
+  justify-self: center;
+  width: 76px;
+  height: 22px;
+  border-radius: 999px;
+  background: #070809;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.cphone-status-icons {
+  justify-self: end;
+}
+
+.cphone-home-screen {
+  padding: 9px 18px var(--cphone-home-dock-bottom-gap);
+  padding-bottom: var(--cphone-home-dock-bottom-gap);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.cphone-home-head {
+  position: relative;
+  justify-content: center;
+  min-height: clamp(176px, 24vh, 208px);
+  margin-bottom: 11px;
+}
+
+.cphone-home-identity {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  width: min(72%, 260px);
+  min-width: 0;
+  text-align: center;
+}
+
+.cphone-home-identity > span {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.cphone-home-identity b,
+.cphone-home-identity small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-home-identity b {
+  color: var(--cphone-ink);
+  max-width: 100%;
+  font-size: 14px;
+  font-weight: 680;
+  letter-spacing: -0.02em;
+}
+
+.cphone-home-identity small {
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-weight: 540;
+}
+
+.cphone-home-owner-avatar {
+  width: 88px;
+  height: 88px;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  box-shadow: 0 5px 18px rgba(21, 23, 25, 0.14);
+}
+
+.cphone-home-head .cphone-more-menu > summary {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(247, 248, 250, 0.7);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.cphone-home-head > .cphone-more-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.cphone-home-head > .cphone-power-off {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(247, 248, 250, 0.7);
+  color: var(--cphone-ink);
+}
+
+.cphone-device-frame.has-wallpaper .cphone-home-head > .cphone-power-off {
+  background: rgba(245, 247, 248, 0.82);
+  color: var(--cphone-ink);
+}
+
+.cphone-home-content {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+  gap: var(--cphone-home-section-gap);
+}
+
+.cphone-widget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: none;
+  grid-auto-rows: 92px;
+  gap: 10px;
+  min-height: 0;
+  overflow: visible;
+}
+
+.cphone-widget-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.cphone-widget {
+  min-height: 0;
+  padding: 13px 14px;
+  border-color: var(--cphone-frost-border);
+  border-radius: 22px;
+  background: var(--cphone-frost-surface);
+  box-shadow: var(--cphone-frost-shadow);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.cphone-widget-calendar {
+  grid-column: auto;
+  min-height: 0;
+}
+
+.cphone-widget-agenda {
+  display: flex;
+  align-items: center;
+}
+
+.cphone-agenda-item {
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cphone-agenda-item small,
+.cphone-agenda-item strong,
+.cphone-agenda-item em {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-agenda-item small {
+  color: var(--cphone-sea);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.cphone-agenda-item strong {
+  color: var(--cphone-ink);
+  font-size: 14px;
+  font-weight: 680;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.cphone-agenda-item em {
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.cphone-widget-photos {
+  padding: 0;
+}
+
+.cphone-widget-music {
+  background: var(--cphone-frost-surface);
+}
+
+.cphone-widget-music .cphone-widget-label {
+  color: var(--cphone-sea);
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.cphone-widget-music .cphone-music-controls {
+  right: 10px;
+  bottom: 8px;
+  min-width: 33px;
+  background: rgba(21, 23, 25, 0.065);
+  color: var(--cphone-ink);
+}
+
+.cphone-app-grid {
+  flex: 0 0 auto;
+  gap: 15px 8px;
+  margin-top: 0;
+  padding-inline: 3px;
+}
+
+.cphone-phone-app {
+  gap: 6px;
+  color: var(--cphone-ink);
+}
+
+.cphone-phone-app b {
+  font-size: 11px;
+  font-weight: 540;
+  letter-spacing: -0.01em;
+}
+
+.cphone-app-badge.is-ios {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  overflow: hidden;
+  border: 1px solid var(--cphone-frost-border);
+  border-radius: 13px;
+  background: var(--cphone-frost-surface);
+  box-shadow: var(--cphone-frost-shadow);
+  color: #1b1e21;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.cphone-app-badge.is-ios svg {
+  width: 29px;
+  height: 29px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cphone-app-badge.is-ios.has-custom-icon {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 2px 7px rgba(21, 23, 25, 0.14);
+}
+
+html.capacitor-native .cphone-app-badge.is-ios {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.cphone-device-frame.is-graphite .cphone-app-badge.is-ios {
+  filter: none;
+}
+
+.cphone-dock {
+  gap: 7px;
+  margin-top: 0;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 28px;
+  background: rgba(235, 238, 240, 0.88);
+  box-shadow: 0 4px 16px rgba(21, 23, 25, 0.12);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.cphone-dock .cphone-app-badge {
+  width: 52px;
+  height: 52px;
+}
+
+.cphone-device-frame.has-wallpaper .cphone-phone-app b {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.78);
+}
+
+.cphone-device-frame.has-wallpaper .cphone-statusbar,
+.cphone-device-frame.has-wallpaper .cphone-home-identity b,
+.cphone-device-frame.has-wallpaper .cphone-home-identity small {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.62);
+}
+
+.cphone-device-frame.has-wallpaper .cphone-home-head .cphone-more-menu > summary {
+  background: rgba(245, 247, 248, 0.82);
+  color: var(--cphone-ink);
+}
+
+.cphone-device-frame.has-wallpaper .cphone-widget {
+  border-color: var(--cphone-frost-border);
+  background: var(--cphone-frost-surface);
+  box-shadow: var(--cphone-frost-shadow);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.cphone-device-frame.has-wallpaper .cphone-dock {
+  border-color: rgba(255, 255, 255, 0.58);
+  background: rgba(235, 238, 240, 0.82);
+  box-shadow: 0 4px 14px rgba(21, 23, 25, 0.1);
+}
+
+.cphone-device-frame.has-wallpaper .cphone-dock .cphone-phone-app b {
+  color: var(--cphone-ink);
+  text-shadow: none;
+}
+
+html.capacitor-native .cphone-widget {
+  background: var(--cphone-frost-surface);
+}
+
+html.capacitor-native .cphone-dock {
+  background: rgba(235, 238, 240, 0.92);
+}
+
+.cphone-phone-app:focus-visible,
+.cphone-widget:focus-visible,
+.cphone-map-refresh:focus-visible,
+.cphone-map-place-library summary:focus-visible {
+  outline: 2px solid var(--cphone-sea);
+  outline-offset: 3px;
+}
+
+.cphone-subpage {
+  background: rgba(246, 247, 248, 0.94);
+}
+
+.cphone-subpage .btn {
+  border-color: rgba(21, 23, 25, 0.12);
+  background: #fff;
+  color: var(--cphone-ink);
+  box-shadow: none;
+}
+
+.cphone-subpage .btn.btn-primary {
+  border-color: var(--cphone-ink);
+  background: var(--cphone-ink);
+  color: #fff;
+}
+
+.cphone-subpage .btn.btn-soft,
+.cphone-subpage .btn.btn-outline {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.cphone-os-content.is-map .cphone-subpage-head {
+  border-bottom: 0;
+  background: #f6f7f8;
+}
+
+.cphone-subpage-body.is-map-product {
+  padding: 0;
+  background: #f6f7f8;
+}
+
+.cphone-map-product {
+  min-height: 100%;
+  color: var(--cphone-ink);
+}
+
+.cphone-map-source {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--cphone-hairline);
+  background: #f6f7f8;
+}
+
+.cphone-map-source span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 720;
+}
+
+.cphone-map-source span::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cphone-sea);
+}
+
+.cphone-map-source.is-api span::before {
+  background: #4f8a68;
+}
+
+.cphone-map-source.is-error span::before {
+  background: #b15c5c;
+}
+
+.cphone-map-source em {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--cphone-muted);
+  font-size: 9px;
+  font-style: normal;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cphone-map-product .cphone-map-live {
+  min-height: 292px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(145deg, rgba(242, 246, 247, 0.97), rgba(226, 232, 234, 0.97)),
+    repeating-linear-gradient(8deg, transparent 0 28px, rgba(108, 135, 150, 0.11) 29px 31px);
+  box-shadow: none;
+}
+
+.cphone-map-product .cphone-map-live-canvas {
+  min-height: 292px;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+
+.cphone-map-product .cphone-faux-road {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(108, 135, 150, 0.13);
+}
+
+.cphone-map-product .cphone-faux-area {
+  background: rgba(176, 200, 189, 0.38);
+  box-shadow:
+    205px 42px 0 16px rgba(184, 204, 214, 0.34),
+    98px 104px 0 12px rgba(210, 218, 221, 0.4);
+}
+
+.cphone-map-product .cphone-faux-pin {
+  border-color: rgba(21, 23, 25, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 12px rgba(21, 23, 25, 0.1);
+}
+
+.cphone-map-product .cphone-faux-pin b,
+.cphone-map-product .cphone-faux-pin.is-current b {
+  background: var(--cphone-ink);
+}
+
+.cphone-map-product .cphone-faux-pin.is-itinerary b {
+  background: var(--cphone-sea);
+}
+
+.cphone-map-product .cphone-map-live-status {
+  inset: 0;
+  border-radius: 0;
+  background: rgba(246, 247, 248, 0.76);
+  color: var(--cphone-muted);
+}
+
+.cphone-map-product .cphone-map-live.is-text-only .cphone-map-live-status {
+  right: auto;
+  bottom: 14px;
+  left: 14px;
+  border-color: rgba(21, 23, 25, 0.1);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.cphone-map-refresh {
+  position: absolute;
+  right: 14px;
+  bottom: 15px;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(21, 23, 25, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--cphone-ink);
+  box-shadow: 0 7px 20px rgba(21, 23, 25, 0.12);
+  font: 500 22px/1 system-ui, sans-serif;
+}
+
+.cphone-map-refresh:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.cphone-map-person-pin,
+.cphone-amap-person-pin {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 58px;
+  border: 2px solid #151719;
+  border-radius: 26px 26px 26px 8px;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(21, 23, 25, 0.2);
+  transform: rotate(-45deg);
+}
+
+.cphone-map-person-pin {
+  top: 36%;
+  left: 50%;
+}
+
+.cphone-map-person-avatar,
+.cphone-amap-person-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: rotate(45deg);
+}
+
+.cphone-map-person-pin i,
+.cphone-amap-person-pin i {
+  position: absolute;
+  right: -13px;
+  bottom: -13px;
+  width: 74px;
+  height: 74px;
+  border: 1px solid rgba(108, 135, 150, 0.46);
+  border-radius: 50%;
+  animation: cphone-map-pulse 2.2s ease-out infinite;
+}
+
+.cphone-amap-person-pin {
+  position: relative;
+}
+
+@keyframes cphone-map-pulse {
+  0% { opacity: 0.8; transform: scale(0.55); }
+  70%, 100% { opacity: 0; transform: scale(1); }
+}
+
+.cphone-map-sheet {
+  position: relative;
+  z-index: 2;
+  margin-top: -10px;
+  padding: 9px 15px 24px;
+  border-radius: 18px 18px 0 0;
+  background: #f6f7f8;
+}
+
+.cphone-map-sheet::before {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 4px;
+  margin: 0 auto 8px;
+  border-radius: 4px;
+  background: #d9dde1;
+}
+
+.cphone-map-now,
+.cphone-map-route {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  padding: 12px 2px;
+}
+
+.cphone-map-now {
+  border-bottom: 1px solid var(--cphone-hairline);
+}
+
+.cphone-map-now-avatar {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 9px rgba(21, 23, 25, 0.11);
+}
+
+.cphone-map-route {
+  margin: 0 -2px 16px;
+  padding: 12px;
+  border: 1px solid rgba(21, 23, 25, 0.09);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.cphone-map-route-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--cphone-ink);
+  color: #fff;
+  font-size: 17px;
+}
+
+.cphone-map-product .cphone-map-card-body {
+  gap: 2px;
+}
+
+.cphone-map-product .cphone-record-kicker {
+  color: var(--cphone-sea);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.cphone-map-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 2px 10px;
+}
+
+.cphone-map-section-head strong {
+  font-size: 14px;
+}
+
+.cphone-map-section-head span {
+  color: var(--cphone-muted);
+  font-size: 11px;
+}
+
+.cphone-map-timeline {
+  position: relative;
+  margin: 0 0 15px;
+}
+
+.cphone-map-timeline::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 5px;
+  width: 1px;
+  background: #d9dde1;
+}
+
+.cphone-map-timeline article {
+  position: relative;
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 9px;
+  padding: 0 0 13px;
+}
+
+.cphone-map-timeline article > i {
+  position: relative;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  margin-top: 5px;
+  border: 2px solid var(--cphone-sea);
+  border-radius: 50%;
+  background: #f6f7f8;
+}
+
+.cphone-map-timeline article.is-route > i {
+  border-radius: 2px;
+  border-color: var(--cphone-ink);
+}
+
+.cphone-map-timeline article div,
+.cphone-map-place-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cphone-map-timeline strong,
+.cphone-map-place strong {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.cphone-map-timeline span,
+.cphone-map-place span,
+.cphone-map-timeline em,
+.cphone-map-place em {
+  overflow-wrap: anywhere;
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.cphone-map-place-library {
+  border: 1px solid rgba(21, 23, 25, 0.09);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.cphone-map-place-library > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 0 13px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.cphone-map-place-library > summary::-webkit-details-marker {
+  display: none;
+}
+
+.cphone-map-place-library > summary span {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.cphone-map-place-library > summary em {
+  color: var(--cphone-muted);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.cphone-map-place-library > summary em::after {
+  content: '  ›';
+  font-size: 16px;
+}
+
+.cphone-map-place-library[open] > summary em::after {
+  content: '  ⌄';
+}
+
+.cphone-map-place-groups {
+  padding: 0 13px 8px;
+  border-top: 1px solid var(--cphone-hairline);
+}
+
+.cphone-map-place-groups section {
+  padding: 12px 0 2px;
+}
+
+.cphone-map-place-groups section + section {
+  border-top: 1px solid var(--cphone-hairline);
+}
+
+.cphone-map-place-groups h3 {
+  margin: 0 0 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cphone-map-place-groups h3 span {
+  margin-left: 3px;
+  color: var(--cphone-muted);
+  font-weight: 500;
+}
+
+.cphone-map-place {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 8px;
+  padding: 7px 0;
+}
+
+.cphone-map-place-mark {
+  width: 8px;
+  height: 8px;
+  margin-top: 5px;
+  border: 1.5px solid var(--cphone-muted);
+  border-radius: 50%;
+}
+
+.cphone-map-place.is-visited .cphone-map-place-mark {
+  border-color: var(--cphone-ink);
+  background: var(--cphone-ink);
+}
+
+.cphone-map-place.is-frequent .cphone-map-place-mark {
+  border-color: var(--cphone-sea);
+  border-radius: 2px;
+  background: var(--cphone-sea);
+}
+
+.cphone-map-empty-row {
+  padding: 8px 0 11px;
+  color: var(--cphone-muted);
+  font-size: 11px;
+}
+
+.cphone-map-product .cphone-map-static-fallback {
+  display: none;
+}
+
+@media (max-width: 380px) {
+  .cphone-map-product .cphone-map-live,
+  .cphone-map-product .cphone-map-live-canvas {
+    min-height: 250px;
+  }
+
+  .cphone-app-grid {
+    gap-block: 13px;
+  }
+
+  .cphone-home-head {
+    min-height: clamp(168px, 22vh, 196px);
+  }
+
+  .cphone-home-owner-avatar {
+    width: 82px;
+    height: 82px;
+  }
+
+  .cphone-widget-grid {
+    grid-auto-rows: 88px;
+  }
+
+  .cphone-app-badge.is-ios {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cphone-dock .cphone-app-badge {
+    width: 49px;
+    height: 49px;
+  }
+}
+
+@media (max-width: 620px) {
+  .cphone-statusbar {
+    min-height: calc(38px + var(--safe-top));
+    padding-top: calc(8px + var(--safe-top));
+  }
+
+  /* 真机安全区由 Home Indicator 承担；Dock 仍紧贴主屏内容节奏。 */
+  .cphone-home-indicator {
+    margin-bottom: calc(7px + var(--safe-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cphone-map-person-pin i,
+  .cphone-amap-person-pin i {
+    animation: none;
+    opacity: 0.35;
+  }
+}

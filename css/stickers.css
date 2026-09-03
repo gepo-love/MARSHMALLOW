@@ -1,0 +1,357 @@
+/* 表情包 · 手账风折叠分组 */
+
+.stickers-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  /* 弹层与分组卡用实底，避免主题半透明 token 透底 */
+  --surface-card: #fffdf8;
+  --surface-card-border: rgba(140, 115, 98, 0.14);
+}
+
+.stk-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: 10px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stk-pack {
+  flex: 0 0 auto;
+  padding: 0;
+  overflow: visible;
+}
+
+.stk-search {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid rgba(139, 108, 78, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.86);
+  color: var(--text-secondary, #8c7362);
+}
+
+.stk-search .svg-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.stk-search-submit {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.stk-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-primary, #5c4a3f);
+  font: inherit;
+}
+
+.stk-search-input::placeholder {
+  color: rgba(140, 115, 98, 0.58);
+}
+
+.stk-pack-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(139, 108, 78, 0.1);
+}
+
+.stk-pack-toggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink-brown, #6b4f3a);
+}
+
+.stk-pack-name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.stk-pack-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-secondary, #8c7362);
+}
+
+.stk-chevron {
+  display: inline-flex;
+  transition: transform 0.18s ease;
+}
+
+.stk-chevron.is-collapsed {
+  transform: rotate(-90deg);
+}
+
+.stk-pack-body {
+  padding: 10px 12px 12px;
+}
+
+.stk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stk-cell {
+  border: none;
+  background: #fffdf8;
+  border-radius: 14px;
+  padding: 6px;
+  cursor: pointer;
+  border: 1px solid rgba(241, 185, 143, 0.2);
+  text-align: center;
+}
+
+.stk-cell.is-selected {
+  border-color: var(--accent-orange, #f1b98f);
+  box-shadow: 0 0 0 2px rgba(241, 185, 143, 0.35);
+}
+
+.stk-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(182, 205, 224, 0.2);
+}
+
+.stk-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stk-thumb img.is-broken {
+  opacity: 0.15;
+}
+
+.stk-thumb-broken {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  font-size: 10px;
+  line-height: 1.35;
+  text-align: center;
+  color: rgba(140, 115, 98, 0.72);
+  background: rgba(255, 253, 248, 0.82);
+}
+
+/* display:grid 会盖掉 UA 的 [hidden]{display:none}，失败提示会常驻叠在已加载缩略图上 */
+.stk-thumb-broken[hidden] {
+  display: none !important;
+}
+
+.stk-check {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--accent-orange, #f1b98f);
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.stk-caption {
+  margin-top: 4px;
+  font-size: 10px;
+  line-height: 1.3;
+  color: var(--text-secondary, #8c7362);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stk-pack-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex: 0 0 auto;
+  max-width: 58%;
+}
+
+.stk-pack-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.stk-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px calc(10px + var(--safe-bottom, 0px));
+  border-top: 1px solid rgba(139, 108, 78, 0.12);
+  background: var(--surface-card, #fffdf8);
+}
+
+.stk-bind-summary {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary, #8c7362);
+}
+
+.stk-bind-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stk-bind-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(139, 108, 78, 0.1);
+  border-radius: 12px;
+  background: #fffdf8;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stk-bind-row.is-bound {
+  background: rgba(241, 185, 143, 0.16);
+  border-color: rgba(241, 185, 143, 0.42);
+}
+
+.stk-bind-row input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent-orange, #f1b98f);
+}
+
+.stk-bind-row span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stk-url-ta {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.stk-upload-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stk-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid rgba(139, 108, 78, 0.1);
+  border-radius: 12px;
+  background: #fffdf8;
+}
+
+.stk-upload-thumb {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(182, 205, 224, 0.2);
+}
+
+.stk-upload-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stk-upload-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stk-upload-label {
+  font-size: 12px;
+  color: var(--text-secondary, #8c7362);
+}
+
+.stickers-page code {
+  font-size: 11px;
+  background: rgba(182, 205, 224, 0.25);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.stickers-page .stk-sheet .wb-sheet-backdrop {
+  background: rgba(36, 28, 22, 0.55);
+}
+
+.stickers-page .stk-sheet .wb-sheet-panel {
+  background: #fffdf8;
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  box-shadow: 0 -10px 36px rgba(60, 45, 35, 0.22);
+}
+
+.stk-sheet .wb-sheet-panel {
+  max-height: min(88vh, calc(100% - 24px));
+  min-height: 0;
+}
+
+.stk-sheet .wb-sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}

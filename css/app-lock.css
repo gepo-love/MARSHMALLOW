@@ -1,0 +1,141 @@
+.app-lock-screen {
+  --app-lock-wallpaper: linear-gradient(145deg, #5b5653 0%, #2d2c2d 48%, #161719 100%);
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  display: grid;
+  grid-template-rows: minmax(220px, 41vh) 1fr;
+  overflow: hidden;
+  color: #fff;
+  background: #222 var(--app-lock-wallpaper) center / cover no-repeat;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+  animation: app-lock-enter 280ms ease-out both;
+  touch-action: manipulation;
+}
+
+.app-lock-screen.is-leaving { animation: app-lock-leave 240ms ease-in both; }
+.app-lock-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.03) 38%, rgba(0,0,0,.42));
+}
+.app-lock-shade { position: absolute; inset: 0; backdrop-filter: saturate(.86); }
+.app-lock-clock,
+.app-lock-auth { position: relative; z-index: 1; }
+.app-lock-clock {
+  align-self: start;
+  padding: max(calc(env(safe-area-inset-top) + 32px), 48px) 24px 0;
+  text-align: center;
+  text-shadow: 0 1px 18px rgba(0,0,0,.26);
+}
+.app-lock-date { font-size: 15px; font-weight: 500; letter-spacing: .02em; }
+.app-lock-time { margin-top: 2px; font-size: clamp(64px, 19vw, 84px); font-weight: 250; line-height: 1; letter-spacing: -.055em; }
+.app-lock-auth {
+  align-self: end;
+  justify-self: center;
+  width: min(100%, 390px);
+  padding: 0 28px max(calc(var(--safe-bottom, 0px) + 18px), 26px);
+  text-align: center;
+}
+.app-lock-status { min-height: 22px; font-size: 14px; font-weight: 500; text-shadow: 0 1px 8px rgba(0,0,0,.28); }
+.app-lock-dots { display: flex; justify-content: center; gap: 18px; margin: 14px 0 24px; }
+.app-lock-dots span { width: 11px; height: 11px; border: 1.5px solid rgba(255,255,255,.92); border-radius: 50%; transition: background-color 120ms ease; }
+.app-lock-dots span.is-filled { background: #fff; }
+.app-lock-keypad { display: grid; grid-template-columns: repeat(3, 74px); justify-content: space-between; gap: 10px 22px; }
+.app-lock-key,
+.app-lock-action {
+  appearance: none;
+  border: 0;
+  color: #fff;
+  font: inherit;
+}
+.app-lock-key {
+  width: 74px;
+  height: 74px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 50%;
+  background: rgba(255,255,255,.17);
+  box-shadow: inset 0 1px rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
+}
+.app-lock-key > span { display: block; font-size: 30px; font-weight: 300; line-height: 32px; }
+.app-lock-key small { display: block; min-height: 9px; margin-top: 1px; font-size: 8px; font-weight: 650; letter-spacing: .16em; }
+.app-lock-key:active { background: rgba(255,255,255,.34); }
+.app-lock-action { align-self: center; min-height: 44px; background: transparent; font-size: 13px; font-weight: 600; text-shadow: 0 1px 8px rgba(0,0,0,.3); }
+.app-lock-cancel { margin-top: 10px; padding: 8px 14px; border: 0; color: rgba(255,255,255,.9); background: transparent; font: inherit; font-size: 13px; }
+.app-lock-key:focus-visible,
+.app-lock-action:focus-visible,
+.app-lock-cancel:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.app-lock-auth.is-error { animation: app-lock-shake 340ms ease; }
+
+html.app-lock-active,
+html.app-lock-active body { overflow: hidden; }
+
+.settings-lock-page {
+  color: var(--ins-ink, var(--text-primary));
+  background: var(--ins-page-bg, var(--bg-paper));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.settings-lock-page .navbar { font-family: inherit; }
+html[data-color-mode="dark"] .settings-lock-page {
+  --ins-page-bg: #101214;
+  --ins-surface-solid: #191c1f;
+  --ins-input: #23272b;
+  --ins-line: rgba(237, 241, 243, .11);
+  --ins-ink: #edf1f3;
+  --ins-muted: #9ba4aa;
+  --ins-accent: #d9dde0;
+  --ins-accent-soft: rgba(237, 241, 243, .10);
+  --ins-shadow: none;
+}
+html[data-color-mode="dark"] .settings-lock-page .settings-lock-primary {
+  color: #17191b;
+  background: #edf1f3;
+}
+.settings-lock-scroll { height: calc(100% - var(--navbar-height)); overflow: auto; padding: 18px 16px calc(var(--safe-bottom, 0px) + 30px); }
+.settings-lock-section { max-width: 520px; margin: 0 auto 14px; padding: 18px; border: 1px solid var(--ins-line, var(--border)); border-radius: 18px; background: var(--ins-surface-solid, var(--bg-card)); box-shadow: var(--ins-shadow, none); }
+.settings-lock-section h2 { margin: 0 0 14px; color: inherit; font-size: 13px; font-weight: 650; }
+.settings-lock-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.settings-lock-toggle-row span { display: grid; gap: 4px; }
+.settings-lock-toggle-row strong { font-size: 15px; }
+.settings-lock-toggle-row small { color: var(--ins-muted, var(--text-secondary)); font-size: 12px; }
+.settings-lock-toggle-row input { width: 44px; height: 25px; accent-color: var(--ins-accent, #303235); }
+.settings-lock-pin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.settings-lock-pin-grid label { display: grid; gap: 7px; color: var(--ins-muted, var(--text-secondary)); font-size: 12px; }
+.settings-lock-pin-grid input { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid var(--ins-line, var(--border)); border-radius: 13px; color: var(--ins-ink, var(--text-primary)); background: var(--ins-input, var(--bg-input)); font-size: 20px; letter-spacing: .22em; }
+.settings-lock-pin-grid input:focus-visible { outline: 3px solid var(--ins-accent-soft, rgba(40,42,44,.12)); border-color: var(--ins-accent, #34363a); }
+.settings-lock-primary,
+.settings-lock-preview,
+.settings-lock-actions button { min-height: 44px; border-radius: 12px; font: inherit; font-weight: 600; }
+.settings-lock-primary { width: 100%; margin-top: 12px; border: 0; color: #fff; background: var(--ins-ink, #2d2f32); }
+.settings-lock-wallpaper { aspect-ratio: 9 / 12; max-height: 310px; border: 1px solid var(--ins-line, var(--border)); border-radius: 16px; background: linear-gradient(145deg, #5b5653, #29292a 56%, #171819); background-position: center; background-size: cover; }
+.settings-lock-actions { display: flex; gap: 9px; margin-top: 12px; }
+.settings-lock-actions button { flex: 1; border: 1px solid var(--ins-line, var(--border)); color: var(--ins-ink, var(--text-primary)); background: var(--ins-input, var(--bg-input)); }
+.settings-lock-preview { display: block; width: min(calc(100% - 32px), 520px); margin: 4px auto 0; border: 1px solid var(--ins-line, var(--border)); color: var(--ins-ink, var(--text-primary)); background: transparent; }
+.settings-lock-preview:disabled { opacity: .42; }
+
+@keyframes app-lock-enter { from { opacity: 0; transform: scale(1.015); } }
+@keyframes app-lock-leave { to { opacity: 0; transform: scale(.99); } }
+@keyframes app-lock-shake { 20%, 60% { transform: translateX(-9px); } 40%, 80% { transform: translateX(9px); } }
+
+@media (max-height: 700px) {
+  .app-lock-screen { grid-template-rows: minmax(150px, 32vh) 1fr; }
+  .app-lock-clock { padding-top: max(calc(env(safe-area-inset-top) + 18px), 28px); }
+  .app-lock-time { font-size: 58px; }
+  .app-lock-dots { margin: 9px 0 13px; }
+  .app-lock-keypad { grid-template-columns: repeat(3, 62px); gap: 6px 26px; }
+  .app-lock-key { width: 62px; height: 62px; }
+}
+@media (max-width: 360px) {
+  .app-lock-auth { padding-inline: 22px; }
+  .app-lock-keypad { grid-template-columns: repeat(3, 66px); gap-inline: 18px; }
+  .app-lock-key { width: 66px; height: 66px; }
+  .settings-lock-pin-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-lock-screen,
+  .app-lock-screen.is-leaving,
+  .app-lock-auth.is-error { animation: none; }
+  .app-lock-dots span { transition: none; }
+}

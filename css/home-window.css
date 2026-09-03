@@ -1,0 +1,974 @@
+/* ============================================================
+   棉花糖之窗 · 首页专属样式
+   一扇横跨三页的毛玻璃大窗：划过去三页拼成一扇圆满的窗。
+   交互引擎复用「棉花糖之海」(bindSeaHome)，本文件只管视觉。
+   全部收在 .home-window-shell 作用域，组件无固有色调（白雾毛玻璃），
+   颜色 token 用户可在 .home-window-shell 里覆盖。
+   ============================================================ */
+
+.home-window-shell {
+  /* —— 可被用户覆盖的组件 token（无色倾向）—— */
+  --mw-frame: rgba(255, 255, 255, 0.86);       /* 窗框白 */
+  --mw-frame-soft: rgba(255, 255, 255, 0.44);
+  --mw-glass: rgba(255, 255, 255, 0.18);        /* 组件玻璃底（中性）*/
+  --mw-glass-strong: rgba(255, 255, 255, 0.30);
+  --mw-glass-edge: rgba(255, 255, 255, 0.46);
+  --mw-blur: blur(4px) saturate(108%);
+  --mw-ink: #58666e;                            /* 中性墨色，仅文字用 */
+  --mw-ink-soft: rgba(88, 102, 110, 0.62);
+  --mw-app-label: rgba(62, 72, 78, 0.96);
+  --mw-app-label-edge: rgba(255, 255, 255, 0.94);
+  --mw-icon: rgba(74, 86, 94, 0.52);            /* 图标线条：半透明无彩 */
+  --mw-shadow: 0 8px 26px rgba(70, 86, 96, 0.14);
+  --mw-radius: 22px;
+  --mw-font-en: "Helvetica Neue", "PingFang SC", system-ui, sans-serif;
+
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: var(--mw-ink);
+  background: #eef0ee;
+}
+
+/* —— 底图：参考图里几乎是清晰的，只做极轻柔化，特效全交给玻璃格 —— */
+.home-window-shell .mw-wallpaper {
+  position: absolute;
+  inset: -4% -4% -4% -4%;
+  z-index: 0;
+  overflow: hidden;
+  transform: scale(1.03);
+  pointer-events: none;
+  background-color: #eef0ee;
+}
+.home-window-shell .mw-wallpaper.has-home-pano {
+  background-color: transparent;
+}
+/* 壁纸本身保持清晰，磨砂只发生在需要分层的组件上。 */
+.home-window-shell .mw-wallpaper .home-wallpaper-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: saturate(102%);
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.home-window-shell .mw-wallpaper .home-wallpaper-img--base {
+  position: absolute;
+  inset: 0;
+}
+/* 横图全景条在窗主题里也走极轻柔化，与原 .mw-wallpaper 质感一致（特效仍交给玻璃格）。 */
+.home-window-shell .home-pano-strip .home-pano-img {
+  /* 超宽图滑动时 filter 会强迫 WebView 每帧重栅格整条壁纸；保留原图让 transform 只走合成。 */
+  filter: none;
+}
+
+/* 分页壁纸 crossfade slide：home-sea.css 里这条定位样式只作用于 .home-sea-shell，
+   窗壳拿不到 → 必须在窗作用域重新声明，否则上传的「三页壁纸」会塌成 0 高度不显示。 */
+.home-window-shell .sea-wallpaper-slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: #eef0ee;
+}
+/* 柔光面纱：极淡的一层奶白，让文字浮起来即可；强度跟随「壁纸透明度」滑块 */
+.home-window-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--mw-veil, 1);
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 40%,
+    rgba(255, 255, 255, 0.01) 60%,
+    rgba(255, 255, 255, 0.04) 100%);
+}
+
+/* —— 横向分页（.sea-pages 继承海的滚动/snap，这里只提层级与去内边距）—— */
+.home-window-shell .sea-pages { z-index: 3; }
+.home-window-shell .mw-page {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* 关键：禁止逐页纵向滚动 —— 一旦某页内容滚动，绝对定位的窗框会随之位移，
+     和别页错位 → 跨页窗框出现断层。固定不滚动，三页横档永远对齐。 */
+  overflow: hidden;
+}
+
+/* ============================================================
+   跨页窗框：四边贴着屏幕最边缘 + 一条 45% 横档。横档固定在屏幕上
+   （避免左右滑动断层），竖边只在首/尾页画 → 三页拼成一扇完整窗。
+   质感：干净的半透明白，不做反光/金属渐变。
+   ============================================================ */
+.home-window-shell .mw-fixed-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+html.window-frame-off .home-window-shell .mw-fixed-frame,
+html.window-frame-off .home-window-shell .mw-frame-edge {
+  display: none;
+}
+/* 横档/竖框：原本的清晰半透明白窗框 + 白色辉光柔边。 */
+.home-window-shell .mw-frame-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 13px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.28);
+}
+.home-window-shell .mw-bar-top { top: var(--safe-top, 0px); }
+.home-window-shell .mw-bar-mid { top: 45%; height: 12px; background: rgba(255, 255, 255, 0.52); box-shadow: 0 0 7px rgba(255, 255, 255, 0.24); }
+/* 窗台：dock 下方那条固定白块，和窗框同质感、稍高一点像一条台面 */
+.home-window-shell .mw-bar-bottom { bottom: 0; height: 18px; }
+.home-window-shell .mw-frame-edge {
+  position: absolute;
+  top: var(--safe-top, 0px);
+  bottom: 0;
+  width: 13px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.28);
+  z-index: 2;
+  pointer-events: none;
+}
+.home-window-shell .mw-edge-left { left: 0; }
+.home-window-shell .mw-edge-right { right: 0; }
+.home-window-shell .mw-glare { display: none; }
+/* ============================================================
+   毛玻璃遮罩：模拟窗玻璃上「磨砂的那几格」。透明高斯模糊、无固有色，
+   只在底图上糊一层奶白磨砂，让光斑/格子像窗户。位于窗框之下、内容之上层级之间。
+   ============================================================ */
+/* 大块方形窗玻璃光：清晰的矩形几何 + 四边羽化的柔边。半透明白让它有「方形光」质感、
+   又能透出底图。羽化只发生在最外圈一段，中间保持实心 → 方正形状清晰、边缘柔和发光，
+   既不是硬边框、也不会糊成一团。 */
+.home-window-shell .mw-mask {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.16);
+  /* 极轻磨砂玻璃质感，绝不糊掉底图 */
+  -webkit-backdrop-filter: blur(1px) brightness(1.03);
+  backdrop-filter: blur(1px) brightness(1.03);
+  /* 四边各羽化约 14px，中间实心：横竖两条渐变取交集 = 一块软边方形光，形状更明确 */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+  mask-composite: intersect;
+}
+/* 第 1 页：两块同尺寸方形光，对角明显交叠、左右上下对称 */
+.home-window-shell .mw-mask-tl {
+  left: 4%;
+  top: calc(var(--safe-top, 0px) + 16px);
+  width: 64%;
+  height: 48%;
+}
+.home-window-shell .mw-mask-br {
+  right: 4%;
+  bottom: 24px;
+  width: 64%;
+  height: 48%;
+}
+/* 第 2 页：人像框「下层」交错开的大方形玻璃光 —— 比人像更大、向右下错开，
+   呈现窗格光投射在墙面、人像浮在光块之上的几何层次。 */
+.home-window-shell .mw-mask-p2 {
+  top: calc(var(--safe-top, 0px) + 60px);
+  left: 30%;
+  width: 64%;
+  height: 52%;
+}
+/* 第 2 页：人像窗上层微偏移的方形窗光格 —— 不做高斯模糊，只是一层极淡的软边发光方块 */
+.home-window-shell .mw-portrait-mask {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 2;
+  pointer-events: none;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  mask-composite: intersect;
+}
+.home-window-shell .mw-floor { display: none; }
+
+/* ============================================================
+   组件玻璃底：所有 sea-glass / 卡片复用，无固有色调
+   ============================================================ */
+.home-window-shell .sea-glass {
+  background: var(--mw-glass);
+  -webkit-backdrop-filter: var(--mw-blur);
+  backdrop-filter: var(--mw-blur);
+  border: 1px solid var(--mw-glass-edge);
+  box-shadow: var(--mw-shadow);
+}
+
+/* ============================================================
+   App 图标：百搭毛玻璃方块 + 半透明无色线条图标
+   ============================================================ */
+.home-window-shell .sea-apps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 14px;
+  --mm-widget-grid-row-size: 77px;
+  --mm-widget-grid-row-gap: 16px;
+  position: relative;
+  z-index: 2;
+  grid-auto-flow: dense;
+  align-items: start;
+}
+.home-window-shell .sea-apps .home-custom-widget {
+  justify-self: center;
+  align-self: center;
+  width: calc(100% - 20px);
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  max-height: calc(100% - 16px);
+  min-height: 0;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-cols="1"] {
+  width: min(72px, calc(100% - 12px));
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-cols="2"] {
+  width: min(168px, calc(100% - 16px));
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-cols="3"] {
+  width: min(252px, calc(100% - 16px));
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-cols="4"] {
+  width: calc(100% - 24px);
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-rows="2"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap));
+  max-height: none;
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-rows="3"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap));
+  max-height: none;
+}
+.home-window-shell .sea-apps .home-custom-widget[data-widget-rows="4"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap));
+  max-height: none;
+}
+
+/* 第四页 · 光影片段：窄幅照片像窗内的一格景，文字保持窗主题的大留白。 */
+.home-window-shell .mw-fourth-decor {
+  position: relative;
+  grid-column: span 4;
+  grid-row: span 2;
+  width: calc(100% - 12px);
+  height: 166px;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--mw-glass-edge);
+  border-radius: 5px 20px 5px 20px;
+  background: linear-gradient(112deg, rgba(255, 255, 255, 0.66), rgba(242, 246, 246, 0.28));
+  box-shadow: var(--mw-shadow);
+}
+.home-window-shell .mw-fourth-photo { padding: 10px; }
+.home-window-shell .mw-fourth-slot {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 2px 14px 2px 14px;
+}
+.home-window-shell .mw-fourth-copy {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 25px 22px 18px 12px;
+}
+.home-window-shell .mw-fourth-kicker {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--mw-ink-soft);
+  font: 600 8px/1 var(--mw-font-en);
+  letter-spacing: 0.2em;
+}
+.home-window-shell .mw-fourth-copy b,
+.home-window-shell .mw-fourth-copy p { display: block; outline: none; }
+.home-window-shell .mw-fourth-copy b {
+  color: var(--mw-ink);
+  font: 500 17px/1.25 var(--mw-font-en);
+  letter-spacing: 0.05em;
+}
+.home-window-shell .mw-fourth-copy p {
+  max-width: 190px;
+  margin: 10px 0 0;
+  color: var(--mw-ink-soft);
+  font: 400 10.5px/1.55 var(--mw-font-en);
+}
+.home-window-shell .mw-fourth-glare {
+  position: absolute;
+  top: -48px;
+  right: 28px;
+  width: 46px;
+  height: 250px;
+  transform: rotate(22deg);
+  background: rgba(255, 255, 255, 0.24);
+  pointer-events: none;
+}
+.home-window-shell .sea-app,
+.home-window-shell .sea-dock-ic {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-window-shell .sea-app {
+  flex-direction: column;
+  gap: 6px;
+}
+.home-window-shell .sea-app .lb {
+  max-width: 72px;
+  overflow: hidden;
+  color: var(--mw-app-label);
+  font: 600 10.5px/1.2 var(--mw-font-en);
+  letter-spacing: 0.15px;
+  text-align: center;
+  text-overflow: ellipsis;
+  /* 换壁纸后不猜整张图的明暗：深色字负责亮区，贴字浅边负责暗区。 */
+  text-shadow:
+    -1px 0 0 var(--mw-app-label-edge),
+    1px 0 0 var(--mw-app-label-edge),
+    0 -1px 0 var(--mw-app-label-edge),
+    0 1px 0 var(--mw-app-label-edge),
+    0 1px 2px rgba(20, 24, 27, 0.24);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.home-window-shell .sea-app:focus-visible,
+.home-window-shell .sea-dock-ic:focus-visible {
+  outline: 2px solid rgba(74, 86, 94, 0.52);
+  outline-offset: 4px;
+  border-radius: 19px;
+}
+.home-window-shell .sea-app .ic,
+.home-window-shell .sea-dock-ic .ic {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 17px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease;
+}
+.home-window-shell .sea-app .ic::before,
+.home-window-shell .sea-dock-ic .ic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--mw-glass-strong);
+  /* 图标框保持半透明，但不为离屏分页的每个图标建立独立模糊合成层。 */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 5px 14px rgba(70, 86, 96, 0.10);
+  opacity: var(--app-icon-frame-opacity, 1);
+  pointer-events: none;
+}
+.home-window-shell .sea-app .ic::after,
+.home-window-shell .sea-dock-ic .ic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 1px solid var(--mw-glass-edge);
+  border-radius: inherit;
+  opacity: var(--app-icon-frame-opacity, 1);
+  pointer-events: none;
+}
+.home-window-shell .sea-app:active .ic,
+.home-window-shell .sea-dock-ic:active .ic { transform: scale(0.92); }
+/* 图标 SVG：半透明、无彩、干净线条 */
+.home-window-shell .sea-app .ic svg,
+.home-window-shell .sea-dock-ic .ic svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--mw-icon);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.home-window-shell .sea-app .ic svg [fill]:not([fill="none"]),
+.home-window-shell .sea-dock-ic .ic svg [fill]:not([fill="none"]) {
+  fill: var(--mw-icon);
+  stroke: none;
+}
+/* Lucide 使用 24px 坐标系，不能套用原生 100px 图标的 5px 线宽。 */
+.home-window-shell .sea-app.is-commercial-icon .ic svg,
+.home-window-shell .sea-dock-ic.is-commercial-icon .ic svg {
+  width: 28px;
+  height: 28px;
+  color: var(--mw-icon);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.home-window-shell .sea-app.is-commercial-icon .ic svg *,
+.home-window-shell .sea-dock-ic.is-commercial-icon .ic svg * {
+  vector-effect: non-scaling-stroke;
+}
+.home-window-shell .sea-custom-icon {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block;
+}
+html.app-icon-edge-off .home-window-shell .sea-app .ic,
+html.app-icon-edge-off .home-window-shell .sea-dock-ic .ic {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.app-icon-edge-off .home-window-shell .sea-app .ic::before,
+html.app-icon-edge-off .home-window-shell .sea-app .ic::after,
+html.app-icon-edge-off .home-window-shell .sea-dock-ic .ic::before,
+html.app-icon-edge-off .home-window-shell .sea-dock-ic .ic::after {
+  display: none;
+}
+.home-window-shell .sea-app-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  min-width: 16px; height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: rgba(90, 102, 110, 0.85);
+  color: #fff;
+  font: 700 10px/16px var(--mw-font-en);
+  text-align: center;
+}
+.home-window-shell .future-app-mark {
+  background: rgba(62, 72, 78, 0.86);
+  border-color: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 2px 7px rgba(45, 54, 59, 0.16);
+}
+
+/* 编辑态占位空格（复用引擎的 .sea-drop-slot，retint 成中性）*/
+.home-window-shell .sea-drop-slot {
+  display: block;
+  min-height: 58px;
+  border-radius: 17px;
+  visibility: hidden;
+  pointer-events: none;
+}
+.is-sea-editing.home-window-shell .sea-drop-slot {
+  visibility: visible;
+  border: 1.5px dashed rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ============================================================
+   第 1 页：时间 + 圆形上传 + 2×2 图标 + 票根贴纸
+   ============================================================ */
+.home-window-shell .mw-p1-stage {
+  position: relative;
+  z-index: 3;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: calc(40px + var(--safe-top)) 28px calc(118px + var(--safe-bottom, 0px));
+}
+/* 顶部：日期 + 时间 + 圆头像，统一左对齐、共用同一条左缘 */
+.home-window-shell .mw-p1-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding-left: 22px;
+  padding-top: 14px;
+}
+.home-window-shell .mw-clock { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.home-window-shell .mw-date {
+  font: 600 11.5px var(--mw-font-en);
+  letter-spacing: 2.5px;
+  color: var(--mw-ink);
+  opacity: 0.72;
+  text-transform: uppercase;
+  padding-left: 3px;
+}
+.home-window-shell .mw-time {
+  font: 300 68px/0.98 var(--mw-font-en);
+  letter-spacing: 1px;
+  color: var(--mw-ink);
+  text-shadow: 0 2px 14px rgba(255, 255, 255, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+.home-window-shell .mw-time b { font-weight: 300; }
+.home-window-shell .mw-circle-wrap { margin-left: 3px; margin-top: 6px; }
+.home-window-shell .mw-circle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+}
+/* 图标 2×2 落在右下磨砂格里 */
+.home-window-shell .mw-grid-1 {
+  grid-template-columns: repeat(2, 1fr);
+  width: 45%;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: auto;
+  margin-bottom: 40px;
+  justify-items: center;
+  gap: 16px 20px;
+}
+
+/* ============================================================
+   第 2 页：大窗人像（上传）+ love 叠卡 + 短句 + 图标
+   ============================================================ */
+.home-window-shell .mw-p2-stage {
+  position: relative;
+  z-index: 3;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(34px + var(--safe-top)) 28px calc(118px + var(--safe-bottom, 0px));
+  gap: 10px;
+  /* 顶部排人像+短句，底部图标行用 margin-top:auto 钉底，与第三页 .mw-grid-3 同源对齐 */
+  justify-content: flex-start;
+}
+/* 人像窗：放大 + 微微左偏，假装是窗格里的一扇 */
+.home-window-shell .mw-portrait {
+  position: relative;
+  width: 68%;
+  max-width: 252px;
+  margin: 0 auto;
+}
+.home-window-shell .mw-portrait-slot {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 0.62 / 1;
+  border-radius: 4px;
+  /* 边缘质感与窗格统一：半透明白细框 + 柔和辉光，不要生硬的纯白厚边 */
+  border: 4px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.4), 0 10px 26px rgba(70, 86, 96, 0.12);
+}
+/* 短句：两行错落，第一句靠左、第二句靠右，像诗行；两行各自可独立编辑 */
+.home-window-shell .mw-caption {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 8%;
+  margin: 6px 0 2px;
+  gap: 3px;
+}
+.home-window-shell .mw-caption .mw-cap-l,
+.home-window-shell .mw-caption .mw-cap-r {
+  font: italic 400 13.5px/1.6 var(--mw-font-en);
+  letter-spacing: 0.6px;
+  color: var(--mw-ink-soft);
+  display: inline-block;
+}
+.home-window-shell .mw-caption .mw-cap-l { align-self: flex-start; }
+.home-window-shell .mw-caption .mw-cap-r { align-self: flex-end; }
+.home-window-shell .mw-grid-2 {
+  width: 100%;
+  margin-top: auto;
+  row-gap: 14px;
+}
+
+/* ============================================================
+   第 3 页：窗边小架（音乐 / 日历 / 便签）+ 图标
+   ============================================================ */
+.home-window-shell .mw-p3-stage {
+  position: relative;
+  z-index: 3;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: calc(40px + var(--safe-top)) 28px calc(118px + var(--safe-bottom, 0px));
+  gap: 16px;
+}
+/* 上层：左侧方形音乐卡 + 右侧两张交错挂式拍立得 */
+.home-window-shell .mw-shelf {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+/* —— 黑胶唱片音乐卡：极简白卡 + 黑胶碟 + 可上传碟心 —— */
+.home-window-shell .mw-music-sq {
+  flex: 0 0 auto;
+  width: 150px;
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 26px rgba(70, 86, 96, 0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.home-window-shell .mw-music-sq:active { transform: scale(0.98); }
+/* 唱片：黑色圆碟 + 沟纹，旋转时转 */
+.home-window-shell .mw-vinyl {
+  position: relative;
+  width: 116px;
+  height: 116px;
+}
+.home-window-shell .mw-vinyl-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      #1a1a1a 0 2px, #2b2b2b 2px 4px),
+    #161616;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+.home-window-shell .mw-vinyl-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 52%; height: 52%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 4px #f4f4f4, 0 2px 6px rgba(0,0,0,0.3);
+  background: #e9ece9;
+}
+.home-window-shell .mw-vinyl-slot {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+}
+.home-window-shell .mw-vinyl-slot.empty {
+  background: #e9ece9;
+  border: none;
+}
+.home-window-shell .mw-vinyl-slot .hint {
+  font-size: 16px; padding: 0;
+  background: none; color: #9aa3a0;
+}
+.home-window-shell .mw-vinyl-slot .hint::before { content: none; }
+/* 碟心轴孔 */
+.home-window-shell .mw-vinyl-hole {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 6px; height: 6px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #fafafa;
+  z-index: 2;
+  pointer-events: none;
+}
+.home-window-shell .mw-vinyl.spin { animation: mw-spin 7s linear infinite; }
+@keyframes mw-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.home-window-shell .mw-music-t {
+  font: 600 12.5px var(--mw-font-en);
+  letter-spacing: 1.5px;
+  color: #2a2a2a;
+  text-align: center;
+  max-width: 100%;
+  /* iOS Safari 下 letter-spacing + 居中 + overflow:hidden 会吃掉首字左侧一点；
+     overflow 裁切在 padding 盒，给左右留一点 padding 即可让首尾字完整。 */
+  box-sizing: border-box;
+  padding: 0 5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.home-window-shell .mw-music-bar {
+  height: 2px; width: 100%; border-radius: 2px;
+  background: rgba(0, 0, 0, 0.12); overflow: hidden; position: relative;
+}
+.home-window-shell .mw-music-bar > i {
+  position: absolute; inset: 0; transform-origin: left;
+  background: #2a2a2a; border-radius: 2px;
+}
+/* 播放器按钮排：循环 / 上一首 / 播放暂停（强调圆钮）/ 下一首 / 列表 —— 极简黑白线条 */
+.home-window-shell .mw-music-ctls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2px;
+}
+.home-window-shell .mw-ctl {
+  font: 400 11px/1 var(--mw-font-en);
+  color: #555;
+  font-style: normal;
+}
+.home-window-shell .mw-ctl-play {
+  width: 28px; height: 28px;
+  border: 1.4px solid #2a2a2a;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  color: #2a2a2a;
+}
+/* —— 两张交错挂式小拍立得 —— */
+.home-window-shell .mw-films {
+  position: relative;
+  flex: 1 1 auto;
+  height: 160px;
+}
+.home-window-shell .mw-film {
+  position: absolute;
+  width: 90px;
+  padding: 6px 6px 16px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+.home-window-shell .mw-film-tape {
+  position: absolute;
+  top: -8px; left: 50%;
+  width: 32px; height: 14px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+.home-window-shell .mw-film-slot {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+}
+.home-window-shell .mw-film-slot.empty { border-width: 1px; }
+.home-window-shell .mw-film-slot .hint { font-size: 10px; padding: 3px 8px; }
+.home-window-shell .mw-film-a { left: 10px; top: 10px; transform: rotate(-5deg); z-index: 1; }
+.home-window-shell .mw-film-b { right: 10px; top: 30px; transform: rotate(8deg); z-index: 2; }
+.home-window-shell .mw-grid-3 { margin-top: auto; }
+
+/* —— 用户自建分页（引擎新建的 .sea-page-extra）—— */
+.home-window-shell .mw-page-extra { padding: calc(64px + var(--safe-top)) 30px 18px; }
+.home-window-shell .mw-extra-head {
+  position: relative; z-index: 2;
+  font: 700 12px var(--mw-font-en); letter-spacing: 1px;
+  color: var(--mw-ink-soft); margin-bottom: 14px;
+}
+.home-window-shell .mw-grid-extra { z-index: 2; align-content: flex-start; }
+
+/* ============================================================
+   图片上传槽（复用引擎 .sea-slot / [data-sea-slot] + 清除按钮）
+   ============================================================ */
+.home-window-shell .sea-slot {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.home-window-shell .sea-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.home-window-shell .sea-slot.empty {
+  background: rgba(255, 255, 255, 0.24);
+  -webkit-backdrop-filter: var(--mw-blur);
+  backdrop-filter: var(--mw-blur);
+  border: 1.5px dashed rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-window-shell .sea-slot.empty.mw-portrait-slot { border-width: 4px; border-style: solid; border-color: rgba(255, 255, 255, 0.85); }
+.home-window-shell .sea-slot .hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: 700 12px var(--mw-font-en);
+  color: var(--mw-ink-soft);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 5px 12px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+.home-window-shell .sea-slot .hint::before { content: "+"; font-size: 14px; line-height: 1; }
+.home-window-shell .mw-slot-clear {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 22px; height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(60, 70, 76, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font: 600 14px/1 var(--mw-font-en);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+/* 清除按钮只在编辑态（长按整理）出现，平时不在图片上糊一个 × */
+.is-sea-editing.home-window-shell .sea-slot:not(.empty) .mw-slot-clear { display: flex; }
+
+/* —— 可编辑文字（复用引擎 .sea-editable）—— */
+.home-window-shell .sea-editable { outline: none; cursor: text; border-radius: 5px; transition: background 0.15s; }
+.home-window-shell .sea-editable:hover { background: rgba(255, 255, 255, 0.26); }
+.home-window-shell .sea-editable:focus { background: rgba(255, 255, 255, 0.46); }
+.home-window-shell .sea-editable:empty::before { content: attr(data-placeholder); color: var(--mw-ink-soft); opacity: 0.6; }
+
+/* ============================================================
+   底部：指示点 + Dock（跨页常驻，对应图里两页下方那排图标）
+   ============================================================ */
+/* Dock 图标直接坐在窗框的底部横档（窗台/台面）上，自身不再加毛玻璃底，
+   底部台面就是 .mw-bar-bottom 那条全宽白横档。 */
+.home-window-shell .sea-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  padding: 0 22px calc(20px + var(--safe-bottom, 0px));
+  flex: none;
+}
+.home-window-shell .sea-dots { display: flex; justify-content: center; gap: 7px; margin-bottom: 12px; }
+.home-window-shell .sea-dots i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(88, 102, 110, 0.3);
+  transition: width 0.2s, background 0.2s;
+}
+.home-window-shell .sea-dots i.on { background: rgba(88, 102, 110, 0.7); width: 16px; border-radius: 999px; }
+.home-window-shell .mw-dock {
+  height: auto;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 4px 4px;
+}
+.home-window-shell .sea-dock-ic .ic { width: 54px; height: 54px; border-radius: 14px; }
+.home-window-shell .sea-dock-ic .ic svg { width: 28px; height: 28px; }
+
+/* —— 编辑工具条（复用引擎 .sea-edit-bar）—— */
+.home-window-shell .sea-edit-bar {
+  border-color: rgba(255,255,255,.7);
+  background: rgba(248, 250, 250, 0.84);
+  box-shadow: 0 6px 18px rgba(67, 78, 84, 0.13);
+}
+.home-window-shell .sea-edit-bar[hidden] { display: none; }
+.home-window-shell .mw-edit-btn {
+  color: rgba(60, 71, 76, 0.8);
+  font-family: var(--mw-font-en);
+}
+.home-window-shell .mw-edit-btn.primary {
+  background: rgba(91, 106, 114, 0.92);
+  color: #fff;
+}
+
+/* ============================================================
+   天气动效：底图上糊一层；雨天玻璃挂水，雾天雾蒙蒙
+   （类由 home-window.js 按用户所在地天气加在 shell 上）
+   ============================================================ */
+.home-window-shell .mw-weather-skin {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.home-window-shell .mw-weather-skin > i { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+/* 雾 */
+.home-window-shell .mw-fog {
+  background: radial-gradient(120% 80% at 50% 30%, rgba(255,255,255,0.0) 0%, rgba(244,246,245,0.55) 70%, rgba(238,241,239,0.78) 100%);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.home-window-shell.mw-weather-fog .mw-fog { opacity: 1; animation: mw-fog-drift 16s ease-in-out infinite alternate; }
+@keyframes mw-fog-drift { from { transform: translateX(-3%) scale(1.05); } to { transform: translateX(3%) scale(1.1); } }
+/* 雨：斜向水痕 + 缓慢下滑 */
+.home-window-shell .mw-rain {
+  background-image:
+    radial-gradient(2px 7px at 20% 12%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(2px 6px at 62% 26%, rgba(255,255,255,0.5), transparent 60%),
+    radial-gradient(2px 9px at 84% 8%, rgba(255,255,255,0.5), transparent 60%),
+    radial-gradient(2px 6px at 38% 52%, rgba(255,255,255,0.45), transparent 60%),
+    radial-gradient(2px 8px at 74% 64%, rgba(255,255,255,0.5), transparent 60%),
+    linear-gradient(105deg, rgba(255,255,255,0.05) 0%, transparent 30%);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+}
+.home-window-shell.mw-weather-rain .mw-rain { opacity: 1; animation: mw-rain-slip 7s linear infinite; }
+@keyframes mw-rain-slip {
+  from { background-position: 0 -10px, 0 0, 0 -6px, 0 4px, 0 -2px, 0 0; }
+  to { background-position: 0 26px, 0 30px, 0 28px, 0 34px, 0 30px, 0 0; }
+}
+
+/* 触屏设备常驻关闭实时毛玻璃，使用各组件已有的半透明底。
+   不在横滑前后切换滤镜，避免停稳时重建合成层造成透明度闪烁。 */
+@media (hover: none), (pointer: coarse) {
+  html body #page-container > .home-window-shell.page,
+  html body #page-container > .home-window-shell.page * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* Android WebView 对大量实时 backdrop 取样尤其敏感，容易在横图滑动时掉帧和闪层。
+   原生壳常驻使用更实的半透明底；浏览器/PWA 仍保留完整毛玻璃。 */
+html.capacitor-native .home-window-shell .mw-mask,
+html.capacitor-native .home-window-shell .sea-glass,
+html.capacitor-native .home-window-shell .sea-app .ic,
+html.capacitor-native .home-window-shell .sea-dock-ic .ic,
+html.capacitor-native .home-window-shell .mw-music-sq,
+html.capacitor-native .home-window-shell .mw-film-tape,
+html.capacitor-native .home-window-shell .sea-slot.empty,
+html.capacitor-native .home-window-shell .mw-slot-clear,
+html.capacitor-native .home-window-shell .mw-edit-btn,
+html.capacitor-native .home-window-shell .mw-fog,
+html.capacitor-native .home-window-shell .mw-rain {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.capacitor-native .home-window-shell .sea-app .ic,
+html.capacitor-native .home-window-shell .sea-dock-ic .ic {
+  background: rgba(255, 255, 255, 0.58);
+}
+html.capacitor-native .home-window-shell .mw-mask {
+  background: rgba(255, 255, 255, 0.38);
+}
+
+/* —— 降低动效偏好：停掉所有窗动效 —— */
+@media (prefers-reduced-motion: reduce) {
+  .home-window-shell .mw-vinyl.spin,
+  .home-window-shell.mw-weather-fog .mw-fog,
+  .home-window-shell.mw-weather-rain .mw-rain { animation: none; }
+}

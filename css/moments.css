@@ -1,0 +1,1721 @@
+.moments-page {
+  --moments-accent: #d4a574;
+  background: var(--bg-paper, #fbf6f0);
+}
+
+.moments-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.moments-toolbar-btn .svg-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.moments-settings-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.moments-settings-icon {
+  display: grid;
+  place-items: center;
+}
+
+.moments-settings-icon .moments-settings-svg circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.moments-settings-icon .qq-space-settings-svg,
+.moments-settings-icon .qq-space-settings-svg circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.moments-scroll {
+  padding-bottom: calc(88px + var(--safe-bottom, 0px));
+}
+
+.moments-cover {
+  position: relative;
+  min-height: 168px;
+  margin: 12px 14px 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f3e6d4 0%, #e8d5c0 48%, #d4e4f0 100%);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.moments-cover-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.moments-cover-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  border: 3px solid #fffdf8;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1e4d4;
+  box-shadow: 0 6px 18px rgba(92, 74, 63, 0.12);
+}
+
+.moments-cover-avatar-img,
+.moments-cover-avatar-letter {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #5c4a3f;
+}
+
+.moments-cover-name {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #5c4a3f;
+}
+
+.moments-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 14px 12px;
+}
+
+.moments-load-more {
+  align-self: center;
+  border: 0;
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--moments-accent, #8f715b);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.moments-load-more:disabled { opacity: 0.55; }
+.moments-load-more:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+.moment-post {
+  padding: 14px;
+}
+
+.moment-post-head {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.moment-post-avatar {
+  width: 44px;
+  height: 44px;
+  border: none;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f1e4d4;
+  cursor: pointer;
+}
+
+.moment-post-avatar-img,
+.moment-post-avatar-letter {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #5c4a3f;
+}
+
+.moment-post-name {
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 700;
+  color: #5c4a3f;
+  cursor: pointer;
+}
+
+.moment-post-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.moment-post-time {
+  font-size: 12px;
+  color: #a89282;
+}
+
+.moment-post-more {
+  border: none;
+  background: rgba(140, 115, 98, 0.1);
+  width: 28px;
+  height: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #8c7362;
+}
+
+.moment-post-more .svg-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.moment-post-body {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #5c4a3f;
+}
+
+.moment-post-quick-actions,
+.moment-comment-prompt {
+  display: none;
+}
+
+.moment-post-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.moment-post-body .moment-translate-btn,
+.moment-post-body .chat-bubble-translation,
+.moment-comment-main .moment-translate-btn,
+.moment-comment-main .chat-bubble-translation {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.moment-chat-share {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--surface-card, #fffdf8);
+}
+
+.moment-chat-share-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8c7362;
+  margin-bottom: 6px;
+}
+
+.moment-chat-share-lines {
+  margin: 0;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #5c4a3f;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.moment-chat-share-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.moment-textimg {
+  margin-top: 10px;
+  max-width: min(100%, 280px);
+}
+
+.moment-textimg-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.moment-textimg-btn:focus-visible {
+  outline: 2px solid rgba(140, 115, 98, 0.45);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+.moment-images {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.moment-images.is-single {
+  grid-template-columns: 1fr;
+  max-width: min(100%, 280px);
+}
+
+.moment-images.is-four {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 260px;
+}
+
+.moment-images.is-grid {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 320px;
+}
+
+.moment-image-cell {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(120, 100, 85, 0.06);
+}
+
+/* 多图：保留方格，但用 contain，横向长图/表情包不再被 cover 裁切放大 */
+.moment-images.is-four .moment-image-cell,
+.moment-images.is-grid .moment-image-cell {
+  aspect-ratio: 1;
+}
+
+/* 单图：按原比例完整显示，限制最大宽高，避免横向长图被强制铺满裁切 */
+.moment-images.is-single .moment-image-cell {
+  aspect-ratio: auto;
+  width: fit-content;
+  max-width: 100%;
+  background: transparent;
+}
+
+.moment-image-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  cursor: pointer;
+}
+
+.moment-images.is-single .moment-image-cell img {
+  width: auto;
+  height: auto;
+  max-width: min(100%, 280px);
+  max-height: 320px;
+}
+
+/* 表情包保留 contain，但排列、间距与朋友圈照片一致。 */
+.moment-sticker-row {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  max-width: min(100%, 320px);
+}
+
+.moment-sticker-row.is-single {
+  grid-template-columns: 1fr;
+  max-width: min(100%, 168px);
+}
+
+.moment-sticker-row.is-four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: min(100%, 260px);
+}
+
+.moment-sticker-row.is-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.moment-sticker-chip {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  line-height: 0;
+  max-width: 100%;
+}
+
+.moment-sticker-row.is-four .moment-sticker-chip,
+.moment-sticker-row.is-grid .moment-sticker-chip {
+  aspect-ratio: 1;
+}
+
+.moment-sticker-chip img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.moment-sticker-row.is-single .moment-sticker-chip,
+.moment-sticker-row.is-single .moment-sticker-chip img {
+  width: fit-content;
+  height: auto;
+  max-width: 100%;
+  max-height: 168px;
+}
+
+/* 正文/评论里的行内表情包：与聊天一致，完整显示 */
+.moment-post .chat-sticker-slot,
+.moment-post .chat-sticker {
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 100%;
+  line-height: 0;
+}
+
+.moment-post .chat-sticker img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 140px);
+  max-height: 140px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.moment-image-broken {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  color: #7d6d63;
+  font-size: 12px;
+  text-align: center;
+  background: #f6f2ed;
+}
+
+.moment-image-broken[hidden] {
+  display: none;
+}
+
+.moment-image-retry-wrap,
+.moment-image-missing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 7px 12px;
+  border: 1px dashed rgba(140, 115, 98, 0.32);
+  border-radius: 10px;
+  background: rgba(212, 165, 116, 0.08);
+  color: #8c7362;
+  font-size: 12px;
+}
+
+.moment-image-broken-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.moment-image-broken-actions button {
+  min-height: 28px;
+  padding: 4px 9px;
+  border: 1px solid rgba(126, 108, 96, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.moment-image-broken-actions button:last-child {
+  color: #745d50;
+  border-color: rgba(116, 93, 80, 0.34);
+}
+
+.moment-comments {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--surface-card, #fffdf8);
+}
+
+.moment-comments.has-content {
+  border: 1px dashed rgba(140, 115, 98, 0.16);
+}
+
+.moment-comments.is-idle {
+  display: none;
+  margin-top: 0;
+  padding: 0;
+}
+
+.moment-comments.is-idle.is-composing {
+  display: block;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(140, 115, 98, 0.16);
+}
+
+.moment-comment-compose {
+  display: none;
+}
+
+.moment-comments.is-composing .moment-comment-compose {
+  display: grid;
+}
+
+.moment-likes-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b5648;
+  margin-bottom: 8px;
+}
+
+.moment-heart-svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  fill: #e34f5f;
+}
+
+.moment-comment-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.moment-comment-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.moment-comment-line {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #5c4a3f;
+  /* normal：避免按钮内 HTML 空白被当成正文；评论入库已压成单行 */
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.moment-comment-line strong {
+  color: #6b5648;
+}
+
+.moment-comment-reply {
+  color: #a89282;
+}
+
+.moment-comment-actions {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding-top: 1px;
+}
+
+.moment-comment-row.is-editing .moment-comment-actions {
+  display: flex;
+}
+
+.moment-comment-action {
+  border: none;
+  background: none;
+  color: #8f8178;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.moment-comment-del {
+  color: #c07070;
+}
+
+.moment-comment-compose {
+  grid-template-columns: minmax(88px, 0.9fr) 1fr auto;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.moment-comment-compose .form-input {
+  min-height: 36px;
+  font-size: 13px;
+}
+
+.moments-fab {
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + var(--safe-bottom, 0px));
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #f3e6d4, #e8c9a8);
+  color: #5c4a3f;
+  box-shadow: 0 10px 24px rgba(92, 74, 63, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 40;
+}
+
+.moments-fab .svg-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.moments-busy-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(251, 246, 240, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.moments-busy-overlay.is-visible {
+  display: flex;
+}
+
+/* APK / Android WebView：整屏图片流上做 backdrop blur 会额外创建大面积合成层，
+ * 低内存设备可能直接回收 renderer。原生壳使用稳定实底，不牺牲忙碌态可读性。 */
+html.capacitor-native .moments-busy-overlay {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: rgba(251, 246, 240, 0.96);
+}
+
+.moments-busy-spinner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid rgba(140, 115, 98, 0.18);
+  border-top-color: #b8956a;
+  animation: moments-spin 0.8s linear infinite;
+}
+
+.moments-busy-text {
+  font-size: 14px;
+  color: #6b5648;
+}
+
+@keyframes moments-spin {
+  to { transform: rotate(360deg); }
+}
+
+.moments-compose-sheet {
+  max-width: 520px;
+}
+
+/* iOS Safari 会把聚焦中的输入框与含 transform 动画的祖先层错位滚动。
+ * 发布器是长表单，禁用这一层的位移入场，遮罩淡入仍然保留。 */
+html.ios-webkit .moments-compose-sheet {
+  animation: none;
+  transform: none;
+}
+
+.moments-compose-sheet > .moments-compose-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  padding-bottom: calc(16px + var(--safe-bottom, 0px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+}
+
+@media (max-width: 640px) {
+  #modal-container .moments-compose-sheet {
+    /* 接近全屏的发布器必须从状态栏下方开始；底部安全区留在正文内部，
+     * 因而既不会让 iOS 标题压住时间，也不会在底部露出一条遮罩色。 */
+    height: calc(100% - max(12px, var(--safe-top, 0px)));
+    max-height: calc(100% - max(12px, var(--safe-top, 0px)));
+  }
+}
+
+.moments-compose-author-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.moments-compose-author-trigger .svg-icon,
+.moments-compose-author-trigger svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+
+.moments-compose-author-trigger.is-open .svg-icon,
+.moments-compose-author-trigger.is-open svg {
+  transform: rotate(180deg);
+}
+
+.moments-compose-author-picker {
+  max-height: 260px;
+  max-height: min(260px, 38vh);
+  margin-top: 6px;
+  padding: 4px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid rgba(140, 115, 98, 0.16);
+  border-radius: 12px;
+  background: var(--surface-card, #fffdf8);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+}
+
+.moments-compose-author-picker[hidden] {
+  display: none;
+}
+
+.moments-compose-author-option {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-primary, #5c4a3f);
+  font: inherit;
+  text-align: left;
+  touch-action: pan-y;
+  cursor: pointer;
+}
+
+.moments-compose-author-option.is-selected {
+  background: rgba(140, 115, 98, 0.1);
+  font-weight: 600;
+}
+
+.moments-compose-author-trigger:focus-visible,
+.moments-compose-author-option:focus-visible {
+  outline: 2px solid var(--accent-orange, #d98f62);
+  outline-offset: 2px;
+}
+
+.moments-publish-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0 16px;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(140, 115, 98, 0.08);
+}
+
+.moments-publish-mode-tab {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary, #8c7362);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.moments-publish-mode-tab.is-active {
+  background: #fff;
+  color: var(--text-primary, #5c4a3f);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(64, 45, 34, 0.08);
+}
+
+.moments-publish-mode-tab:focus-visible,
+.moments-publish-ai-settings:focus-visible {
+  outline: 2px solid var(--accent-orange, #d98f62);
+  outline-offset: 2px;
+}
+
+.moments-publish-pane {
+  display: none;
+}
+
+.moments-publish-pane.is-active {
+  display: block;
+}
+
+.moments-publish-ai-pane.is-active {
+  display: flex;
+  min-height: 280px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.moments-publish-ai-mark {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(140, 115, 98, 0.08);
+  color: var(--text-primary, #5c4a3f);
+}
+
+.moments-publish-ai-mark .svg-icon,
+.moments-publish-ai-mark svg {
+  width: 24px;
+  height: 24px;
+}
+
+.moments-publish-ai-start {
+  width: min(100%, 280px);
+}
+
+.moments-publish-ai-settings {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary, #8c7362);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.moments-compose-body .form-label {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 13px;
+  color: #8c7362;
+}
+
+.moments-compose-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+
+.moments-compose-tab {
+  flex: 1;
+  border: 1px dashed rgba(140, 115, 98, 0.22);
+  background: #fffdf8;
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #8c7362;
+  cursor: pointer;
+}
+
+.moments-compose-tab.is-active {
+  background: #f8eedf;
+  border-style: solid;
+  color: #5c4a3f;
+  font-weight: 600;
+}
+
+.moments-compose-pane {
+  display: none;
+}
+
+.moments-compose-pane.is-active {
+  display: block;
+}
+
+.moments-compose-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  max-width: 300px;
+}
+
+.moments-compose-cell {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f1e4d4;
+  border: none;
+  padding: 0;
+}
+
+.moments-compose-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.moments-compose-cell-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.moments-compose-cell-remove .svg-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.moments-compose-cell-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(140, 115, 98, 0.32);
+  background: #fffdf8;
+  color: #a89282;
+  cursor: pointer;
+}
+
+.moments-compose-cell-add .svg-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.moments-mention-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  max-height: 120px;
+  overflow: auto;
+}
+
+.moments-mention-item {
+  font-size: 13px;
+  color: #5c4a3f;
+}
+
+.moments-compose-submit {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.moments-more-sheet {
+  max-width: 360px;
+}
+
+.moments-backfill-sheet {
+  max-width: 380px;
+}
+
+.moments-backfill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.moments-backfill-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.14);
+}
+
+.moments-backfill-row input[type='checkbox'] {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: var(--moments-accent, #d4a574);
+}
+
+.moments-backfill-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.moments-backfill-row-who {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8c7362;
+}
+
+.moments-backfill-row-text {
+  font-size: 13px;
+  color: #5c4a3f;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.moments-backfill-row-meta {
+  font-size: 11px;
+  color: #a08b7a;
+}
+
+.moments-more-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.moments-more-identity-label {
+  font-size: 12px;
+  color: #8c7362;
+  margin-bottom: -4px;
+}
+
+.moments-more-identity {
+  min-height: 36px;
+  font-size: 13px;
+}
+
+.moments-profile-hero {
+  position: relative;
+  margin: 12px 14px 16px;
+  padding: 16px 16px 16px 96px;
+  min-height: 96px;
+}
+
+.moments-profile-cover {
+  position: absolute;
+  inset: 0;
+  border: none;
+  padding: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, #f3e6d4, #dceaf5);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.moments-profile-cover.has-image {
+  opacity: 1;
+}
+
+.moments-profile-cover.has-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.28));
+}
+
+.moments-profile-avatar {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid #fffdf8;
+  z-index: 1;
+}
+
+.moments-profile-name {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 18px;
+}
+
+.moments-profile-bio {
+  position: relative;
+  z-index: 1;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #8c7362;
+  line-height: 1.45;
+}
+
+.moments-profile-sign {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin: 6px 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: #8c7362;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+}
+
+.moments-profile-hero .moments-profile-name,
+.moments-profile-cover.has-image ~ .moments-profile-name {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.moments-profile-sign.is-empty {
+  color: #b8a591;
+}
+
+/* Chat 平台社交动态：复用同一份 moments DOM 与数据，只切换产品默认材质。 */
+.chat-platform-wechat .moments-page {
+  --moments-accent: #07c160;
+  --surface-card: #ffffff;
+  background: #ffffff;
+  color: #191919;
+}
+
+.chat-platform-wechat .moments-page .chat-hub-navbar {
+  border-bottom: 1px solid #d9d9d9;
+  background: #ededed;
+  color: #191919;
+}
+
+.chat-platform-wechat .moments-page .moments-feed {
+  gap: 0;
+  padding: 0 12px calc(70px + var(--safe-bottom, 0px));
+  background: #ffffff;
+}
+
+/* 微信朋友圈的表情媒体与正文、普通图片共用同一内容列。 */
+.chat-platform-wechat .moments-page .moment-sticker-row {
+  width: calc(100% - 52px);
+  max-width: calc(100% - 52px);
+  margin-top: 9px;
+  margin-left: 52px;
+}
+
+.chat-platform-wechat .moments-page .moment-sticker-row.is-single {
+  width: fit-content;
+  max-width: min(calc(100% - 52px), 168px);
+}
+
+.chat-platform-wechat .moments-page .moment-post {
+  margin: 0;
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.chat-platform-wechat .moments-page .moment-post-avatar,
+.chat-platform-wechat .moments-page .moment-post-avatar-img,
+.chat-platform-wechat .moments-page .moment-post-avatar-letter {
+  border-radius: 4px;
+}
+
+.chat-platform-wechat .moments-page .moment-post-name,
+.chat-platform-wechat .moments-page .moment-comment-line strong,
+.chat-platform-wechat .moments-page .moment-likes-line {
+  color: #576b95;
+}
+
+.chat-platform-wechat .moments-page .moment-comments,
+.chat-platform-wechat .moments-page .moment-comments.is-idle.is-composing {
+  border: 0;
+  border-radius: 2px;
+  background: #f7f7f7;
+}
+
+.chat-platform-wechat .moments-page .moments-fab {
+  background: #07c160;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(7, 193, 96, 0.22);
+}
+
+.chat-platform-qq .moments-page {
+  --moments-accent: #12b7f5;
+  --qq-space-blue: #12b7f5;
+  --qq-space-name: #2f568c;
+  --qq-space-ink: #171a1f;
+  --qq-space-muted: #9298a3;
+  --qq-space-line: #eceef2;
+  --qq-space-soft: #f5f6f8;
+  --surface-card: #ffffff;
+  background: #ffffff;
+  color: var(--qq-space-ink);
+  font-family: "MiSans", "HarmonyOS Sans SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei UI", system-ui, sans-serif;
+}
+
+.chat-platform-qq .moments-page .chat-hub-navbar {
+  border-bottom: 1px solid #e7e9ed;
+  background: #ffffff;
+  color: #1f2329;
+}
+
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-ins-chrome {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: calc(64px + var(--safe-top, 0px));
+  padding: var(--safe-top, 0px) 14px 0;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-toolbar {
+  min-height: 58px;
+}
+
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-back,
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-toolbar-actions,
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-toolbar-actions button {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-tabs--qq {
+  pointer-events: auto;
+}
+
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-back,
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(31, 39, 55, 0.2);
+  color: #ffffff;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-back .svg-icon,
+.chat-platform-qq .moments-page:not(.moments-profile-page) .chat-hub-icon-btn .svg-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.chat-platform-qq .moments-page .moments-scroll {
+  background: #ffffff;
+}
+
+.qq-space-home {
+  background: #ffffff;
+}
+
+.qq-space-cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 190px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background-color: #eaf1ff;
+  background-image:
+    radial-gradient(110% 78% at 78% 5%, rgba(255, 255, 255, 0.96) 0 25%, transparent 58%),
+    radial-gradient(96% 64% at 12% 30%, rgba(255, 255, 255, 0.72) 0 30%, transparent 68%),
+    linear-gradient(155deg, #eef2ff 0%, #e7f4ff 48%, #f6fbff 100%);
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.qq-space-cover::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 112px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.34) 42%, #ffffff 100%);
+  pointer-events: none;
+}
+
+.qq-space-profile {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  gap: 13px;
+  min-height: 66px;
+  margin-top: -44px;
+  padding: 0 18px 8px;
+}
+
+.qq-space-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  flex: 0 0 78px;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: #eef0f4;
+  color: #333841;
+  box-shadow: 0 2px 8px rgba(23, 26, 31, 0.14);
+}
+
+.qq-space-avatar-img,
+.qq-space-avatar-letter {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.qq-space-profile-copy {
+  min-width: 0;
+  padding-bottom: 5px;
+}
+
+.qq-space-profile-copy h1 {
+  margin: 0;
+  overflow: hidden;
+  color: var(--qq-space-ink);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qq-space-profile-copy p {
+  margin: 5px 0 0;
+  color: #4f5662;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.qq-space-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2px;
+  padding: 12px 7px 14px;
+}
+
+.qq-space-shortcuts button {
+  display: grid;
+  place-items: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 54px;
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: #20242a;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.qq-space-shortcut-svg {
+  display: block;
+  width: 27px;
+  height: 27px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.qq-space-shortcut-svg circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.qq-space-compose-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 0 16px 16px;
+}
+
+.qq-space-compose-entry,
+.qq-space-ai-entry {
+  min-height: 52px;
+  border: 1px solid #dfe2e7;
+  border-radius: 16px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.qq-space-compose-entry {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 7px 12px;
+  background: #ffffff;
+  color: var(--qq-space-muted);
+  text-align: left;
+}
+
+.qq-space-compose-avatar {
+  display: block;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #eef0f4;
+}
+
+.qq-space-compose-avatar > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  font-size: 12px;
+}
+
+.qq-space-compose-placeholder {
+  overflow: hidden;
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qq-space-compose-tool {
+  display: flex;
+  align-items: center;
+  color: #23272d;
+}
+
+.qq-space-compose-tool .qq-space-shortcut-svg {
+  width: 21px;
+  height: 21px;
+}
+
+.qq-space-ai-entry {
+  display: grid;
+  width: 52px;
+  min-width: 52px;
+  padding: 0;
+  place-items: center;
+  border-color: rgba(18, 183, 245, 0.28);
+  background: rgba(18, 183, 245, 0.08);
+  color: #087ead;
+}
+
+.qq-space-ai-entry .svg-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.chat-platform-qq .moments-page .moments-feed {
+  gap: 0;
+  padding: 0 0 calc(76px + var(--safe-bottom, 0px));
+  background: #ffffff;
+}
+
+.chat-platform-qq .moments-page .moment-post {
+  position: relative;
+  margin: 0;
+  padding: 16px 18px 15px;
+  border: 0;
+  border-bottom: 1px solid var(--qq-space-line);
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.chat-platform-qq .moments-page .moment-post-head {
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 10px;
+  padding-right: 34px;
+}
+
+.chat-platform-qq .moments-page .moment-post-avatar,
+.chat-platform-qq .moments-page .moment-post-avatar-img,
+.chat-platform-qq .moments-page .moment-post-avatar-letter {
+  border-radius: 50%;
+}
+
+.chat-platform-qq .moments-page .moment-post-name,
+.chat-platform-qq .moments-page .moment-comment-line strong,
+.chat-platform-qq .moments-page .moment-likes-line {
+  color: #23518c;
+}
+
+.chat-platform-qq .moments-page .moment-post-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chat-platform-qq .moments-page .moment-post-body {
+  margin-top: 9px;
+  color: var(--qq-space-ink);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.chat-platform-qq .moments-page .moment-post-more {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: transparent;
+  color: #171a1f;
+}
+
+.chat-platform-qq .moments-page .moment-post-meta {
+  min-height: 34px;
+  margin-top: 8px;
+}
+
+.chat-platform-qq .moments-page .moment-post-time,
+.chat-platform-qq .moments-page .moment-post-vis {
+  color: var(--qq-space-muted);
+  font-size: 12px;
+}
+
+.chat-platform-qq .moments-page .moment-post-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.chat-platform-qq .moments-page .moment-post-quick-actions button {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #15191f;
+  cursor: pointer;
+}
+
+.chat-platform-qq .moments-page .moment-post-quick-actions button.is-active {
+  color: var(--qq-space-blue);
+}
+
+.chat-platform-qq .moments-page .moment-post-quick-actions svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chat-platform-qq .moments-page .moment-images.is-single,
+.chat-platform-qq .moments-page .moment-textimg {
+  width: 100%;
+  max-width: 100%;
+}
+
+.chat-platform-qq .moments-page .moment-comments,
+.chat-platform-qq .moments-page .moment-comments.is-idle.is-composing {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.chat-platform-qq .moments-page .moment-comments.has-content {
+  margin-top: 5px;
+  padding: 0;
+  background: transparent;
+}
+
+.chat-platform-qq .moments-page .moment-comments.is-idle {
+  display: block;
+  margin-top: 7px;
+  padding: 0;
+  background: transparent;
+}
+
+.chat-platform-qq .moments-page .moment-comment-prompt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 42px;
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--qq-space-soft);
+  color: var(--qq-space-muted);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: text;
+}
+
+.chat-platform-qq .moments-page .moment-comments.has-content .moment-comment-prompt {
+  margin-top: 8px;
+}
+
+.chat-platform-qq .moments-page .moment-likes-line {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.chat-platform-qq .moments-page .moment-comment-row {
+  margin-bottom: 5px;
+}
+
+.chat-platform-qq .moments-page .moment-comment-line {
+  color: var(--qq-space-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.chat-platform-qq .moments-page .moment-comment-compose {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--qq-space-soft);
+}
+
+.chat-platform-qq .moments-page .moment-comments.is-composing .moment-comment-prompt {
+  display: none;
+}
+
+.moment-comment-prompt-avatar {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #e7e9ed;
+}
+
+.moment-comment-prompt-avatar img,
+.moment-comment-prompt-avatar span {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  font-size: 11px;
+}
+
+.chat-platform-qq .moments-page .moments-fab {
+  background: #12b7f5;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(18, 183, 245, 0.24);
+}
+
+.chat-platform-qq .moments-profile-page .moments-profile-avatar {
+  border-radius: 50%;
+}
+
+@media (max-width: 370px) {
+  .qq-space-cover {
+    height: 172px;
+  }
+
+  .qq-space-avatar {
+    width: 70px;
+    height: 70px;
+    flex-basis: 70px;
+  }
+
+  .qq-space-shortcuts button {
+    font-size: 12px;
+  }
+
+  .qq-space-shortcut-svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .qq-space-compose-panel {
+    gap: 6px;
+    width: calc(100% - 24px);
+    margin-right: 12px;
+    margin-left: 12px;
+  }
+
+  .qq-space-compose-entry {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 8px;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .qq-space-compose-entry .qq-space-compose-tool {
+    display: none;
+  }
+
+  .qq-space-ai-entry {
+    width: 52px;
+    min-width: 52px;
+  }
+}
+
+.chat-platform-wechat .moments-page button:focus-visible,
+.chat-platform-qq .moments-page button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

@@ -1,0 +1,393 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background: #dcd6d0;
+  color: var(--text);
+  line-height: 1.55;
+  overflow: hidden;
+  margin: 0;
+  width: 100%;
+  height: var(--app-height, 100svh);
+  max-height: var(--app-height, 100svh);
+}
+
+/*
+ * 安装版 PWA / APK 以应用交互为主：关闭浏览器原生长按选字、复制和图片/链接 callout，
+ * 避免按住聊天气泡呼出应用菜单时同时选中文字。真正需要编辑的表单继续允许选字。
+ */
+html.pwa-standalone #app,
+html.pwa-standalone #app *,
+html.capacitor-native #app,
+html.capacitor-native #app * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html.pwa-standalone #app input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]),
+html.pwa-standalone #app textarea,
+html.pwa-standalone #app select,
+html.pwa-standalone #app [contenteditable="true"],
+html.pwa-standalone #app [contenteditable="true"] *,
+html.capacitor-native #app input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]),
+html.capacitor-native #app textarea,
+html.capacitor-native #app select,
+html.capacitor-native #app [contenteditable="true"],
+html.capacitor-native #app [contenteditable="true"] * {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+#app {
+  position: fixed;
+  top: var(--app-offset-top, 0px);
+  /* 用 left/right + margin:auto 居中，绝不能用 transform：
+   * iOS Safari（非 standalone）下，带 transform 的 position:fixed 祖先会让其内部
+   * <textarea>/<input> 聚焦时光标渲染到错误位置（光标错位 bug）。 */
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 430px;
+  /* min() 用 svh 封顶：底栏浏览器里 layout 视口常比可见区更高 */
+  height: min(var(--app-height, 100svh), 100svh);
+  max-height: min(var(--app-height, 100svh), 100svh);
+  min-height: 0;
+  overflow: hidden;
+  z-index: 1;
+  background:
+    linear-gradient(rgba(251, 246, 240, 0.18), rgba(251, 246, 240, 0.18)),
+    var(--bg-paper);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.35);
+}
+
+/* 主屏幕 PWA / 全屏：铺满设备，去掉浏览器预览时的手机框 */
+html.pwa-standalone {
+  background: var(--bg-paper);
+}
+
+html.pwa-standalone body {
+  background: var(--bg-paper);
+}
+
+/* standalone（已安装 PWA）里没有浏览器外壳：放弃 JS 实测的 --app-height/--app-offset-top
+ * 与 100svh 夹取（那套是浏览器工具栏模式的兜底，会导致 iOS 底端漏缝、安卓顶端漏条），
+ * 直接 top:0 + 动态视口铺满整屏。旧 WebKit 不识别 dvh 时回退到 --app-height/100vh。 */
+html.pwa-standalone #app {
+  top: 0;
+  left: 0;
+  transform: none;
+  width: 100%;
+  max-width: none;
+  height: var(--app-height, 100vh);
+  max-height: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  box-shadow: none;
+}
+
+/*
+ * Android Edge / Chromium「安装应用」在部分 OriginOS 机型上采用 overlay IME：
+ * 键盘出现时 100dvh 仍是整屏高度，只有 visualViewport.height 会缩短。
+ * boot.js 已把实测值写入 --app-height；非 iOS 安装版让 #app 跟随它，
+ * 输入栏才能稳定停在键盘上方。iOS 保留 100dvh 路径，避免底端漏缝。
+ */
+html.pwa-standalone:not(.ios-webkit):not(.capacitor-native) #app {
+  height: var(--app-height, 100dvh);
+  max-height: var(--app-height, 100dvh);
+}
+
+html.pwa-standalone,
+html.pwa-standalone body {
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+}
+
+/*
+ * iOS 主屏幕 PWA（WebKit 18.x）：html/body 全局 overflow:hidden 时，输入框能聚焦、
+ * 光标可见，但软键盘不弹。浏览器标签页正常，仅 standalone 复现。允许根层滚动容器。
+ */
+html.pwa-standalone {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.pwa-standalone body {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/*
+ * standalone 仍需保留上面的根层 auto 才能让 iOS 软键盘可靠弹出，但不能让
+ * document root 接管内层列表到顶后的继续下拉，否则会触发系统下拉刷新。
+ * 长截图模式在 chat.css 里用 !important 临时恢复根滚动，不受这里影响。
+ */
+html.pwa-standalone:not(.chat-scroll-capture-mode),
+html.pwa-standalone:not(.chat-scroll-capture-mode) body,
+html.pwa-standalone:not(.chat-scroll-capture-mode) #app {
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+}
+
+html.pwa-standalone input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]),
+html.pwa-standalone textarea,
+html.pwa-standalone select,
+html.pwa-standalone [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+  touch-action: manipulation;
+  font-size: max(16px, 1em);
+  cursor: text;
+}
+
+/* iOS Safari zooms and recenters the visual viewport for editable text below
+ * 16px. Apply the same floor in browser tabs and installed PWAs so switching
+ * fields does not move the page or desync hit testing. */
+html.ios-webkit input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="color"]),
+html.ios-webkit textarea,
+html.ios-webkit select,
+html.ios-webkit [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+  touch-action: manipulation;
+  font-size: max(16px, 1em);
+}
+
+/* Capacitor 原生壳（Android APK）：与参考项目（同设备实测键盘手感完全跟手）对齐，
+ * 纯靠 boot.js 用 visualViewport 实时算出的 --app-height 驱动整页 resize，不叠加
+ * 任何原生高度桥接 / padding 顶位 / 强制回全高——那套方案已证实会和系统自身的
+ * 键盘 resize 通知互相打架，出现"动画卡住不动、松手后再跳一下"甚至反复弹跳。 */
+html.capacitor-native,
+html.capacitor-native body {
+  height: var(--app-height, 100dvh);
+  max-height: var(--app-height, 100dvh);
+}
+
+html.capacitor-native #app {
+  height: var(--app-height, 100dvh);
+  max-height: var(--app-height, 100dvh);
+}
+
+/* 键盘出现后 WebView 已由原生 IME inset 缩到键盘上方，不再叠加导航栏留白。 */
+html.capacitor-native.keyboard-visible,
+html.capacitor-native.native-ime-visible {
+  --safe-bottom: 0px;
+}
+
+#page-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  min-height: 0;
+  background: var(--bg-sheet, #fdf8f4);
+}
+
+#page-container[data-shell="anon"] {
+  background: #f7f7f7;
+  color: #151515;
+}
+
+#page-container[data-shell="anon"] > .page {
+  background: #f7f7f7;
+  color: #151515;
+}
+
+#page-container[data-shell="anon"] > .page.anon-space-page {
+  background: #050505;
+  color: #f3f3f4;
+}
+
+#page-container[data-shell="anon"] > .page.chat-thread-page--anon {
+  background: #f7f7f7;
+}
+
+#page-container[data-shell="chat-ins"] {
+  background: #ffffff;
+}
+
+.page {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.scrapbook-page {
+  position: relative;
+}
+
+.scrapbook-scroll {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 16px calc(28px + var(--safe-bottom));
+  scroll-padding-block: 14px calc(20px + var(--safe-bottom));
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+}
+
+/* In standalone PWA, #app intentionally remains 100dvh while the IME is open.
+ * Only lift the scroll region that currently owns focus; browser tabs and
+ * Capacitor already resize their app shell and must not receive this inset.
+ * （2026-07-22 曾改为整壳按键盘高度缩短 + 运行时 flex 接管，多机型实测反而把
+ * 原本正常的 iOS 弄坏——WebKit 各版本对键盘上推的记账方式不一致，读数建模
+ * 必然时好时坏。已整体回退到本套久经验证的行为，勿再改。） */
+html.pwa-standalone:not(.capacitor-native).keyboard-visible .scrapbook-scroll.ime-scroll-active,
+html.pwa-standalone:not(.capacitor-native).keyboard-visible [data-ime-scroll-region].ime-scroll-active {
+  padding-bottom: calc(var(--ime-base-padding-bottom, 0px) + var(--keyboard-inset, 0px));
+}
+
+html.pwa-standalone:not(.capacitor-native).keyboard-visible .ime-scroll-active {
+  scroll-padding-bottom: calc(20px + var(--keyboard-inset, 0px));
+}
+
+.boot-loading,
+.placeholder-page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 22px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.placeholder-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.placeholder-text {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--ink-brown);
+}
+
+.placeholder-sub {
+  margin-top: 10px;
+  font-size: var(--font-sm);
+  line-height: 1.65;
+  max-width: 300px;
+  color: var(--text-hint);
+}
+
+.text-hint {
+  color: var(--text-hint);
+  font-size: var(--font-xs);
+}
+
+.home-shell-scroll {
+  padding-bottom: 110px;
+}
+
+.home-shell-hero .home-shell-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.home-shell-note {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.home-shell-dock {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(14px + var(--safe-bottom));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 10px 8px;
+  border-radius: 24px;
+  background: rgba(253, 248, 244, 0.88);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: var(--shadow-float);
+}
+
+.home-shell-dock-btn {
+  border: 3px solid #fff;
+  border-radius: 16px;
+  padding: 8px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  background: var(--icon-cream);
+  box-shadow: var(--shadow-paper);
+}
+
+.home-shell-dock-btn:disabled {
+  opacity: 0.42;
+}
+
+/*
+ * 选文件 / 选图：小米默认浏览器（MIUI/HyperOS）、部分国产 WebView
+ * 会对 display:none / [hidden] 的 <input type="file"> 静默忽略
+ * 程序化 .click() 与 label 激活。视觉隐藏即可，不要真正从布局摘掉。
+ *
+ * 不使用超远屏外坐标：按钮的 transform 会让 fixed 改为相对按钮定位，部分
+ * Android WebView 随后会把负坐标算进布局视口并缩小整页。宿主留在视口原点，
+ * 业务 input 在原父级内裁成 1px，既可激活系统选择器，也不产生额外页面宽度。
+ */
+#mm-file-input-host {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+input[type="file"][hidden],
+input[type="file"].mm-file-input {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0.01 !important;
+  /* 覆盖 UA [hidden]{display:none} 与业务侧 display:none */
+  display: block !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}

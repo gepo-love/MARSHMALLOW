@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-app-shell="home">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fbf6f0">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+  <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="棉花糖机试玩">
+  <meta name="application-name" content="棉花糖机试玩">
+  <meta name="msapplication-TileColor" content="#fbf6f0">
+  <meta name="msapplication-navbutton-color" content="#fbf6f0">
+  <script>
+    (function () {
+      try {
+        var preference = localStorage.getItem('marshmallow-color-mode') || 'light';
+        var resolved = preference === 'dark'
+          || (preference === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          ? 'dark'
+          : 'light';
+        document.documentElement.dataset.colorModePreference = preference;
+        document.documentElement.dataset.colorMode = resolved;
+        var nativeScheme = resolved === 'dark' ? 'light' : resolved;
+        document.documentElement.style.colorScheme = nativeScheme;
+        if (resolved === 'dark') document.documentElement.classList.add('theme-dark');
+        document.querySelector('meta[name="color-scheme"]').setAttribute('content', nativeScheme);
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', resolved === 'dark' ? '#101214' : '#fbf6f0');
+      } catch (_) {}
+    })();
+  </script>
+  <title>棉花糖机·试玩版</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png?v=271">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=271">
+  <link rel="manifest" href="manifest.json?v=272">
+  <link rel="stylesheet" href="css/variables.css?v=272">
+  <link rel="stylesheet" href="css/global.css?v=289">
+  <link rel="stylesheet" href="css/components.css?v=389">
+  <link rel="stylesheet" href="css/settings.css?v=285">
+  <link rel="stylesheet" href="css/beautify.css?v=21">
+  <link rel="stylesheet" href="css/api-manager.css?v=279">
+  <link rel="stylesheet" href="css/support.css?v=6">
+  <link rel="stylesheet" href="css/home.css?v=427">
+  <link rel="stylesheet" href="css/home-sea.css?v=330">
+  <link rel="stylesheet" href="css/home-window.css?v=316">
+  <link rel="stylesheet" href="css/home-album.css?v=17">
+  <link rel="stylesheet" href="css/contacts.css?v=334">
+  <link rel="stylesheet" href="css/chat.css?v=1038">
+  <link rel="stylesheet" href="css/char-state-popover.css?v=3">
+  <link rel="stylesheet" href="css/anon.css?v=320">
+  <link rel="stylesheet" href="css/streamer.css?v=12">
+  <link rel="stylesheet" href="css/moments.css?v=333">
+  <link rel="stylesheet" href="css/user-space.css?v=275">
+  <link rel="stylesheet" href="css/worldbook-presets.css?v=339">
+  <link rel="stylesheet" href="css/stickers.css?v=273">
+  <link rel="stylesheet" href="css/au.css?v=270">
+  <link rel="stylesheet" href="css/weibo.css?v=285">
+  <link rel="stylesheet" href="css/forum.css?v=277">
+  <link rel="stylesheet" href="css/calendar.css?v=273">
+  <link rel="stylesheet" href="css/memory.css?v=280">
+  <link rel="stylesheet" href="css/music.css?v=684">
+  <link rel="stylesheet" href="css/radio.css?v=10">
+  <link rel="stylesheet" href="css/together-reading.css?v=1">
+  <link rel="stylesheet" href="css/sound-library.css?v=2">
+  <link rel="stylesheet" href="css/quick-ball.css?v=4">
+  <link rel="stylesheet" href="css/offline.css?v=357">
+  <link rel="stylesheet" href="css/extensions.css?v=2">
+  <link rel="stylesheet" href="css/mcp.css?v=7">
+  <link rel="stylesheet" href="css/app-group-overlay.css?v=3">
+  <link rel="stylesheet" href="css/encounter.css?v=331">
+  <link rel="stylesheet" href="css/character-phone.css?v=373">
+  <link rel="stylesheet" href="css/mailbox.css?v=6">
+  <link rel="stylesheet" href="css/image-crop.css?v=3">
+  <link rel="stylesheet" href="css/wechat.css?v=3">
+  <link rel="stylesheet" href="css/color-mode.css?v=17">
+  <link rel="stylesheet" href="css/ins-shared.css?v=8">
+  <link rel="stylesheet" href="css/app-lock.css?v=2">
+  <script>
+(function () {
+      window.__MARSHMALLOW_BUILD__ = '181337';
+  var search = String(window.location && window.location.search || '');
+  if (/[?&]diag=1(?:&|$)/.test(search)) {
+    window.__MARSHMALLOW_DIAGNOSTICS__ = true;
+  }
+  try {
+    var safeRequested = /[?&]safe-mode=1(?:&|$)/.test(search);
+    var previous = Number(localStorage.getItem('__mm_boot_pending__') || 0);
+    var failures = Number(localStorage.getItem('__mm_boot_failures__') || 0);
+    if (previous && Date.now() - previous < 120000) failures += 1;
+    else failures = 0;
+    localStorage.setItem('__mm_boot_pending__', String(Date.now()));
+    localStorage.setItem('__mm_boot_failures__', String(failures));
+    window.__MM_BEAUTIFY_SAFE_MODE__ = safeRequested || failures >= 3;
+  } catch (_) {}
+})();
+  </script>
+  <script>
+/* 全程错误捕获器：必须最先运行。抓 error / rejection / console.error + boot 里程碑，
+ * 写入 localStorage 环形缓冲（白屏、反复刷新也留得住）；debug=1 时屏幕底部显示日志面板。 * 故意用老语法（var / function），不依赖任何模块或主程序。*/
+(function () {
+  var w = window;
+  var KEY = '__mm_debug_log__';
+  var search = String(w.location && w.location.search || '');
+  var DEBUG = /[?&]debug=1(?:&|$)/.test(search);
+  var BUILD = String(w.__MARSHMALLOW_BUILD__ || '');
+  w.__MM_DEBUG__ = DEBUG;
+
+  var buf = [];
+  try { buf = JSON.parse(w.localStorage.getItem(KEY) || '[]') || []; } catch (_) { buf = []; }
+  if (!(buf instanceof Array)) buf = [];
+
+  function persist() {
+    try { w.localStorage.setItem(KEY, JSON.stringify(buf.slice(-200))); } catch (_) {}
+  }
+  function nowStr(t) {
+    try { return new Date(t).toISOString().slice(11, 23); } catch (_) { return String(t); }
+  }
+
+  var panel = null, body = null;
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function render() {
+    if (!body) return;
+    var html = '';
+    for (var i = 0; i < buf.length; i += 1) {
+      var r = buf[i];
+      var color = r.level === 'error' ? '#ff8f6b' : (r.level === 'warn' ? '#ffd479' : '#9fd0ff');
+      html += '<div style="padding:3px 0;border-bottom:1px solid #262c33;white-space:pre-wrap;word-break:break-all;"><span style="color:#7d8794;">' + esc(nowStr(r.t)) + '</span> <span style="color:' + color + ';">[' + esc(r.level) + ']</span> ' + esc(r.msg) + '</div>';
+    }
+    body.innerHTML = html || '<div style="color:#7d8794;">（暂无日志）</div>';
+    body.scrollTop = body.scrollHeight;
+  }
+  function ensurePanel() {
+    if (!DEBUG || panel || !document.body) return;
+    panel = document.createElement('div');
+    panel.setAttribute('style', 'position:fixed;left:0;right:0;bottom:0;z-index:2147483647;max-height:46vh;display:flex;flex-direction:column;background:#1b1f24;color:#e6e6e6;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;box-shadow:0 -8px 24px rgba(0,0,0,.4);');
+    var bar = document.createElement('div');
+    bar.setAttribute('style', 'display:flex;gap:8px;align-items:center;padding:6px 8px;background:#11151a;border-bottom:1px solid #333;flex:0 0 auto;');
+    bar.innerHTML = '<strong style="color:#ff8f6b;">错误日志 build ' + esc(BUILD) + '</strong>';
+    var spacer = document.createElement('span'); spacer.style.flex = '1';
+    bar.appendChild(spacer);
+    function mkBtn(label) {
+      var b = document.createElement('button');
+      b.textContent = label;
+      b.setAttribute('style', 'height:28px;padding:0 10px;border:0;border-radius:6px;background:#2c333b;color:#fff;font-weight:700;');
+      bar.appendChild(b);
+      return b;
+    }
+    var bCopy = mkBtn('复制'); var bClear = mkBtn('清空'); var bHide = mkBtn('×');
+    bCopy.onclick = function () {
+      var text = buf.map(function (r) { return nowStr(r.t) + ' [' + r.level + '] ' + r.msg; }).join('\n');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { bCopy.textContent = '已复制'; }).catch(function () { w.prompt('复制日志', text); });
+      } else { w.prompt('复制日志', text); }
+    };
+    bClear.onclick = function () { buf = []; persist(); render(); };
+    bHide.onclick = function () { panel.style.display = 'none'; };
+    panel.appendChild(bar);
+    body = document.createElement('div');
+    body.setAttribute('style', 'overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 8px;flex:1 1 auto;');
+    panel.appendChild(body);
+    document.body.appendChild(panel);
+    render();
+  }
+  function push(level, msg) {
+    var rec = { t: Date.now(), level: String(level || 'info'), msg: String(msg == null ? '' : msg).slice(0, 4000) };
+    buf.push(rec);
+    if (buf.length > 200) buf = buf.slice(-200);
+    persist();
+    if (DEBUG) { ensurePanel(); render(); }
+  }
+  w.__mmlog = function (level, msg) { push(level, msg); };
+
+  /* 反复刷新检测：连续 10s 内多次进入即标记，常见于 SW controllerchange 死循环 */
+  try {
+    var RK = '__mm_reload_marks__';
+    var updateReload = /[?&](?:_mm_cb|update)=/.test(String(w.location.search || ''))
+      || w.sessionStorage.getItem('__mm_intentional_update_reload__') === '1';
+    if (updateReload) {
+      w.sessionStorage.removeItem('__mm_intentional_update_reload__');
+      w.sessionStorage.removeItem(RK);
+    } else {
+      var marks = JSON.parse(w.sessionStorage.getItem(RK) || '[]') || [];
+      var tnow = Date.now();
+      marks = marks.filter(function (m) { return tnow - m < 10000; });
+      marks.push(tnow);
+      w.sessionStorage.setItem(RK, JSON.stringify(marks));
+      if (marks.length >= 3) {
+        push('warn', '检测到 10 秒内共 ' + marks.length + ' 次加载，转入安全更新诊断');
+        if (!/\/recovery(?:\.html)?\/?$/i.test(String(w.location.pathname || ''))) {
+          w.location.replace('recovery.html?reason=reload-loop');
+        }
+      }
+    }
+  } catch (_) {}
+
+  /* ── 模块版本故障保护 ──
+   * 新旧模块混用的特征错误出现时保留现有 SW 与完整快照，进入安全更新诊断。
+   * 不能先删 Cache Storage：在 iOS 上它可能是当前唯一仍可启动的版本。
+   * 冷却 10 分钟防循环；原生壳（Capacitor）资源是本地整包，不需要也不参与。 */
+  var HEAL_KEY = '__mm_selfheal_at__';
+  function isStaleModuleError(msg) {
+    var s = String(msg || '');
+    return s.indexOf('does not provide an export') !== -1
+      || s.indexOf('Importing binding name') !== -1
+      || s.indexOf('is not found') !== -1 && s.indexOf('binding') !== -1
+      || s.indexOf("Unexpected token '<'") !== -1
+      || s.indexOf('脚本被返回成了 HTML') !== -1
+      || s.indexOf('构建文件校验失败') !== -1;
+  }
+  function isTransientModuleFetchError(msg) {
+    var s = String(msg || '');
+    return s.indexOf('Failed to fetch dynamically imported module') !== -1
+      || s.indexOf('Importing a module script failed') !== -1
+      || s.indexOf('error loading dynamically imported module') !== -1
+      || s.indexOf('构建资源校验失败') !== -1;
+  }
+  function maybeSelfHeal(msg) {
+    try {
+      /* 动态模块的通用 fetch 失败也会由断网、弱网或 iOS 暂停网络进程触发。
+       * 它不能证明缓存串版；此时清空完整缓存再强制回源，反而会把可离线启动的版本删掉。 */
+      if (isTransientModuleFetchError(msg) && !isStaleModuleError(msg)) {
+        push('warn', '模块请求暂时失败，保留当前离线缓存：' + String(msg).slice(0, 160));
+        return false;
+      }
+      if (!isStaleModuleError(msg)) return false;
+      if (w.Capacitor) return false;
+      if (w.__MARSHMALLOW_DIAGNOSTICS__) return false;
+      if (w.__mm_selfheal_running__) return true;
+      var last = 0;
+      try { last = Number(w.localStorage.getItem(HEAL_KEY) || 0) || 0; } catch (_) {}
+      if (Date.now() - last < 10 * 60 * 1000) return false;
+      w.__mm_selfheal_running__ = true;
+      try { w.localStorage.setItem(HEAL_KEY, String(Date.now())); } catch (_) {}
+      push('warn', '检测到新旧脚本混用，保留当前快照并转入安全更新修复：' + String(msg).slice(0, 160));
+      w.location.replace('recovery.html?reason=module-version-mismatch');
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+  w.__mmSelfHeal = maybeSelfHeal;
+
+  w.addEventListener('error', function (ev) {
+    var tgt = ev.target;
+    if (tgt && tgt !== w && tgt !== document) {
+      var src = tgt.src || tgt.href || '';
+      /* Cloudflare Web Analytics 会被华为隐私防护、广告拦截或 DNS 屏蔽；
+       * 它不参与应用启动，避免把这类统计脚本误报成产品资源故障。 */
+      if (/^https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js/i.test(String(src || ''))) return;
+      if (tgt.tagName === 'SCRIPT' || tgt.tagName === 'LINK' || tgt.tagName === 'IMG') {
+        push('error', '资源加载失败 ' + (tgt.tagName || '') + ' ' + src);
+      }
+      return;
+    }
+    var m = (ev.error && ev.error.stack) ? String(ev.error.stack) : (ev.message || '脚本错误');
+    if (ev.filename) m += ' @ ' + ev.filename + ':' + (ev.lineno || 0);
+    push('error', m);
+    maybeSelfHeal((ev.error && ev.error.message) || ev.message || m);
+  }, true);
+
+  w.addEventListener('unhandledrejection', function (ev) {
+    var r = ev.reason;
+    var m = (r && r.stack) ? String(r.stack) : (r && r.message ? String(r.message) : String(r));
+    push('error', 'Promise 未处理 ' + m);
+    maybeSelfHeal((r && r.message) || m);
+  });
+
+  try {
+    var origErr = (w.console && w.console.error) ? w.console.error.bind(w.console) : null;
+    if (w.console) {
+      w.console.error = function () {
+        try {
+          var parts = [];
+          for (var i = 0; i < arguments.length; i += 1) {
+            var a = arguments[i];
+            if (a == null) {
+              parts.push(String(a));
+            } else if (typeof a === 'string' || typeof a === 'number' || typeof a === 'boolean') {
+              parts.push(String(a));
+            } else if (a && (a.stack || a.message || a.name)) {
+              // Error / DOMException：JSON.stringify 会变成 {}，必须读 message/stack
+              var head = [a.name, a.message].filter(Boolean).join(': ');
+              parts.push(a.stack ? String(a.stack) : (head || String(a)));
+            } else if (typeof a === 'object') {
+              try {
+                var json = JSON.stringify(a);
+                parts.push(json && json !== '{}' ? json : Object.prototype.toString.call(a));
+              } catch (_) {
+                parts.push(String(a));
+              }
+            } else {
+              parts.push(String(a));
+            }
+          }
+          push('error', parts.join(' '));
+        } catch (_) {}
+        if (origErr) origErr.apply(null, arguments);
+      };
+    }
+  } catch (_) {}
+
+  push('info', 'index.html 已解析 build ' + BUILD + ' / ' + (navigator.userAgent || ''));
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { if (DEBUG) ensurePanel(); });
+  } else if (DEBUG) {
+    ensurePanel();
+  }
+})();
+  </script>
+  <script>
+  (function () {
+    var w = window;
+    var build = String(w.__MARSHMALLOW_BUILD__ || '181337');
+    var hostname = String(w.location && w.location.hostname || '');
+    var localPreview = hostname === 'localhost'
+      || hostname === '127.0.0.1'
+      || hostname === '::1'
+      || /^192\.168\.\d{1,3}\.\d{1,3}$/.test(hostname)
+      || /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(hostname)
+      || /^172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}$/.test(hostname);
+
+    function loadBoot() {
+      var script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'js/boot.js?v=' + encodeURIComponent(build);
+      document.head.appendChild(script);
+    }
+
+    var embeddedBeautifyPreview = false;
+    try {
+      embeddedBeautifyPreview = w.top !== w.self
+        && /(?:^|[?&])beautifyPreview=1(?:&|$)/.test(String(w.location.search || ''));
+    } catch (_) {}
+    if (embeddedBeautifyPreview) {
+      // 顶层工作室已经完成缓存与 Worker 协调；子 iframe 直接启动页面，
+      // 不再重复注册/切换 Worker，也不会因 controllerchange 再刷新一次预览。
+      loadBoot();
+      return;
+    }
+
+    /* 本地预览先由一个 network-only Worker 接管，再加载任何 ES Module。
+     * 直接 unregister 后 reload 在部分 WebView 中仍会由旧 controller 处理一次导航；
+     * 显式换成网络直连 Worker 才能保证 boot/app/页面模块来自同一份磁盘构建。 */
+    if (!localPreview || !('serviceWorker' in navigator)) {
+      loadBoot();
+      return;
+    }
+
+    function isPreviewController(worker) {
+      return !!worker && String(worker.scriptURL || '').indexOf('/sw-local-preview.js') !== -1;
+    }
+    if (isPreviewController(navigator.serviceWorker.controller)) {
+      loadBoot();
+      return;
+    }
+
+    var bootStarted = false;
+    var fallbackTimer = 0;
+    function loadWhenClaimed() {
+      if (bootStarted || !isPreviewController(navigator.serviceWorker.controller)) return;
+      bootStarted = true;
+      if (fallbackTimer) w.clearTimeout(fallbackTimer);
+      loadBoot();
+    }
+    navigator.serviceWorker.addEventListener('controllerchange', loadWhenClaimed);
+    navigator.serviceWorker.register('sw-local-preview.js?v=' + encodeURIComponent(build), {
+      scope: './',
+      updateViaCache: 'none',
+    }).then(function (registration) {
+      if (registration.waiting) registration.waiting.postMessage({ type: 'ACTIVATE_LOCAL_PREVIEW' });
+      loadWhenClaimed();
+    }).catch(function () {
+      loadBoot();
+    });
+    fallbackTimer = w.setTimeout(function () {
+      if (bootStarted) return;
+      var path = w.location.pathname || '/';
+      var existingSearch = String(w.location.search || '');
+      var separator = existingSearch ? '&' : '?';
+      w.location.replace(path + existingSearch + separator + '_mm_cb=' + Date.now() + (w.location.hash || ''));
+    }, 5000);
+  })();
+  </script>
+</head>
+<body>
+  <div id="app">
+    <div id="page-container">
+      <div id="boot-loading" class="boot-loading">加载中…</div>
+    </div>
+    <div id="toast-container"></div>
+    <div id="modal-container"></div>
+  </div>
+  <noscript><div style="padding:24px;font-family:system-ui,sans-serif;">请启用 JavaScript 后刷新本页面</div></noscript>
+  <script>
+(function () {
+  var w = typeof window !== 'undefined' ? window : {};
+  if (!w.__MARSHMALLOW_DIAGNOSTICS__) return;
+  var BUILD = String(w.__MARSHMALLOW_BUILD__ || '181337');
+  var app = document.getElementById('app');
+  if (!app) return;
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+  function row(name, value) {
+    return '<div style="display:grid;grid-template-columns:104px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid rgba(140,115,98,.16);font-size:12px;line-height:1.45;"><strong style="color:#8c7362;">' + esc(name) + '</strong><span style="word-break:break-all;">' + esc(value) + '</span></div>';
+  }
+  var plainRows = [];
+  function remember(name, value) {
+    plainRows.push(String(name) + ': ' + String(value));
+    return row(name, value);
+  }
+  function render(rows, note) {
+    app.innerHTML =
+      '<div style="position:fixed;inset:0;height:100%;padding:22px 16px 110px;box-sizing:border-box;background:#fbf6f0;color:#5c7b8f;font-family:system-ui,-apple-system,sans-serif;overflow-y:auto;-webkit-overflow-scrolling:touch;">' +
+      '<div style="max-width:560px;margin:0 auto;background:rgba(255,255,255,.72);border:1px solid #eadfd3;border-radius:8px;padding:18px;box-shadow:0 14px 32px rgba(140,115,98,.10);">' +
+      '<h1 style="font-size:20px;margin:0 0 10px;color:#8c7362;">棉花糖机诊断</h1>' +
+      '<p style="font-size:13px;line-height:1.6;margin:0 0 12px;">把这一页截图发给维护者。诊断页不依赖主程序，用来判断是网络、缓存、浏览器能力还是本地数据库问题。</p>' +
+      rows.join('') +
+      '<p style="font-size:12px;line-height:1.6;margin:14px 0 0;color:#8c7362;">' + esc(note || '') + '</p>' +
+      '<div style="display:grid;gap:8px;margin-top:14px;">' +
+      '<button id="diag-copy" style="height:40px;border:0;border-radius:8px;background:#8c7362;color:#fff;font-weight:700;">复制诊断文本</button>' +
+      '<button id="diag-reset" style="height:40px;border:0;border-radius:8px;background:#5c7b8f;color:#fff;font-weight:700;">修复更新并重开</button>' +
+      '<button id="diag-open" style="height:40px;border:1px solid #eadfd3;border-radius:8px;background:#fffdf9;color:#5c7b8f;font-weight:700;">直接打开首页</button>' +
+      '</div></div></div>';
+    var reset = document.getElementById('diag-reset');
+    var open = document.getElementById('diag-open');
+    var copy = document.getElementById('diag-copy');
+    if (reset) reset.onclick = function () { w.location.href = w.location.pathname + '?reset=1'; };
+    if (open) open.onclick = function () {
+      var path = w.location.pathname || '/';
+      w.location.replace(path + '#home');
+    };
+    if (copy) copy.onclick = function () {
+      var text = plainRows.join('\n');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          copy.textContent = '已复制';
+        }).catch(function () {
+          w.prompt('复制诊断文本', text);
+        });
+      } else {
+        w.prompt('复制诊断文本', text);
+      }
+    };
+  }
+  function isInAppEmbeddedBrowser() {
+    try {
+      var ua = String(navigator.userAgent || '');
+      if (/MicroMessenger/i.test(ua)) return true;
+      if (/MQQBrowser/i.test(ua)) return true;
+      if (/\bQQ\//i.test(ua)) return true;
+      if (/Weibo/i.test(ua)) return true;
+      if (/DingTalk/i.test(ua)) return true;
+      if (/AlipayClient/i.test(ua)) return true;
+      if (/baiduboxapp/i.test(ua)) return true;
+      if (/BytedanceWebview|NewsArticle/i.test(ua)) return true;
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+  var rows = [
+    remember('时间', new Date().toISOString()),
+    remember('地址', w.location.href),
+    remember('UA', navigator.userAgent),
+    remember('在线', navigator.onLine ? 'yes' : 'no'),
+    remember('视口', String(w.innerWidth || 0) + ' x ' + String(w.innerHeight || 0) + ' / dpr ' + String(w.devicePixelRatio || 1)),
+    remember('内置浏览器', isInAppEmbeddedBrowser() ? 'yes（建议用系统 Chrome/Safari 打开）' : 'no'),
+    remember('模块脚本', ('noModule' in document.createElement('script')) ? 'supported' : 'unknown/old'),
+    remember('IndexedDB', ('indexedDB' in w) ? 'exists' : 'missing'),
+    remember('ServiceWorker', ('serviceWorker' in navigator) ? (navigator.serviceWorker.controller ? 'controlled' : 'supported, no controller') : 'missing')
+  ];
+  render(rows, '正在测试资源与本地数据库...');
+  function testFetch(label, url) {
+    if (!w.fetch) return Promise.resolve(remember(label, 'fetch missing'));
+    var timer;
+    return Promise.race([
+      fetch(url, { cache: 'reload' }).then(function (res) {
+        return res.text().then(function (text) {
+          var ct = res.headers.get('content-type') || '';
+          var head = String(text || '').slice(0, 40).replace(/\s+/g, ' ');
+          return remember(label, 'HTTP ' + res.status + ' / ' + ct + ' / ' + head);
+        });
+      }).catch(function (err) {
+        return remember(label, 'ERROR ' + (err && err.message ? err.message : err));
+      }),
+      new Promise(function (resolve) {
+        timer = setTimeout(function () { resolve(remember(label, 'TIMEOUT 8000ms')); }, 8000);
+      })
+    ]).then(function (html) {
+      if (timer) clearTimeout(timer);
+      return html;
+    });
+  }
+  function testIdb() {
+    if (!('indexedDB' in w)) return Promise.resolve(remember('IDB 打开', 'missing'));
+    return new Promise(function (resolve) {
+      var done = false;
+      var timer = setTimeout(function () {
+        if (done) return;
+        done = true;
+        resolve(remember('IDB 打开', 'TIMEOUT 6000ms'));
+      }, 6000);
+      try {
+        var req = indexedDB.open('MarshmallowDiagDB', 1);
+        req.onupgradeneeded = function () {
+          try { req.result.createObjectStore('t', { keyPath: 'id' }); } catch (_) {}
+        };
+        req.onsuccess = function () {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          try { req.result.close(); indexedDB.deleteDatabase('MarshmallowDiagDB'); } catch (_) {}
+          resolve(remember('IDB 打开', 'ok'));
+        };
+        req.onerror = function () {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          resolve(remember('IDB 打开', req.error && req.error.message ? req.error.message : 'error'));
+        };
+      } catch (err) {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        resolve(remember('IDB 打开', err && err.message ? err.message : err));
+      }
+    });
+  }
+  function testPhoneDb() {
+    if (!('indexedDB' in w)) return Promise.resolve(remember('MarshmallowPhoneDB', 'missing'));
+    return new Promise(function (resolve) {
+      var done = false;
+      var timer = setTimeout(function () {
+        if (done) return;
+        done = true;
+        resolve(remember('MarshmallowPhoneDB', 'TIMEOUT 10000ms（主程序常用库，超时会导致一直加载）'));
+      }, 10000);
+      try {
+        var req = indexedDB.open('MarshmallowPhoneDB');
+        var missing = false;
+        req.onupgradeneeded = function (event) {
+          if (Number(event && event.oldVersion || 0) !== 0) return;
+          missing = true;
+          try { event.target.transaction.abort(); } catch (_) {}
+        };
+        req.onsuccess = function () {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          var ver = req.result.version;
+          try { req.result.close(); } catch (_) {}
+          resolve(remember('MarshmallowPhoneDB', 'ok v' + ver));
+        };
+        req.onerror = function () {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          resolve(remember(
+            'MarshmallowPhoneDB',
+            missing ? 'missing（诊断已阻止创建新空库）' : (req.error && req.error.message ? req.error.message : 'error')
+          ));
+        };
+        req.onblocked = function () {};
+      } catch (err) {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        resolve(remember('MarshmallowPhoneDB', err && err.message ? err.message : err));
+      }
+    });
+  }
+  Promise.all([
+    testFetch('boot.js', 'js/boot.js?v=' + encodeURIComponent(BUILD)),
+    testFetch('app.js', 'js/app.js?v=' + encodeURIComponent(BUILD)),
+    testFetch('home.js', 'js/pages/home.js?v=' + encodeURIComponent(BUILD)),
+    testFetch('db.js', 'js/core/db.js?v=' + encodeURIComponent(BUILD)),
+    testFetch('home.css', 'css/home.css?v=' + encodeURIComponent(BUILD)),
+    testIdb(),
+    testPhoneDb()
+  ]).then(function (extra) {
+    var note = '诊断页不加载主程序。若 boot/app 返回 HTML 或超时、MarshmallowPhoneDB 超时，即问题源头';
+    if (isInAppEmbeddedBrowser()) {
+      note += ' 当前是 QQ/微信等内置浏览器，请用系统浏览器打开本站。';
+    }
+    render(rows.concat(extra), note);
+  });
+})();
+  </script>
+  <script>
+(function () {
+  var w = typeof window !== 'undefined' ? window : {};
+  var search = String(w.location && w.location.search || '');
+  if (!/[?&]reset=1(?:&|$)/.test(search)) return;
+  w.__MARSHMALLOW_RESETTING__ = true;
+  // 旧入口曾在这里直接注销 Worker 并删除全部缓存；iOS 上这会删掉唯一可用快照。
+  // 现在统一交给急救页：完整校验新版成功后才切换，失败继续保留当前版本。
+  w.location.replace('recovery.html?reason=legacy-reset');
+})();
+  </script>
+  <script>
+(function () {
+  var w = typeof window !== 'undefined' ? window : {};
+  w.__MARSHMALLOW_BOOT_OK = false;
+  w.__MARSHMALLOW_BOOT_FAILED = false;
+
+  function showBootFallback(title, detail) {
+    if (w.__MARSHMALLOW_BOOT_OK) return;
+    w.__MARSHMALLOW_BOOT_FAILED = true;
+    var app = document.getElementById('app');
+    if (!app) return;
+    if (w.__mm_selfheal_running__) {
+      app.innerHTML =
+        '<div style="min-height:100vh;padding:24px 18px;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif;background:#fbf6f0;color:#5c7b8f;">' +
+        '<p style="font-size:17px;font-weight:600;margin:0 0 12px;">正在自动修复</p>' +
+        '<p style="font-size:14px;line-height:1.55;margin:0;">检测到旧版本缓存，正在清理并重新加载，请稍候（本地数据不受影响）。</p>' +
+        '</div>';
+      return;
+    }
+    var esc = function (s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    };
+    app.innerHTML =
+      '<div style="min-height:100vh;padding:24px 18px;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif;background:#fbf6f0;color:#5c7b8f;">' +
+      '<p style="font-size:17px;font-weight:600;margin:0 0 12px;">' + esc(title) + '</p>' +
+      '<p style="font-size:14px;line-height:1.55;margin:0 0 10px;word-break:break-word;">' + esc(detail) + '</p>' +
+      '<p style="font-size:12px;line-height:1.5;margin:0;opacity:.85;">可尝试：切换 Wi‑Fi / 蜂窝网络、关闭 VPN；打开急救诊断页安全校验更新（不会删聊天或先删旧版本）。不要用系统里的「清除网站数据」。若从主屏幕图标打开异常，可先用 Safari 标签页打开同一地址。QQ / 微信内置浏览器请改用系统 Chrome 或 Safari。</p>' +
+      '<p style="font-size:13px;line-height:1.5;margin:14px 0 0;"><a href="recovery.html" style="color:#c0563f;font-weight:700;">→ 打开急救诊断页（校验更新 / 定位原因）</a></p>' +
+      '</div>';
+  }
+
+  w.addEventListener(
+    'unhandledrejection',
+    function (ev) {
+      if (w.__MARSHMALLOW_BOOT_OK || w.__MARSHMALLOW_BOOT_FAILED) return;
+      var r = ev.reason;
+      var msg = r && r.message ? String(r.message) : String(r || 'Promise 被拒绝');
+      showBootFallback('启动过程异常', msg);
+    },
+    false
+  );
+
+  w.addEventListener(
+    'error',
+    function (ev) {
+      if (w.__MARSHMALLOW_BOOT_OK || w.__MARSHMALLOW_BOOT_FAILED) return;
+      var t = ev.target;
+      if (t && t !== w.document && t !== w) {
+        var resourceUrl = t.src || t.href || '';
+        if (/^https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js/i.test(String(resourceUrl || ''))) return;
+        if (t.tagName !== 'SCRIPT' && (t.tagName !== 'LINK' || (t.rel || '').indexOf('stylesheet') === -1)) {
+          return;
+        }
+      }
+      var msg = (ev.error && ev.error.message) || ev.message || '资源或脚本错误';
+      if (ev.filename) msg += ' @ ' + ev.filename;
+      showBootFallback('页面加载出错', msg);
+    },
+    true
+  );
+
+  setTimeout(function () {
+    if (w.__MARSHMALLOW_BOOT_OK || w.__MARSHMALLOW_BOOT_FAILED) return;
+    var app = document.getElementById('app');
+    var text = app && app.textContent ? String(app.textContent).replace(/\s+/g, '') : '';
+    if (!text) {
+      showBootFallback(
+        '页面没有完成显示',
+        '主程序没有报告成功，也没有显示错误。请在当前地址后追加 ?diag=1 发送诊断截图，或追加 ?reset=1 清理旧缓存。'
+      );
+    }
+  }, 12000);
+
+  function checkBootTimeout() {
+    if (w.__MARSHMALLOW_BOOT_OK || w.__MARSHMALLOW_BOOT_FAILED) return;
+    var longTask = w.__MARSHMALLOW_LONG_BOOT_TASK__;
+    if (longTask && Date.now() - Number(longTask.updatedAt || 0) < 120000) {
+      var activeLoading = document.getElementById('boot-loading');
+      if (activeLoading) {
+        var restored = Math.max(0, Number(longTask.restored || 0));
+        var total = Math.max(0, Number(longTask.total || 0));
+        var progressText = total > 0 ? '（' + restored + ' / ' + total + '）' : '';
+        var reasonText = longTask.reason ? '\n' + String(longTask.reason) : '';
+        activeLoading.style.whiteSpace = 'pre-line';
+        activeLoading.textContent = String(longTask.label || '正在恢复本地数据') + progressText + '…' + reasonText;
+      }
+      setTimeout(checkBootTimeout, 30000);
+      return;
+    }
+    var loading = document.getElementById('boot-loading');
+    if (!loading) {
+      var app = document.getElementById('app');
+      var text = app && app.textContent ? String(app.textContent).replace(/\s+/g, '') : '';
+      if (!text) {
+        showBootFallback(
+          '页面没有完成显示',
+          '主程序没有报告成功，也没有显示错误。请先点开当前地址后追加 ?diag=1 发送诊断截图，或追加 ?reset=1 清理旧缓存。'
+        );
+      }
+      return;
+    }
+    showBootFallback(
+      '加载超时',
+      '页面长时间未完成初始化。若网络正常，可能是本地数据库首次创建较慢或被系统限制；请切换网络，或打开 /recovery 安全校验更新（不会删聊天或先删旧版本）。'
+    );
+  }
+  setTimeout(checkBootTimeout, 35000);
+})();
+  </script>
+</body>
+</html>

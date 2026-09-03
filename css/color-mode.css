@@ -1,0 +1,2885 @@
+/*
+ * 全站显示模式覆盖层。
+ * 放在各页面静态 CSS 之后、用户动态 CSS 之前：内置页面先得到可靠夜间底色，
+ * 用户的常规 CSS 继续生效，pageDarkCss 再作为最后一层按页修正。
+ */
+html[data-color-mode="dark"] {
+  color-scheme: dark;
+  --bg-paper: #101214;
+  --bg-paper-deep: #171a1e;
+  --bg: #101214;
+  --bg-card: #181b1f;
+  --bg-card-solid: #181b1f;
+  --bg-sheet: #14171a;
+  --bg-input: #1d2125;
+  --surface-card: #181b1f;
+  --surface-card-border: rgba(232, 237, 240, 0.12);
+  --surface: #181b1f;
+  --chat-paper: #16191c;
+  --text: #edf1f3;
+  --text-primary: #edf1f3;
+  --text-secondary: #aeb7bd;
+  --text-muted: #929da4;
+  --text-hint: rgba(205, 215, 221, 0.55);
+  --form-label: #aeb7bd;
+  --ink-brown: #edf1f3;
+  --ink-blue: #a8c3d2;
+  --icon-blue: #31424d;
+  --icon-blue-light: #27363f;
+  --icon-peach: #47362f;
+  --icon-cream: #302d29;
+  --icon-pink: #483238;
+  --tape-orange: #b98b69;
+  --tape-blue: #7595a8;
+  --accent-orange: #d0a17e;
+  --accent-orange-ink: #edc6a7;
+  --accent-pink: #c7979c;
+  --accent-pink-ink: #e4b7ba;
+  --border: rgba(232, 237, 240, 0.14);
+  --grid-line: rgba(232, 237, 240, 0.09);
+  --btn-primary-bg: #4b3a31;
+  --btn-primary-border: rgba(237, 198, 167, 0.18);
+  --btn-outline-bg: #1a1e22;
+  --btn-outline-border: rgba(232, 237, 240, 0.14);
+  --btn-soft-bg: #202328;
+  --btn-soft-border: rgba(232, 237, 240, 0.1);
+  --shadow-paper: 0 8px 24px rgba(0, 0, 0, 0.22);
+  --shadow-sticker: 0 8px 20px rgba(0, 0, 0, 0.2);
+  --shadow-float: 0 14px 36px rgba(0, 0, 0, 0.28);
+  background: #101214;
+}
+
+/*
+ * 主屏是用户完整创作面：夜间开关不重写手账/海/窗及用户自定义主屏 CSS。
+ * 路由进入 home 时恢复浅色基础 token；用户样式在本文件之后加载，仍可继续覆盖。
+ */
+html[data-color-mode="dark"][data-app-shell="home"] {
+  color-scheme: light;
+  --bg-paper: #fbf6f0;
+  --bg-paper-deep: #f3ebe2;
+  --bg: #fbf6f0;
+  --bg-card: #fffdf8;
+  --bg-card-solid: #fffdf8;
+  --bg-sheet: #fdf8f4;
+  --bg-input: #fffdf8;
+  --surface-card: #fffdf8;
+  --surface-card-border: rgba(140, 115, 98, 0.14);
+  --surface: #fffdf8;
+  --chat-paper: #fffdf8;
+  --text: #8c7362;
+  --text-primary: #5c4a3f;
+  --text-secondary: #a08978;
+  --text-muted: #8b7a70;
+  --text-hint: rgba(140, 115, 98, 0.58);
+  --form-label: #a08978;
+  --ink-brown: #8c7362;
+  --ink-blue: #5c7b8f;
+  --icon-blue: #b6cde0;
+  --icon-blue-light: #d5e4ed;
+  --icon-peach: #f8d3c5;
+  --icon-cream: #fdf8f4;
+  --icon-pink: #f5d0d8;
+  --tape-orange: #f1b98f;
+  --tape-blue: #a8c2d8;
+  --accent-orange: #a8856e;
+  --accent-orange-ink: #8a6a55;
+  --accent-pink: #c49a96;
+  --accent-pink-ink: #9a7572;
+  --border: rgba(140, 115, 98, 0.22);
+  --grid-line: #ece4dc;
+  --btn-primary-bg: rgba(241, 185, 143, 0.38);
+  --btn-primary-border: rgba(255, 255, 255, 0.78);
+  --btn-outline-bg: #fffdf8;
+  --btn-outline-border: rgba(140, 115, 98, 0.18);
+  --btn-soft-bg: #fdf4f6;
+  --btn-soft-border: rgba(140, 115, 98, 0.12);
+  --shadow-paper: 2px 4px 12px rgba(140, 115, 98, 0.08);
+  --shadow-sticker: 0 4px 12px rgba(168, 133, 110, 0.1);
+  --shadow-float: 0 10px 28px rgba(168, 133, 110, 0.12);
+  background: var(--bg-paper);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) body,
+html[data-color-mode="dark"]:not([data-app-shell="home"]) #app,
+html[data-color-mode="dark"]:not([data-app-shell="home"]) #page-container,
+html[data-color-mode="dark"] .page:not(.home-shell-page):not(.home-sea-shell):not(.home-window-shell):not(.identity-appearance-page),
+html[data-color-mode="dark"] .settings-scroll,
+html[data-color-mode="dark"] .scrapbook-scroll {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+html[data-color-mode="dark"] .navbar,
+html[data-color-mode="dark"] .scrapbook-navbar,
+html[data-color-mode="dark"] .settings-group,
+html[data-color-mode="dark"] .appearance-panel,
+html[data-color-mode="dark"] .modal,
+html[data-color-mode="dark"] .modal-content,
+html[data-color-mode="dark"] .modal-sheet,
+html[data-color-mode="dark"] .sheet,
+html[data-color-mode="dark"] .sheet-panel,
+html[data-color-mode="dark"] .beautify-navbar,
+html[data-color-mode="dark"] .beautify-panel,
+html[data-color-mode="dark"] .beautify-device,
+html[data-color-mode="dark"] .beautify-ai-compose,
+html[data-color-mode="dark"] .beautify-ai-base {
+  background-color: var(--bg-card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/*
+ * 通用组件不能只继承文字 token：旧页面里仍有不少 #fff 背景 shorthand。
+ * 这里统一接住卡片、列表、折叠项与页底操作区；页面自己的夜间皮可以在后文再细化。
+ */
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .scrapbook-card,
+  .scrapbook-panel,
+  .scrapbook-hero,
+  .scrapbook-list-item,
+  .settings-row,
+  .api-panel,
+  .api-profile-item,
+  .api-empty,
+  .empty-state,
+  .form-card
+) {
+  background: var(--surface-card);
+  color: var(--text);
+  border-color: var(--surface-card-border);
+  box-shadow: var(--shadow-paper);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .navbar-title,
+  .scrapbook-navbar-title,
+  .scrapbook-hero h2,
+  .scrapbook-list-body strong,
+  .settings-row-main strong,
+  .api-panel-header h3
+) {
+  color: var(--text-primary);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .scrapbook-hero p,
+  .scrapbook-list-body small,
+  .settings-row-main small,
+  .scrapbook-list-meta,
+  .settings-row-meta,
+  .api-field small,
+  .text-hint
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .page:not(.chat-thread-page):not(.identity-appearance-page) .navbar-btn,
+  .scrapbook-nav-btn,
+  .appearance-theme-chip
+) {
+  background: var(--btn-outline-bg);
+  color: var(--accent-orange);
+  border-color: var(--btn-outline-border);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .btn-primary,
+  .btn-outline,
+  .btn-soft
+) {
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .settings-assistant-entry,
+  .settings-collapse-head,
+  .api-manager-tabs,
+  .api-model-audit > summary
+) {
+  background: var(--bg-card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .beautify-collapse > summary,
+html[data-color-mode="dark"] .beautify-preview-root,
+html[data-color-mode="dark"] .beautify-css-area,
+html[data-color-mode="dark"] .beautify-ai-messages {
+  background-color: var(--bg-input);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .beautify-studio-page {
+  --beautify-bg: #111418;
+  --beautify-card: #1b1f24;
+  --beautify-ink: #edf1f4;
+  --beautify-muted: #9aa4ad;
+  --beautify-line: rgba(229, 236, 240, 0.14);
+  --beautify-accent: #8eb6c9;
+  --beautify-accent-soft: #263842;
+  --beautify-danger: #f09a9a;
+  --beautify-message-bg: #23282e;
+  --beautify-message-user-bg: #263842;
+}
+
+html[data-color-mode="dark"] .beautify-studio-page :is(
+  .beautify-navbar,
+  .beautify-home-mode,
+  .beautify-widget-fields input,
+  .beautify-widget-fields select,
+  .beautify-widget-actions button:not(.is-primary),
+  .beautify-widget-library button,
+  .beautify-extension-starters button,
+  .beautify-character-select
+) {
+  background-color: var(--beautify-card);
+  color: var(--beautify-ink);
+  border-color: var(--beautify-line);
+}
+
+html[data-color-mode="dark"] .beautify-studio-page .beautify-ai-messages article {
+  background: var(--beautify-message-bg);
+  color: var(--beautify-ink);
+  border: 1px solid var(--beautify-line);
+}
+
+html[data-color-mode="dark"] .beautify-studio-page .beautify-ai-messages article.is-user {
+  background: var(--beautify-message-user-bg);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card {
+  --story-paper: #20252a;
+  --story-ink: #edf1f3;
+  --story-muted: #a8b1b8;
+  --story-line: rgba(226, 234, 239, 0.14);
+  background: var(--story-paper);
+  color: var(--story-ink);
+  border-color: var(--story-line);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card :is(
+  .story-card-title,
+  .story-card-summary,
+  .story-card-body
+) {
+  color: var(--story-ink);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card :is(
+  .story-card-badge,
+  .story-card-meta,
+  .story-card-cast-chip,
+  .story-card-footer
+) {
+  color: var(--story-muted);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card .story-card-body {
+  border-color: var(--story-line);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card :is(.story-card-reroll-btn, .story-card-continue-btn) {
+  background: #2c3339;
+  color: var(--story-ink);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card--status {
+  background:
+    linear-gradient(90deg, rgba(142, 182, 201, 0.16) 0, rgba(142, 182, 201, 0.16) 3px, transparent 3px),
+    #20262b;
+  border-color: rgba(158, 190, 205, 0.22);
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card--status :is(
+  .story-card-title,
+  .story-card-summary,
+  .story-card-body
+) {
+  color: #e6edf1;
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card--status :is(
+  .story-card-badge,
+  .story-card-cast-chip,
+  .story-card-footer
+) {
+  color: #a9bbc4;
+}
+
+html[data-color-mode="dark"] .chat-thread-page .story-card--status :is(
+  .story-card-body,
+  .story-card-footer
+) {
+  border-color: rgba(158, 190, 205, 0.16);
+}
+
+html[data-color-mode="dark"] :is(
+  #page-container > .page:not(.home-shell-page):not(.home-sea-shell):not(.home-window-shell),
+  #modal-container
+) :is(
+  input,
+  textarea,
+  select,
+  .form-input,
+  .appearance-textarea
+) {
+  background: var(--bg-input);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] :is(
+  #page-container > .page:not(.home-shell-page):not(.home-sea-shell):not(.home-window-shell),
+  #modal-container
+) :is(input, textarea)::placeholder {
+  color: var(--text-hint);
+}
+
+/* 翻译气泡的编辑器是动态挂载的全局弹层。在 iOS WebKit 上同时固定
+ * color / text-fill / caret，避免切换平台皮肤后仍沿用浅色输入框的文字颜色。 */
+html[data-color-mode="dark"] #modal-container [data-edit-bubble-sheet] :is(
+  .eb-content,
+  .eb-translation
+) {
+  background: var(--bg-input) !important;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+}
+
+/*
+ * 系统弹窗独立获得完整深色 token。即使弹窗从保留浅色的自定义主屏打开，
+ * 也不会出现白底配浅字、只剩黑色开关的“半夜间”状态。
+ */
+html[data-color-mode="dark"] #modal-container {
+  color-scheme: dark;
+  --bg-card: #181b1f;
+  --bg-sheet: #181b1f;
+  --bg-input: #23282d;
+  --surface-card: #1d2226;
+  --surface-card-border: rgba(232, 237, 240, 0.12);
+  --text: #edf1f3;
+  --text-primary: #edf1f3;
+  --text-secondary: #aeb7bd;
+  --text-hint: rgba(205, 215, 221, 0.58);
+  --form-label: #aeb7bd;
+  --ink-brown: #edf1f3;
+  --accent-orange: #d8ab82;
+  --accent-orange-ink: #f0c9a6;
+  --accent-pink-ink: #e0b9b6;
+  --accent: #738f9b;
+  --border: rgba(232, 237, 240, 0.14);
+  --grid-line: rgba(232, 237, 240, 0.12);
+  --btn-primary-bg: #354952;
+  --btn-primary-border: rgba(190, 213, 223, 0.24);
+  --btn-outline-bg: #20252a;
+  --btn-outline-border: rgba(232, 237, 240, 0.15);
+  --btn-soft-bg: #252a2f;
+  --btn-soft-border: rgba(232, 237, 240, 0.12);
+}
+
+html[data-color-mode="dark"] #modal-container .modal-overlay {
+  background: rgba(4, 7, 9, 0.62);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .modal,
+  .modal-content,
+  .modal-sheet,
+  .sheet,
+  .sheet-panel
+) {
+  background: var(--bg-card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] #modal-container .modal-header {
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .modal-header h3,
+  .api-field-label,
+  .form-label,
+  .chat-details-row,
+  .chat-details-toggle
+) {
+  color: var(--text);
+}
+
+html[data-color-mode="dark"] #modal-container .modal-close-btn {
+  background: var(--btn-soft-bg);
+  color: var(--text-secondary);
+  border-color: var(--btn-soft-border);
+}
+
+html[data-color-mode="dark"] #modal-container .chat-details-toggle input[type="checkbox"] {
+  background: #343b41;
+}
+
+html[data-color-mode="dark"] #modal-container .chat-details-toggle input[type="checkbox"]:checked {
+  background: var(--accent);
+}
+
+html[data-color-mode="dark"] #modal-container .chat-details-toggle input[type="checkbox"]::after {
+  background: #f3f5f6;
+}
+
+/* 更新公告、解析失败等系统提示必须保持可读，包含下载中的 disabled 状态。 */
+html[data-color-mode="dark"] #modal-container :is(
+  .release-notes-prompt-lead,
+  .release-notes-prompt-list,
+  .release-notes-prompt-title
+) {
+  color: var(--text-primary);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .release-notes-prompt-meta,
+  .release-notes-prompt-hint,
+  .release-note-times,
+  .ai-fill-subtitle,
+  .schedule-json-hint
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .release-notes-prompt-block + .release-notes-prompt-block,
+  .release-notes-prompt-footer
+) {
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] #modal-container .btn-primary {
+  color: #f4f7f8;
+}
+
+html[data-color-mode="dark"] #modal-container .btn-outline {
+  color: #d8e0e4;
+}
+
+html[data-color-mode="dark"] #modal-container .btn:disabled {
+  color: #c6d0d5;
+  opacity: 0.72;
+}
+
+/*
+ * 表情回应与表情包选择器都复用 #modal-container，但其标签、搜索框和缩略图卡片
+ * 有自己的浅色背景，不能只把 modal-sheet 外壳切暗。
+ */
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-dialog,
+  .emoji-react-dialog--anon,
+  .chat-sticker-picker-sheet
+) {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-head,
+  .emoji-react-dialog--anon .emoji-react-head
+) {
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-label,
+  .emoji-react-dialog--anon .emoji-react-label,
+  .chat-sticker-empty,
+  .chat-sticker-pick-name
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-input,
+  .emoji-react-dialog--anon .emoji-react-input,
+  .chat-sticker-search-input
+) {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-input,
+  .chat-sticker-search-input
+)::placeholder {
+  color: var(--text-hint);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-btn,
+  .emoji-react-dialog--anon .emoji-react-btn,
+  .chat-sticker-tab,
+  .chat-sticker-search,
+  .chat-sticker-pick
+) {
+  background: #23282d;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .emoji-react-btn,
+  .chat-sticker-pick
+):is(:hover, :active, :focus-visible) {
+  background: #2d3439;
+}
+
+html[data-color-mode="dark"] #modal-container .chat-sticker-tab.active {
+  background: #668493;
+  color: #ffffff;
+  border-color: transparent;
+}
+
+html[data-color-mode="dark"] #modal-container .chat-sticker-loading {
+  border-color: rgba(232, 237, 240, 0.14);
+  border-top-color: #9bb8c6;
+}
+
+/* modal-container 缺失时表情回应会退化为 body 直属弹层，匿名皮也要保持可读。 */
+html[data-color-mode="dark"] .emoji-react-dialog--anon {
+  background: #181b1f;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .emoji-react-dialog--anon :is(
+  .emoji-react-input,
+  .emoji-react-btn
+) {
+  background: #23282d;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/*
+ * Toast 直接挂在 body，不在页面或 #modal-container 里面。此前它继承了夜间浅字，
+ * 但仍使用 components.css 的奶白背景和白边，于是更新/保存等连续提示会变成截图中
+ * 的两块空白白框。系统提示必须独立锁定可读的深色表面。
+ */
+html[data-color-mode="dark"] #toast-container .toast {
+  color-scheme: dark;
+  background: rgba(27, 31, 35, 0.98) !important;
+  color: #edf1f3 !important;
+  border-color: rgba(226, 234, 239, 0.16) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42) !important;
+}
+
+/* 页面内的生成失败条与聊天错误卡不挂在 modal-container，需独立切换夜间表面。 */
+html[data-color-mode="dark"] :is(.generation-error-report, .chat-error-card) {
+  background: rgba(27, 32, 36, 0.98);
+  color: var(--text);
+  border-color: rgba(225, 126, 126, 0.32);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.34);
+}
+
+html[data-color-mode="dark"] :is(.generation-error-report, .chat-error-card) :is(pre, button) {
+  background: #23292e;
+  color: #dce3e7;
+  border-color: rgba(232, 237, 240, 0.15);
+}
+
+html[data-color-mode="dark"] :is(
+  .generation-error-report-head span,
+  .generation-error-report-foot small,
+  .generation-error-report-original-label,
+  .chat-error-original-label
+) {
+  color: #aeb8be;
+}
+
+html[data-color-mode="dark"] :is(
+  .generation-error-report-head strong,
+  .chat-error-card-head strong
+) {
+  color: #f09a9a;
+}
+
+html[data-color-mode="dark"] :is(
+  .generation-error-report-foot button[data-generation-error-detail],
+  .chat-error-detail
+) {
+  background: rgba(192, 93, 93, 0.16);
+  color: #f0abab;
+  border-color: rgba(225, 126, 126, 0.32);
+}
+
+/*
+ * 以下系统浮层直接挂在 body，无法继承其来源页面的局部夜间 token。
+ * 除授权锁屏外仅在 app 壳中切暗，继续遵守“主屏用户画布不被夜间模式重写”。
+ */
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .quick-ball-panel {
+  background: rgba(27, 31, 35, 0.96);
+  color: var(--text-primary);
+  border-color: rgba(232, 237, 240, 0.16);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.42);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .quick-ball-panel :is(
+  .quick-ball-action,
+  .quick-ball-preset,
+  .quick-ball-manage,
+  .quick-ball-back,
+  .quick-ball-panel-head
+) {
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .quick-ball-panel :is(
+  .quick-ball-action,
+  .quick-ball-preset,
+  .quick-ball-back
+):is(:hover, :active, :focus-visible) {
+  background: rgba(232, 237, 240, 0.08);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .companion-panel-card,
+  .companion-app-picker
+) {
+  background: #181b1f;
+  color: var(--text-primary);
+  border-color: var(--border);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .companion-mini-player,
+  .companion-mini-lyrics,
+  .companion-mini-queue button,
+  .companion-context-card,
+  .companion-context-line,
+  .companion-panel-outputs li.is-ai .companion-context-line,
+  .companion-panel-char,
+  .companion-input-row input,
+  .companion-input-btn,
+  .companion-action-main,
+  .companion-tool-btn,
+  .companion-app-search,
+  .companion-app-scenario,
+  .companion-app-char-row,
+  .companion-history-chip
+) {
+  background: #23282d;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .companion-mini-queue button.is-active,
+  .companion-panel-char.is-active,
+  .companion-app-scenario.is-active,
+  .companion-app-char-row.is-active,
+  .companion-history-chip.is-active
+) {
+  background: rgba(102, 132, 147, 0.24);
+  border-color: rgba(155, 184, 198, 0.48);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .companion-panel-warn {
+  background: rgba(185, 139, 105, 0.14);
+  color: #e4b98f;
+  border-color: rgba(208, 161, 126, 0.36);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .companion-panel-warn.is-error {
+  background: rgba(184, 95, 80, 0.14);
+  color: #f0a39a;
+  border-color: rgba(225, 126, 126, 0.34);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .companion-tool-btn.is-danger {
+  background: rgba(184, 95, 80, 0.14);
+  color: #f0a39a;
+}
+
+html[data-color-mode="dark"] .link-preview-card {
+  background: #181b1f;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+html[data-color-mode="dark"] .link-preview-head {
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .link-preview-close {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] :is(
+  .link-preview-body,
+  .link-preview-loading,
+  .link-preview-fallback
+) {
+  background: #111417;
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] .link-preview-frame {
+  background: #111417;
+}
+
+html[data-color-mode="dark"] .cl-modal {
+  color-scheme: dark;
+  background: #181b1f;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+html[data-color-mode="dark"] .cl-modal :is(.cl-modal-head button, .cl-modal-or) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] .cl-modal-upload {
+  background: #20252a;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .cl-modal-url {
+  background: #23282d;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .cl-modal-url::placeholder {
+  color: var(--text-hint);
+}
+
+html[data-color-mode="dark"] .music-modal-overlay {
+  --m-surface: #181b1f;
+  --m-surface-2: #23282d;
+  --m-ink: #edf1f3;
+  --m-ink-2: #c8d0d5;
+  --m-sub: #9da7ad;
+  --m-line: rgba(232, 237, 240, 0.12);
+  --m-line-2: rgba(232, 237, 240, 0.18);
+  --m-accent: #dfe5e8;
+  --m-on-accent: #15181b;
+  --m-cover-fallback: linear-gradient(135deg, #252a2f, #1d2226);
+  --m-cover-ink: rgba(237, 241, 243, 0.42);
+  color-scheme: dark;
+}
+
+html[data-color-mode="dark"] .music-modal-overlay :is(input, textarea, select) {
+  background: #23282d;
+  color: var(--m-ink);
+  border-color: var(--m-line-2);
+}
+
+html[data-color-mode="dark"] #mm-native-lock {
+  color-scheme: dark;
+  background: #101214 !important;
+  color: #edf1f3 !important;
+}
+
+html[data-color-mode="dark"] #mm-native-lock input {
+  background: #20252a !important;
+  color: #edf1f3 !important;
+  border-color: rgba(232, 237, 240, 0.16) !important;
+}
+
+html[data-color-mode="dark"] #mm-native-lock input::placeholder {
+  color: rgba(205, 215, 221, 0.58);
+}
+
+html[data-color-mode="dark"] #mm-native-lock #mm-native-auth-toggle {
+  color: #a8c3d2 !important;
+}
+
+html[data-color-mode="dark"] #mm-native-lock #mm-native-auth-msg {
+  color: #f09a9a !important;
+}
+
+/*
+ * 设置 / 详情页仍有一批“卡片里的卡片”，不会命中最外层 scrapbook-card。
+ * 统一换成深色层级，避免出现深色页面里嵌白色预览、日志或组件配置行。
+ */
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .appearance-chat-font-preview,
+  .appearance-chat-font-preview span,
+  .appearance-icon-item,
+  .appearance-widget-row,
+  .debug-log-item pre,
+  .generation-error-page .gen-error-raw,
+  .generation-error-page .gen-error-guide-item
+) {
+  background: var(--bg-input);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .settings-assistant-entry,
+  .settings-collapse-head
+) {
+  color: var(--text-primary);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) :is(
+  .settings-assistant-copy small,
+  .settings-assistant-arrow,
+  .appearance-widget-placement,
+  .debug-log-message,
+  .generation-error-page .gen-error-guide-item summary span,
+  .generation-error-page .gen-error-guide-body
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"]:not([data-app-shell="home"]) .generation-error-page :is(
+  .gen-error-guide-item summary strong,
+  .gen-error-guide-label
+) {
+  color: var(--text-primary);
+}
+
+/*
+ * 聊天详情页在 chat.css 中为纸卡重新声明了浅色 --surface-card；
+ * 夜间必须在页面根重新映射，否则会形成“黑色外壳 + 白卡 + 浅字”的半夜间状态。
+ */
+html[data-color-mode="dark"] .chat-details-page {
+  --bg-paper: #101316;
+  --bg-sheet: #14181c;
+  --bg-input: #20252a;
+  --surface: #191d21;
+  --surface-card: #191d21;
+  --surface-card-border: rgba(232, 237, 240, 0.12);
+  --chat-paper: #191d21;
+  background: var(--bg-paper);
+  color: var(--text);
+}
+
+html[data-color-mode="dark"] .chat-details-page :is(
+  .chat-details-scroll,
+  .chat-details-hero,
+  .chat-details-group,
+  .chat-details-encounter-inbox
+) {
+  background: var(--surface-card);
+  color: var(--text);
+  border-color: var(--surface-card-border);
+}
+
+html[data-color-mode="dark"] .chat-details-page .chat-details-scroll {
+  background: var(--bg-paper);
+}
+
+html[data-color-mode="dark"] .chat-details-page :is(
+  .chat-shortcut-btn,
+  .chat-details-beautify-btn,
+  .cd-token-panel,
+  .cd-worldbook-check
+) {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .chat-details-page :is(
+  .chat-details-group > summary.chat-details-group-summary,
+  .chat-details-group-title,
+  .chat-details-section-title,
+  .chat-details-row,
+  .cd-token-label,
+  .cd-token-total strong,
+  .cd-summary-progress strong
+) {
+  color: var(--text-primary);
+}
+
+html[data-color-mode="dark"] .chat-details-page :is(
+  .chat-details-group-meta,
+  .chat-details-hint,
+  .chat-details-stat,
+  .chat-details-subtitle,
+  .cd-token-total,
+  .cd-token-value,
+  .cd-summary-progress,
+  .cd-summary-selection
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] .chat-details-page :is(
+  .chat-details-row,
+  .chat-details-css-block + .chat-details-css-block,
+  .cd-thinking-details,
+  .cd-memory-advanced
+) {
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .chat-details-page .chat-details-event {
+  background: rgba(201, 151, 156, 0.12);
+  color: var(--text);
+}
+
+html[data-color-mode="dark"] .chat-details-page .chat-details-toggle input[type="checkbox"] {
+  background: #343b41;
+}
+
+html[data-color-mode="dark"] .chat-details-page .chat-details-toggle input[type="checkbox"]:checked {
+  background: #738f9b;
+}
+
+html[data-color-mode="dark"] .chat-details-page .chat-details-toggle input[type="checkbox"]::after {
+  background: #f3f5f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+html[data-color-mode="dark"] .chat-details-page :is(button, input, select, textarea):disabled {
+  color: #879198;
+  opacity: 0.68;
+}
+
+/*
+ * 详情/设置入口打开的选择器与编辑表单：外层 modal-sheet 已切暗，
+ * 内部项目卡、状态条和共享信息块也要落到同一套深色层级。
+ */
+html[data-color-mode="dark"] #modal-container :is(
+  .participant-picker-editable,
+  .offline-ff-mode-item,
+  .offline-ff-status,
+  .event-gacha-tile,
+  .ai-fill-field,
+  .sek-excerpt,
+  .sek-note,
+  .sek-char-item
+) {
+  background: var(--surface-card);
+  color: var(--text);
+  border-color: var(--surface-card-border);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .participant-picker-edit-fields small,
+  .offline-ff-hint,
+  .offline-ff-mode-item small,
+  .event-gacha-tile-label,
+  .ai-fill-subtitle,
+  .sek-field-label
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] #modal-container .participant-picker-editable.is-selected {
+  background: rgba(115, 143, 155, 0.16);
+  border-color: rgba(151, 183, 196, 0.54);
+}
+
+html[data-color-mode="dark"] #modal-container :is(
+  .modal-footer,
+  .participant-picker-foot,
+  .option-picker-foot,
+  .ai-fill-footer
+) {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+/* 线下沉浸：切换页面自己的 --os-* 色票，不能只把外层纸面涂黑。 */
+html[data-color-mode="dark"] .offline-session-page {
+  --os-paper: #101214;
+  --os-ink: #edf1f3;
+  --os-ink-2: #aeb7bd;
+  --os-ink-3: rgba(205, 215, 221, 0.58);
+  --os-line: rgba(232, 237, 240, 0.14);
+  --os-accent: #91a7d2;
+  --os-accent-soft: rgba(145, 167, 210, 0.14);
+  --os-btn: #dfe5e8;
+  --os-btn-ink: #15181b;
+  --os-veil: rgba(16, 18, 20, 0.84);
+  --os-surface: #191d21;
+  --surface: #191d21;
+  --surface-card: #191d21;
+  --bg-card: #191d21;
+  --bg-sheet: #14171a;
+  --bg-input: #20252a;
+  --shadow-paper: none;
+  background: var(--os-paper);
+  color: var(--os-ink);
+}
+
+html[data-color-mode="dark"] .offline-session-page[data-os-bg="white"],
+html[data-color-mode="dark"] .offline-session-page[data-os-bg="paper"] {
+  --os-paper: #101214;
+}
+
+html[data-color-mode="dark"] .offline-session-page :is(
+  .navbar,
+  .offline-bar,
+  .offline-tools,
+  .offline-options,
+  .os-manage-bar,
+  .offline-settings-sheet-head,
+  .offline-settings-sheet-body,
+  .offline-settings-sheet-foot,
+  .offline-settings-sheet-panel
+) {
+  background: var(--os-paper);
+  color: var(--os-ink);
+  border-color: var(--os-line);
+}
+
+html[data-color-mode="dark"] .offline-session-page :is(
+  .offline-scene-card,
+  .offline-invite-banner,
+  .offline-tool,
+  .offline-option-chip,
+  .offline-input-wrap,
+  .offline-done-card,
+  .offline-empty-state
+) {
+  background: var(--surface);
+  color: var(--os-ink);
+  border-color: var(--os-line);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .offline-session-page :is(
+  .offline-scene-label,
+  .offline-scene-summary,
+  .offline-scene-caret,
+  .offline-beat--narration p,
+  .offline-beat--opening p,
+  .offline-settings-sheet-head h2
+) {
+  color: var(--os-ink);
+}
+
+html[data-color-mode="dark"] .offline-session-page :is(
+  .offline-beat--opening span,
+  .offline-beat--directive span,
+  .offline-beat--directive p,
+  .os-beat-multiline,
+  .offline-directive::placeholder
+) {
+  color: var(--os-ink-2);
+}
+
+html[data-color-mode="dark"] .offline-session-page .offline-bar .offline-input-wrap,
+html[data-color-mode="dark"] .offline-session-page .offline-bar .offline-directive {
+  background: var(--os-surface);
+  color: var(--os-ink);
+}
+
+html[data-color-mode="dark"] .offline-session-page .offline-bar .offline-advance {
+  background: var(--os-btn);
+  color: var(--os-btn-ink);
+  border-color: var(--os-btn);
+}
+
+/* 记忆馆保留彩色插画，但把壁纸、冰格和玻璃盖统一压进深色层级。 */
+html[data-color-mode="dark"] .memory-hall {
+  --memory-night-paper: #101317;
+  --memory-night-surface: #191e23;
+  --memory-night-surface-2: #20262c;
+  background: var(--memory-night-paper);
+  color: var(--text);
+}
+
+html[data-color-mode="dark"] .memory-hall-scroll::before {
+  background:
+    linear-gradient(170deg, rgba(16, 19, 23, 0.96), rgba(19, 23, 28, 0.96));
+}
+
+html[data-color-mode="dark"] .memory-hall-scroll::after {
+  opacity: 0.08;
+  filter: saturate(0.65) brightness(0.6);
+}
+
+html[data-color-mode="dark"] .memory-hall :is(
+  .mh-sub,
+  .memory-region-head .mrt span,
+  .memory-card-evidence,
+  .memory-card-expand-hint,
+  .memory-region-placeholder,
+  .memory-favorite-empty
+) {
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] .memory-hall :is(
+  .memory-region-head .mrt b,
+  .memory-card-fulltext p,
+  .memory-vector-status-line
+) {
+  color: var(--text-primary);
+}
+
+html[data-color-mode="dark"] .memory-hall-grid {
+  background: rgba(28, 34, 40, 0.88);
+  border-color: rgba(232, 237, 240, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell {
+  color: #dbe3e8;
+  border: 1px solid rgba(232, 237, 240, 0.08);
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.2),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.035);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell::after {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08),
+    transparent 48%,
+    rgba(255, 255, 255, 0.025)
+  );
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell :is(.mh-name, .mh-hint) {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-yellow {
+  background: rgba(117, 94, 26, 0.28);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-peach {
+  background: rgba(122, 66, 50, 0.3);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-blue,
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-sky {
+  background: rgba(46, 78, 111, 0.32);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-orange {
+  background: rgba(126, 80, 28, 0.3);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-cream {
+  background: rgba(92, 79, 58, 0.3);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-cell.tint-lavender {
+  background: rgba(78, 62, 112, 0.34);
+}
+
+html[data-color-mode="dark"] .memory-hall .mh-icon svg {
+  opacity: 0.46;
+  filter: saturate(0.78) brightness(0.78);
+}
+
+html[data-color-mode="dark"] .memory-hall :is(
+  .mh-slot-chip,
+  .mh-pick-card,
+  .mh-pick-global,
+  .mh-pick-avatar,
+  .mh-pick-ghost-del,
+  .memory-card,
+  .travel-album-book,
+  .travel-album-paper
+) {
+  background: var(--memory-night-surface);
+  color: var(--text);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+/* 用户主题样式会在静态样式之后注入。若它只改了卡片纸张背景、没有同时提供
+ * 夜间正文色，普通优先级会把这里重新盖成浅底，形成浅字叠浅底。记忆正文属于
+ * 可读性底线：夜间固定成对收口背景与文字，仍保留卡片结构和其它装饰。 */
+html[data-color-mode="dark"] .memory-hall .memory-card {
+  background: var(--memory-night-surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-color-mode="dark"] .memory-hall .memory-card-body {
+  color: var(--text-primary) !important;
+}
+
+html[data-color-mode="dark"] .memory-hall .memory-card-btn {
+  background: var(--memory-night-surface-2);
+  color: var(--text-secondary);
+}
+
+html[data-color-mode="dark"] .memory-hall .memory-card-fragments span {
+  background: rgba(196, 144, 116, 0.16);
+  color: #e5b89e;
+}
+
+/* 匿名区 / 论坛 / 扩展库都有独立的 ins 色票，夜间在页面根重映射。 */
+html[data-color-mode="dark"] .anon-page {
+  --anon-bg: #101316;
+  --anon-bg-soft: #171b1f;
+  --anon-surface: rgba(27, 32, 37, 0.96);
+  --anon-border: rgba(232, 237, 240, 0.12);
+  --anon-text: #edf1f3;
+  --anon-muted: #a5afb6;
+  --anon-accent: #d7dee2;
+  --anon-glow: #9db6c4;
+  background: var(--anon-bg);
+  color: var(--anon-text);
+}
+
+html[data-color-mode="dark"] .anon-page .navbar {
+  background: rgba(16, 19, 22, 0.94);
+  border-color: var(--anon-border);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] :is(
+  .forum-page,
+  .forum-detail-page,
+  .forum-profile-page
+) {
+  --forum-bg: #101316;
+  --forum-surface: #1a1f24;
+  --forum-ink: #edf1f3;
+  --forum-muted: #a6b0b7;
+  --forum-line: rgba(232, 237, 240, 0.12);
+  --forum-accent: #8eb4cc;
+  --forum-danger: #e47c82;
+  background: var(--forum-bg);
+  color: var(--forum-ink);
+}
+
+html[data-color-mode="dark"] :is(
+  .forum-page,
+  .forum-detail-page,
+  .forum-profile-page
+) :is(.forum-navbar, .forum-nav-sheet, .forum-compose-sheet) {
+  background: rgba(16, 19, 22, 0.95);
+  color: var(--forum-ink);
+  border-color: var(--forum-line);
+}
+
+html[data-color-mode="dark"] .ext-page {
+  --ext-ink: #edf1f3;
+  --ext-muted: #a5afb6;
+  --ext-line: rgba(232, 237, 240, 0.12);
+  --ext-paper: rgba(26, 31, 36, 0.94);
+  --ext-accent: #9bbcc4;
+  background: linear-gradient(180deg, #101416, #12171a 42%);
+  color: var(--ext-ink);
+}
+
+html[data-color-mode="dark"] .ext-page .ext-navbar {
+  background: rgba(16, 20, 22, 0.94);
+  border-color: var(--ext-line);
+}
+
+/* 通讯录和表情包仍使用自身实底 token，单独换成深色纸面。 */
+html[data-color-mode="dark"] .contacts-page {
+  --classbook-paper: #1a1e22;
+  --classbook-shadow: none;
+  --classbook-hole: rgba(232, 237, 240, 0.16);
+}
+
+html[data-color-mode="dark"] .dialer-page {
+  color-scheme: dark;
+  --dial-blue: #708fa2;
+  --dial-blue-soft: #25323a;
+  --dial-peach: #3b3029;
+  --dial-pink: #382b31;
+  --dial-cream: #101417;
+  --dial-ink: #edf2f4;
+  --dial-ink-soft: #b5c0c7;
+  --dial-ink-muted: #8f9ba3;
+  --dial-call: #708fa2;
+  --dial-tab-idle: #7f8a91;
+  --surface-card: #1a1f23;
+  --surface-card-border: rgba(232, 237, 240, 0.12);
+  background: #101417;
+  color: var(--dial-ink);
+}
+
+html[data-color-mode="dark"] .dialer-page .dialer-navbar {
+  background: rgba(16, 20, 23, 0.94);
+  border-bottom-color: rgba(232, 237, 240, 0.1);
+  color: var(--dial-ink);
+}
+
+html[data-color-mode="dark"] .dialer-page :is(
+  .dialer-search,
+  .dialer-tool,
+  .dialer-row,
+  .dialer-sheet-panel,
+  .dialer-sheet-item,
+  .dialer-sheet-row
+) {
+  background: var(--surface-card);
+  color: var(--dial-ink);
+  border-color: var(--surface-card-border);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] #page-container .dialer-page .dialer-search-input {
+  /* type=search 在 color-scheme:dark 下会重新吃通用输入底色，必须保持外层胶囊的一体表面。 */
+  background: transparent !important;
+  color: var(--dial-ink);
+  border-color: transparent;
+}
+
+html[data-color-mode="dark"] #page-container .dialer-page .dialer-search-input::placeholder {
+  color: var(--dial-ink-muted);
+  opacity: 1;
+}
+
+html[data-color-mode="dark"] .dialer-page :is(
+  .dialer-search-clear,
+  .dialer-row-check,
+  .dialer-sheet-action,
+  .dialer-sheet-edit
+) {
+  background: #252b30;
+  color: var(--dial-ink-soft);
+  border-color: rgba(232, 237, 240, 0.14);
+}
+
+html[data-color-mode="dark"] .dialer-page .dialer-chip-add {
+  color: #e5b187;
+}
+
+html[data-color-mode="dark"] .dialer-page .dialer-row--select.is-selected {
+  background: rgba(112, 143, 162, 0.2);
+  border-color: rgba(150, 182, 201, 0.3);
+}
+
+html[data-color-mode="dark"] .dialer-page :is(
+  .dialer-tier.is-main,
+  .dialer-tier.is-npc,
+  .dialer-tier.is-background
+) {
+  color: #dbe3e7;
+}
+
+html[data-color-mode="dark"] .dialer-page .dialer-quick-avatar {
+  background: rgba(16, 20, 23, 0.5);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .dialer-page .dialer-tabbar {
+  background: rgba(18, 22, 25, 0.94);
+  border-top-color: rgba(232, 237, 240, 0.1);
+}
+
+html[data-color-mode="dark"] .dialer-page .dialer-row:active {
+  background: #22292e;
+}
+
+html[data-color-mode="dark"] .contacts-page :is(
+  .classbook-page,
+  .contacts-group-chip,
+  .contact-card,
+  .contacts-card-sheet,
+  .contacts-search
+) {
+  background: var(--surface-card);
+  color: var(--text);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .stickers-page {
+  --surface-card: #181c20;
+  --surface-card-border: rgba(232, 237, 240, 0.12);
+}
+
+html[data-color-mode="dark"] .stickers-page :is(
+  .stk-search,
+  .stk-cell,
+  .stk-bind-row,
+  .stk-upload-row,
+  .stk-sheet .wb-sheet-panel
+) {
+  background: var(--surface-card);
+  color: var(--text);
+  border-color: var(--surface-card-border);
+}
+
+html[data-color-mode="dark"] .stickers-page :is(
+  .stk-search-input,
+  .stk-search-input:focus
+) {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+html[data-color-mode="dark"] .stickers-page .stk-search-input::placeholder {
+  color: var(--text-hint);
+}
+
+html[data-color-mode="dark"] .stickers-page :is(
+  .stk-pack-head,
+  .stk-footer
+) {
+  background: var(--surface-card);
+  border-color: var(--surface-card-border);
+}
+
+html[data-color-mode="dark"] .stickers-page :is(
+  .stk-bind-row.is-bound,
+  .stk-cell.is-selected
+) {
+  background: rgba(102, 132, 147, 0.2);
+  border-color: rgba(155, 184, 198, 0.5);
+}
+
+html[data-color-mode="dark"] .stickers-page :is(
+  .stk-thumb-broken,
+  code
+) {
+  background: #23282d;
+  color: var(--text-secondary);
+}
+
+/* 微博正文已吃通用 token；补齐热评、转发、私信和话题页的硬编码浅色小面。 */
+html[data-color-mode="dark"] .weibo-page :is(
+  .weibo-repost-origin,
+  .weibo-vis-badge,
+  .weibo-comment-ai-fill,
+  .weibo-hot-comments,
+  .weibo-dm-row,
+  .weibo-dm-reply,
+  .weibo-dm-reply-input,
+  .weibo-topic-news,
+  .weibo-topic-post
+) {
+  background: var(--bg-card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .weibo-page :is(
+  .weibo-actions,
+  .weibo-comment-row,
+  .weibo-dm-row
+) {
+  border-color: var(--border);
+}
+
+html[data-color-mode="dark"] .weibo-page :is(
+  .weibo-action-btn,
+  .weibo-hot-like,
+  .weibo-topic-time,
+  .weibo-dm-meta,
+  .weibo-dm-composer-hint
+) {
+  color: var(--text-secondary);
+}
+
+/* “他的手机”是系统功能页：保留用户壁纸内容，但系统壳与默认壁纸切到暗色。 */
+html[data-color-mode="dark"] .cphone-page {
+  --cphone-porcelain: #121518;
+  --cphone-mist: #20252a;
+  --cphone-ink: #edf1f3;
+  --cphone-muted: #a7b0b6;
+  --cphone-sea: #9aafb7;
+  --cphone-white: #1b2024;
+  --cphone-glass: rgba(24, 29, 33, 0.82);
+  --cphone-hairline: rgba(232, 237, 240, 0.12);
+  background: #0d1012;
+  color: var(--cphone-ink);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-scroll.is-device-mode {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(128, 148, 157, 0.12), transparent 34%),
+    linear-gradient(145deg, #171b1e, #0c0f11);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-device-screen {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(130, 150, 158, 0.12), transparent 30%),
+    radial-gradient(circle at 12% 82%, rgba(81, 95, 101, 0.12), transparent 34%),
+    var(--cphone-porcelain);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-device-wallpaper-overlay {
+  background: rgba(12, 15, 17, 0.38);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-scroll.is-picker-mode,
+  .cphone-subpage
+) {
+  background: #121518;
+  color: var(--cphone-ink);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-chat-tabs,
+  .cphone-more-popover,
+  .cphone-settings-group,
+  .cphone-calendar-card,
+  .cphone-browser-chrome,
+  .cphone-web-chrome,
+  .cphone-chooser.is-compact,
+  .cphone-current-char,
+  .cphone-char-option,
+  .cphone-character-search,
+  .cphone-map-preview,
+  .cphone-flow-body,
+  .cphone-note,
+  .cphone-proactive-stats-btn,
+  .cphone-proactive-stats-panel,
+  .cphone-generating-panel,
+  .cphone-record,
+  .cphone-mini-record,
+  .cphone-activity-card,
+  .cphone-avatar-pending,
+  .cphone-music-user-lib,
+  .cphone-music-chip,
+  .cphone-photo-record,
+  .cphone-modal-card,
+  .cphone-photo-card,
+  .cphone-interest-keywords,
+  .cphone-interest-progress-card,
+  .cphone-faux-web-page
+) {
+  background: #1b2024;
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-chat-back,
+  .cphone-phone-home,
+  .cphone-more-menu summary,
+  .cphone-music-search-action,
+  .cphone-char-pin,
+  .cphone-modal-close,
+  .cphone-chat-manage-bar button,
+  .cphone-contact-edit-actions button,
+  .cphone-intercept-head-actions button
+) {
+  background: #23282d;
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-settings-row input[type="number"],
+  .cphone-settings-form input,
+  .cphone-settings-form select,
+  .cphone-settings-inline-input input,
+  .cphone-settings-inline-input select,
+  .cphone-contact-edit-form input,
+  .cphone-contact-edit-form select,
+  .cphone-contact-edit-form textarea,
+  .cphone-proactive-count,
+  .cphone-proactive-gap,
+  .cphone-busy-mode,
+  .cphone-avatar-desc
+) {
+  color-scheme: dark;
+  background: #23282d;
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-more-popover button,
+  .cphone-char-option,
+  .cphone-chat-manage-bar button,
+  .cphone-contact-edit-actions button
+):is(:hover, :active, :focus-visible) {
+  background: #2c3338;
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-thumb-broken,
+  .cphone-proactive-log-evidence pre,
+  .cphone-record-cover,
+  .cphone-browser-chrome div,
+  .cphone-web-chrome div,
+  .cphone-map-live.is-text-only .cphone-map-live-status
+) {
+  background: #20252a;
+  color: var(--cphone-muted);
+  border-color: var(--cphone-hairline);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-web-frame,
+  .cphone-web-frame-wrap
+) {
+  background: #111417;
+  border-color: var(--cphone-hairline);
+}
+
+/* 他的手机新版 ins pass 在 character-phone.css 尾部重新声明了浅色玻璃与白色地图纸面。
+ * 夜间层必须完整覆盖主屏、通用子页和地图空状态，不能只覆盖旧记录卡。 */
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-widget,
+  .cphone-dock
+) {
+  background: rgba(25, 29, 33, 0.88);
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-subpage-head,
+  .cphone-subpage-body,
+  .cphone-os-content.is-map .cphone-subpage-head,
+  .cphone-subpage-body.is-map-product
+) {
+  background: var(--cphone-porcelain);
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-subpage :is(
+  .btn,
+  .btn.btn-soft,
+  .btn.btn-outline
+) {
+  background: #23282d;
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-subpage .btn.btn-primary {
+  background: #edf1f3;
+  color: #151719;
+  border-color: #edf1f3;
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-chooser-collapse,
+  .cphone-chat-row.is-checked,
+  .cphone-contact-row.is-checked
+) {
+  background: rgba(237, 241, 243, 0.07);
+  color: var(--cphone-ink);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-chooser-section-title,
+  .cphone-empty,
+  .cphone-empty-note
+) {
+  color: var(--cphone-muted);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-chat-group-avatar.is-collage i,
+  .cphone-settings-contact-avatar.is-collage i
+) {
+  background: #2a3035;
+  color: var(--cphone-muted);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-home-indicator {
+  background: rgba(237, 241, 243, 0.62);
+}
+
+/* 地图的深色层级：道路仍是签名元素，但纸面、状态层与抽屉统一到手机夜间 token。 */
+html[data-color-mode="dark"] .cphone-page .cphone-map-product {
+  color: var(--cphone-ink);
+  background: var(--cphone-porcelain);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-source {
+  background: #171b1f;
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-product .cphone-map-live {
+  background:
+    linear-gradient(145deg, rgba(31, 37, 41, 0.98), rgba(20, 24, 28, 0.98)),
+    repeating-linear-gradient(8deg, transparent 0 28px, rgba(154, 175, 183, 0.1) 29px 31px);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-product :is(
+  .cphone-faux-road,
+  .cphone-faux-pin
+) {
+  background: #343b40;
+  border-color: var(--cphone-hairline);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-product .cphone-faux-area {
+  background: rgba(99, 125, 113, 0.3);
+  box-shadow:
+    205px 42px 0 16px rgba(83, 108, 119, 0.28),
+    98px 104px 0 12px rgba(67, 77, 82, 0.38);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-product .cphone-map-live-status {
+  background: rgba(18, 21, 24, 0.8);
+  color: var(--cphone-muted);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-product .cphone-map-live.is-text-only .cphone-map-live-status,
+html[data-color-mode="dark"] .cphone-page .cphone-map-refresh {
+  background: rgba(35, 40, 45, 0.94);
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-map-person-pin,
+  .cphone-amap-person-pin
+) {
+  background: #edf1f3;
+  border-color: #151719;
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.32);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-sheet {
+  background: var(--cphone-porcelain);
+  color: var(--cphone-ink);
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-sheet::before,
+html[data-color-mode="dark"] .cphone-page .cphone-map-timeline::before {
+  background: #3a4147;
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-map-route,
+  .cphone-map-place-library
+) {
+  background: #1b2024;
+  color: var(--cphone-ink);
+  border-color: var(--cphone-hairline);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .cphone-page .cphone-map-timeline article > i {
+  background: var(--cphone-porcelain);
+}
+
+html[data-color-mode="dark"] .cphone-page :is(
+  .cphone-map-now,
+  .cphone-map-place-groups,
+  .cphone-map-place-groups section + section
+) {
+  border-color: var(--cphone-hairline);
+}
+
+/* 扩展库与 MCP 都有独立浅色 token；只改全局 --text 会造成浅卡浅字。 */
+html[data-color-mode="dark"] .ext-page {
+  --ext-ink: #edf1f3;
+  --ext-muted: #9ba4aa;
+  --ext-line: rgba(237, 241, 243, 0.12);
+  --ext-paper: #191d21;
+  --ext-accent: #9bb8bf;
+  background: #101316;
+  color: var(--ext-ink);
+}
+
+html[data-color-mode="dark"] .ext-page :is(
+  .ext-navbar,
+  .ext-editor,
+  .ext-share-sheet
+) {
+  background: #15191d;
+  color: var(--ext-ink);
+  border-color: var(--ext-line);
+}
+
+html[data-color-mode="dark"] .ext-page :is(
+  .ext-empty,
+  .ext-targets label
+) {
+  background: #20252a;
+  color: var(--ext-ink);
+  border-color: var(--ext-line);
+}
+
+html[data-color-mode="dark"] .ext-page .ext-placeholder-line code {
+  background: rgba(155, 184, 191, 0.12);
+}
+
+html[data-color-mode="dark"] .mcp-page {
+  --mcp-ink: #edf1f3;
+  --mcp-muted: #9ba4aa;
+  --mcp-line: rgba(237, 241, 243, 0.12);
+  --mcp-paper: #191d21;
+  --mcp-accent: #9ebac7;
+  --mcp-accent-soft: #25343c;
+  background: #101316;
+  color: var(--mcp-ink);
+}
+
+html[data-color-mode="dark"] .mcp-page :is(
+  .mcp-navbar,
+  .mcp-editor
+) {
+  background: #15191d;
+  color: var(--mcp-ink);
+  border-color: var(--mcp-line);
+}
+
+html[data-color-mode="dark"] .mcp-page :is(
+  .mcp-connection.is-off,
+  .mcp-device-results button,
+  .mcp-device-stop,
+  .mcp-empty,
+  .mcp-enable-row,
+  .mcp-device-help
+) {
+  background: #20252a;
+  color: var(--mcp-ink);
+  border-color: var(--mcp-line);
+}
+
+html[data-color-mode="dark"] .mcp-page .mcp-device-stop {
+  color: #e2a1a1;
+}
+
+html[data-color-mode="dark"] .mcp-page .mcp-rail i {
+  background: #191d21;
+}
+
+/* App Store 自带一套 iOS 浅色 token，夜间统一切换页面、详情、表单与底部 sheet。
+ * 主题预览 iframe 属于作品内容，继续保持作者自己的明暗，不随外壳重写。 */
+html[data-color-mode="dark"] .market-page {
+  --market-bg: #101316;
+  --market-paper: #191d21;
+  --market-ink: #edf1f3;
+  --market-copy: #c7cfd4;
+  --market-muted: #98a2a9;
+  --market-line: rgba(237, 241, 243, 0.12);
+  --market-accent: #8eb8db;
+  --market-accent-soft: #223544;
+  background: var(--market-bg);
+  color: var(--market-ink);
+}
+
+html[data-color-mode="dark"] .market-page :is(
+  .market-navbar,
+  .market-search-wrap
+) {
+  background: rgba(16, 19, 22, 0.92);
+  color: var(--market-ink);
+  border-color: var(--market-line);
+}
+
+html[data-color-mode="dark"] .market-page :is(
+  .market-search,
+  .market-subfilters button,
+  .market-detail-meta button,
+  .market-text-resource button,
+  .market-owner-actions button,
+  .market-import-bar .market-save-file,
+  .market-network-empty button,
+  .market-sheet-action.is-quiet,
+  .market-comments form .market-sticker-toggle,
+  .market-bind-qq-entry,
+  .market-sticker-picker select,
+  .market-sticker-tray button,
+  .market-new-invites > button
+) {
+  background: #20252a;
+  color: var(--market-copy);
+  border-color: var(--market-line);
+}
+
+html[data-color-mode="dark"] .market-page :is(
+  .market-notice,
+  .market-sheet,
+  .market-comments
+) {
+  background: var(--market-paper);
+  color: var(--market-ink);
+  border-color: var(--market-line);
+}
+
+html[data-color-mode="dark"] .market-page .market-import-bar {
+  background: rgba(25, 29, 33, 0.94);
+  border-color: var(--market-line);
+}
+
+html[data-color-mode="dark"] .market-page :is(
+  .market-sheet input,
+  .market-sheet textarea,
+  .market-sheet select,
+  .market-comments input
+) {
+  color-scheme: dark;
+  background: #20252a;
+  color: var(--market-ink);
+  border-color: var(--market-line);
+}
+
+html[data-color-mode="dark"] .market-page .market-resource-action.is-favorited,
+html[data-color-mode="dark"] .market-page .market-detail-meta button[aria-pressed="true"] {
+  background: #3a3020;
+  color: #f0c87c;
+  border-color: rgba(240, 200, 124, 0.28);
+}
+
+/* 夜间暗层与用户设置的清晰度蒙版分层绘制，避免透明自定义蒙版把暗层一并取消。 */
+html[data-color-mode="dark"] .chat-thread-page.has-chat-wallpaper .chat-thread-wallpaper-overlay {
+  --chat-wallpaper-night-overlay-opacity: 0.34;
+}
+
+html[data-color-mode="dark"] .chat-hub-page {
+  --chat-hub-page-bg: #101316;
+  --chat-hub-chrome-bg: #101316;
+  --chat-hub-list-bg: #101316;
+  --chat-hub-card-bg: #1a1e22;
+  --chat-hub-row-bg: transparent;
+  --chat-hub-title-ink: #edf1f3;
+  --chat-hub-muted-ink: #a8b2b9;
+  --chat-hub-divider: rgba(232, 237, 240, 0.12);
+  --chat-hub-search-bg: rgba(31, 36, 40, 0.96);
+  --hub-cover: #252a2f;
+  --bg-paper: #101316;
+  --bg-sheet: #14171a;
+}
+
+/* 海/窗聊天首页给外壳设置了独立白底；Safari 回弹时会直接露出这一层。 */
+html[data-color-mode="dark"] #page-container[data-shell="chat-ins"] {
+  background-color: #101316;
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins .chat-list-row--ins:active,
+html[data-color-mode="dark"] .chat-hub-page--ins .chat-hub-user-slot-item.is-active {
+  background: rgba(237, 241, 243, 0.06);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins :is(
+  .chat-hub-user-card-avatar,
+  .chat-list-avatar.is-backstage
+) {
+  background: var(--hub-cover);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins :is(
+  .chat-new-modal-card--ins,
+  .chat-pick-row
+) {
+  background: var(--chat-hub-card-bg);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins.moments-page {
+  background: var(--chat-hub-page-bg);
+  --bg-paper: var(--chat-hub-page-bg);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins.moments-page .moments-cover-avatar {
+  border-color: var(--chat-hub-card-bg);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins.moments-page .moments-cover-edit {
+  background: rgba(25, 29, 33, 0.92);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins.moments-page .moment-comments {
+  background: #181c20;
+}
+
+html[data-color-mode="dark"] .chat-hub-page--ins.moments-page .moments-busy-overlay {
+  background: rgba(10, 12, 14, 0.72);
+}
+
+/*
+ * 身份装扮有自己的极简色票，不能让全局 page / navbar 规则与页面浅色常量各覆盖一半。
+ * 预设缩略图继续保留原设计，只切换页面、文字、边界与选中表面。
+ */
+html[data-color-mode="dark"] .identity-appearance-page {
+  color-scheme: dark;
+  --ia-bg: #101214;
+  --ia-card: #1a1e22;
+  --ia-ink: #edf1f3;
+  --ia-muted: #aab3b9;
+  --ia-line: rgba(232, 237, 240, 0.12);
+  --ia-active: #273137;
+  background: var(--ia-bg);
+  color: var(--ia-ink);
+}
+
+html[data-color-mode="dark"] .identity-appearance-page .identity-appearance-navbar {
+  background: var(--ia-bg);
+  color: var(--ia-ink);
+  border-color: var(--ia-line);
+}
+
+html[data-color-mode="dark"] .identity-appearance-page .identity-appearance-preset.is-active {
+  background: var(--ia-active);
+  border-color: rgba(168, 195, 210, 0.38);
+}
+
+html[data-color-mode="dark"] .identity-appearance-page .identity-appearance-wallpaper-delete {
+  background: rgba(27, 31, 35, 0.9);
+  color: #d6dde1;
+}
+
+html[data-color-mode="dark"] .chat-thread-page {
+  --chat-paper: #111417;
+  --chat-thread-bg: #111417;
+  --chat-thread-surface: #181c20;
+  --chat-thread-ink: #edf1f3;
+  --chat-thread-muted: #aab4ba;
+  --chat-thread-line: rgba(232, 237, 240, 0.12);
+  --chat-chrome-bg: #14181c;
+  --chat-composer-bg: #14181c;
+  --chat-composer-input-bg: #20252a;
+  --chat-composer-input-ink: #edf1f3;
+  --chat-composer-placeholder-ink: #929da4;
+  --chat-composer-input-border: 1px solid rgba(232, 237, 240, 0.14);
+  --chat-composer-icon-ink: #aeb7bd;
+  --chat-composer-send-bg: #dfe5e8;
+  --chat-composer-send-ink: #15181b;
+  --chat-reply-ink: #c3cbd0;
+  --chat-translate-btn-ink: #c3cbd0;
+  --chat-translation-ink: #c3cbd0;
+  --chat-translation-divider: rgba(195, 203, 208, 0.3);
+  --chat-reply-quote-border: 2px solid rgba(195, 203, 208, 0.48);
+  --chat-user-bubble-bg-default: #29343d;
+  --chat-role-bubble-bg-default: #1d2226;
+  --chat-session-bubble-ink-self: #edf1f3;
+  --chat-session-bubble-ink-other: #edf1f3;
+}
+
+/* 三套原生会话的昵称与引用摘要不能继续继承浅色主题中的深字。 */
+html[data-color-mode="dark"] .chat-thread-page--ins:not(.chat-thread-page--bubble-css-compat) .chat-bubble-sender {
+  color: #aab4ba;
+}
+
+html[data-color-mode="dark"] .chat-thread-page--ins:not(.chat-thread-page--bubble-css-compat) .chat-bubble-reply {
+  color: #c3cbd0;
+  border-left-color: rgba(195, 203, 208, 0.48);
+}
+
+html[data-color-mode="dark"] .chat-thread-page--window {
+  --window-chat-bg: #111417;
+  --window-chat-surface: rgba(23, 27, 31, 0.94);
+  --window-chat-line: rgba(232, 237, 240, 0.12);
+  --window-chat-ink: #edf1f3;
+  --window-chat-muted: #aab4ba;
+  --window-chat-user: #29343d;
+  --window-chat-them: #1d2226;
+  background: var(--window-chat-bg);
+  color: var(--window-chat-ink);
+}
+
+html[data-color-mode="dark"] .chat-thread-page:not(.has-chat-wallpaper) .chat-thread-messages,
+html[data-color-mode="dark"] .chat-thread-page--window:not(.has-chat-wallpaper) .chat-thread-messages {
+  background: var(--chat-thread-bg);
+}
+
+html[data-color-mode="dark"] .chat-thread-page--window :is(
+  .navbar,
+  .chat-thread-action-area,
+  .chat-thread-composer,
+  .chat-tools-sheet.is-open
+) {
+  background: var(--window-chat-surface);
+  color: var(--window-chat-ink);
+  border-color: var(--window-chat-line);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .chat-thread-page--window :is(
+  .chat-composer-input,
+  .chat-tool-item .svg-icon
+) {
+  background: #20252a;
+  color: var(--window-chat-ink);
+  border-color: var(--window-chat-line);
+  box-shadow: none;
+}
+
+html[data-color-mode="dark"] .chat-thread-page--window :is(
+  .chat-composer-btn,
+  .chat-action-chip,
+  .chat-tool-item
+) {
+  color: var(--window-chat-muted);
+}
+
+html[data-color-mode="dark"] .chat-thread-page :is(
+  .chat-thread-composer,
+  .chat-thread-composer--anon,
+  .chat-tools-sheet,
+  .chat-action-dock,
+  .chat-more-panel,
+  .chat-reply-bar,
+  .chat-selection-bar
+) {
+  background: var(--chat-chrome-bg);
+  color: var(--chat-thread-ink);
+  border-color: var(--chat-thread-line);
+}
+
+/*
+ * 气泡长按菜单由 chat-bubble-menu.js 直接挂到 body，不能依赖 .chat-thread-page
+ * 的作用域或页面内 token。为它单独提供夜间表面，同时不改写聊天壁纸、气泡与
+ * 用户自定义主题；用户 CSS 仍在本文件之后加载，可以继续主动覆盖这组默认值。
+ */
+html[data-color-mode="dark"] .chat-bubble-menu {
+  color-scheme: dark;
+  background: #1b1f23;
+  color: #edf1f3;
+  border-color: rgba(232, 237, 240, 0.15);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.46);
+}
+
+html[data-color-mode="dark"] .chat-bubble-menu-item {
+  background: transparent;
+  color: #edf1f3;
+}
+
+html[data-color-mode="dark"] .chat-bubble-menu-item:is(:hover, :active, :focus-visible) {
+  background: #2a3035;
+  color: #ffffff;
+}
+
+html[data-color-mode="dark"] .chat-bubble-menu-item:focus-visible {
+  outline: 2px solid rgba(168, 195, 210, 0.72);
+  outline-offset: -2px;
+}
+
+html[data-color-mode="dark"] .chat-bubble-menu-item.is-danger {
+  color: #ff9a9a;
+}
+
+html[data-color-mode="dark"] .chat-bubble-menu-item.is-danger:is(:hover, :active, :focus-visible) {
+  background: rgba(180, 84, 84, 0.2);
+  color: #ffb3b3;
+}
+
+html[data-color-mode="dark"] .chat-thread-page :is(
+  .chat-action-chip,
+  .chat-composer-sticker-suggestion,
+  .chat-bubble-body .chat-card:not(.story-card),
+  .chat-bubble-body .message-card:not(.story-card)
+) {
+  background: var(--chat-thread-surface);
+  color: var(--chat-thread-ink);
+  border-color: var(--chat-thread-line);
+}
+
+/*
+ * QQ / 微信平台壳夜间模式。
+ * 两套平台白天皮肤都包含较多原生固定色，因此仅改通用 token 不足以消除白色断层。
+ * 此区块必须晚于 chat.css、moments.css 与 wechat.css 加载；公开气泡变量和会话取色
+ * 仍在默认色之前，用户已有的气泡与列表壁纸不会被夜间默认值覆盖。
+ */
+html[data-color-mode="dark"] :is(.chat-hub-page--qq, .qq-contacts-page) {
+  color-scheme: dark;
+  --chat-hub-page-bg: #0f1217;
+  --chat-hub-chrome-bg: #141922;
+  --chat-hub-list-bg: #11151b;
+  --chat-hub-card-bg: #1b2027;
+  --chat-hub-row-bg: #11151b;
+  --chat-hub-title-ink: #eef2f6;
+  --chat-hub-muted-ink: #929aa6;
+  --chat-hub-divider: rgba(225, 231, 238, 0.1);
+  --qq-night-bg: #0f1217;
+  --qq-night-chrome: #141922;
+  --qq-night-surface: #1b2027;
+  --qq-night-surface-raised: #222831;
+  --qq-night-ink: #eef2f6;
+  --qq-night-muted: #929aa6;
+  --qq-night-line: rgba(225, 231, 238, 0.1);
+  background: var(--qq-night-bg);
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq:not(.moments-page) .chat-hub-ins-chrome,
+html[data-color-mode="dark"] :is(
+  .chat-backstage-page.chat-hub-page--qq,
+  .chat-intercepts-page.chat-hub-page--qq
+) .chat-hub-ins-chrome {
+  background: var(--qq-night-chrome);
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq :is(
+  .chat-hub-user-card-name,
+  .chat-hub-ins-page-title,
+  .chat-hub-icon-btn,
+  .chat-hub-back,
+  .qq-contacts-topbar > button,
+  .qq-contacts-topbar > strong
+) {
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq :is(
+  .chat-hub-user-card-binding,
+  .chat-list-preview,
+  .chat-list-time
+) {
+  color: var(--qq-night-muted);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq .chat-hub-platform-search {
+  background: var(--qq-night-surface-raised);
+  color: var(--qq-night-muted);
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq .chat-hub-platform-search input {
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq .chat-hub-platform-search input::placeholder {
+  color: var(--qq-night-muted);
+}
+
+html[data-color-mode="dark"] .chat-hub-tabs--qq {
+  background: rgba(20, 25, 34, 0.98);
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"] .chat-hub-tabs--qq .chat-hub-tab {
+  color: #aab1bb;
+}
+
+html[data-color-mode="dark"] .chat-hub-tabs--qq .chat-hub-tab.is-active {
+  color: var(--qq-accent, #12b7f5);
+}
+
+html[data-color-mode="dark"] .chat-hub-tabs--qq .qq-dynamics-dot {
+  stroke: var(--qq-night-chrome);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq:not(.has-chat-hub-list-background) :is(
+  .chat-hub-scroll--ins,
+  .chat-list-row--ins,
+  .chat-list-swipe-row,
+  .chat-linked-account-row,
+  .chat-aggregate-section
+) {
+  background: var(--qq-night-surface);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq:not(.has-chat-hub-list-background) :is(
+  .chat-list-row--ins.is-pinned,
+  .chat-list-swipe-row.is-pinned
+) {
+  background: #202834;
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq :is(
+  .chat-list-row--ins,
+  .chat-linked-account-row,
+  .chat-aggregate-section
+) {
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq :is(
+  .chat-list-title,
+  .chat-linked-account-row,
+  .chat-linked-account-row strong
+) {
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq :is(
+  .chat-linked-account-row small,
+  .chat-linked-account-chevron
+) {
+  color: var(--qq-night-muted);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq .chat-list-unread {
+  border-color: var(--qq-night-surface);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq.has-chat-hub-list-background {
+  background-color: var(--qq-night-bg);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq.has-chat-hub-list-background .chat-hub-ins-chrome {
+  background: rgba(15, 18, 23, 0.3);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq.has-chat-hub-list-background :is(
+  .chat-list-row--ins.is-pinned,
+  .chat-list-swipe-row.is-pinned
+) {
+  background: rgba(18, 183, 245, 0.12);
+}
+
+html[data-color-mode="dark"] .qq-contacts-page .qq-contacts-scroll {
+  background: var(--qq-night-bg);
+}
+
+html[data-color-mode="dark"] .qq-contacts-page :is(
+  .qq-known-section,
+  .qq-contact-shortcuts,
+  .qq-contact-roster,
+  .qq-contact-shortcuts > button,
+  .qq-contact-roster-tabs button,
+  .qq-contact-group-head,
+  .qq-contact-row,
+  .qq-known-add
+) {
+  background: var(--qq-night-surface);
+  color: var(--qq-night-ink);
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"] .qq-contacts-page :is(
+  .qq-known-copy strong,
+  .qq-contact-application-row strong,
+  .qq-contact-roster-tabs button.is-active,
+  .qq-contact-group-head strong,
+  .qq-contact-copy strong
+) {
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"] .qq-contacts-page :is(
+  .qq-known-title,
+  .qq-known-copy small,
+  .qq-contact-application-row small,
+  .qq-contact-group-head > span,
+  .qq-contact-group-head small,
+  .qq-contact-copy small,
+  .qq-contacts-empty,
+  .qq-contact-shortcuts > button > span:last-child,
+  .qq-contact-shortcuts b
+) {
+  color: var(--qq-night-muted);
+}
+
+html[data-color-mode="dark"] .qq-contacts-page :is(
+  .qq-contact-application-row,
+  .qq-contact-roster-tabs,
+  .qq-contact-copy
+) {
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"] .qq-contacts-page :is(.qq-known-avatar, .qq-contact-avatar) {
+  background: var(--qq-night-surface-raised);
+  color: #aeb9c5;
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq .chat-hub-user-drawer {
+  --hub-ink: var(--qq-night-ink);
+  --hub-muted: var(--qq-night-muted);
+  --chat-hub-divider: var(--qq-night-line);
+  --chat-hub-card-bg: var(--qq-night-surface);
+  --chat-hub-page-bg: var(--qq-night-bg);
+}
+
+html[data-color-mode="dark"] .chat-hub-page--qq :is(
+  .chat-hub-user-slot-item.is-active,
+  .chat-hub-binding-option.is-active
+) {
+  background: rgba(18, 183, 245, 0.14);
+  color: #58c9f7;
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page {
+  --qq-space-name: #83a5d5;
+  --qq-space-ink: var(--qq-night-ink);
+  --qq-space-muted: var(--qq-night-muted);
+  --qq-space-line: var(--qq-night-line);
+  --qq-space-soft: var(--qq-night-surface-raised);
+  --surface-card: var(--qq-night-surface);
+  background: var(--qq-night-bg);
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page :is(
+  .moments-scroll,
+  .qq-space-home,
+  .moments-feed,
+  .moment-post
+) {
+  background: var(--qq-night-surface);
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page .qq-space-cover:not([style*="background-image"]) {
+  background-color: #172230;
+  background-image:
+    radial-gradient(110% 78% at 78% 5%, rgba(47, 67, 92, 0.86) 0 25%, transparent 58%),
+    radial-gradient(96% 64% at 12% 30%, rgba(36, 53, 74, 0.7) 0 30%, transparent 68%),
+    linear-gradient(155deg, #182335 0%, #172a38 48%, #111820 100%);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page .qq-space-cover::after {
+  background: linear-gradient(180deg, rgba(27, 32, 39, 0) 0%, rgba(27, 32, 39, 0.34) 42%, var(--qq-night-surface) 100%);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page .qq-space-avatar {
+  background: var(--qq-night-surface-raised);
+  color: var(--qq-night-ink);
+  border-color: var(--qq-night-surface);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page :is(
+  .qq-space-profile-copy h1,
+  .qq-space-profile-copy p,
+  .qq-space-shortcuts button,
+  .qq-space-compose-tool,
+  .moment-post-body,
+  .moment-post-more,
+  .moment-post-quick-actions button,
+  .moment-comment-line
+) {
+  color: var(--qq-night-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page :is(
+  .qq-space-compose-entry,
+  .moment-comment-prompt,
+  .moment-comment-compose
+) {
+  background: var(--qq-night-surface-raised);
+  color: var(--qq-night-muted);
+  border-color: var(--qq-night-line);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .moments-page :is(
+  .qq-space-compose-avatar,
+  .moment-comment-prompt-avatar
+) {
+  background: #2a313a;
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page,
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page {
+  color-scheme: dark;
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page {
+  --qq-native-ink: #eef2f6;
+  --qq-native-muted: #949ca7;
+  --qq-native-line: rgba(225, 231, 238, 0.1);
+  --chat-thread-bg: #0f1217;
+  --chat-thread-surface: #1b2027;
+  --chat-thread-ink: #eef2f6;
+  --chat-reply-ink: #d0d6dd;
+  --chat-translate-btn-ink: #d0d6dd;
+  --chat-translation-ink: #d0d6dd;
+  --chat-reply-quote-border: 2px solid rgba(208, 214, 221, 0.5);
+  --chat-role-bubble-bg-default: #242a32;
+  --chat-user-bubble-bg-default: #0aa4f6;
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page:not(.chat-thread-page--qq-css-compat):not(.chat-thread-page--bubble-css-compat) .chat-bubble-sender {
+  color: #aeb7c2;
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page:not(.chat-thread-page--qq-css-compat):not(.chat-thread-page--bubble-css-compat) .chat-bubble-reply {
+  color: #d0d6dd;
+  border-left-color: rgba(208, 214, 221, 0.5);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page :is(
+  .chat-thread-navbar,
+  .chat-thread-composer,
+  .chat-thread-composer.chat-thread-composer--qq,
+  .chat-tools-sheet
+) {
+  background: rgba(20, 25, 34, 0.98);
+  color: var(--qq-native-ink);
+  border-color: var(--qq-native-line);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page :is(
+  .chat-thread-navbar > .navbar-btn,
+  .chat-thread-title-stack .navbar-title,
+  .chat-header-status,
+  .chat-header-timezone-hint,
+  .chat-composer-strip--qq .chat-composer-btn
+) {
+  color: var(--qq-native-ink);
+}
+
+/* 顶栏状态与时差是即时系统事实，不沿用低对比辅助色：普通模式为黑，夜间统一为白。 */
+html[data-color-mode="dark"] .chat-thread-page :is(
+  .chat-header-status,
+  .chat-header-timezone-hint
+) {
+  color: #fff;
+  opacity: 1;
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page:not(.has-chat-wallpaper) .chat-thread-messages {
+  background: var(--chat-thread-bg);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page:not(.chat-thread-page--qq-css-compat):not(.chat-thread-page--bubble-css-compat) .chat-bubble-row.is-them .scrapbook-bubble {
+  background: var(--role-bubble-bg, var(--chat-session-bubble-other, var(--chat-role-bubble-bg-default)));
+  color: var(--role-bubble-ink, var(--chat-session-bubble-ink-other, var(--chat-thread-ink)));
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page .chat-thread-composer--qq .chat-composer-input {
+  background: #252b33;
+  color: var(--qq-native-ink);
+  box-shadow: 0 0 0 1px var(--qq-native-line);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page .chat-tool-item .svg-icon {
+  background: #252b33;
+  color: #42c4f6;
+  border-color: var(--qq-native-line);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page :is(
+  .chat-bubble-body .chat-card:not(.story-card),
+  .qq-call-card.chat-card,
+  .qq-location-card.chat-card,
+  .chat-bundle-card--qq.chat-card,
+  .qq-transfer-foot
+) {
+  background: #242a32;
+  color: var(--qq-native-ink);
+  border-color: var(--qq-native-line);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page :is(
+  .qq-location-card .location-card-title,
+  .chat-bundle-card--qq .chat-bundle-card-title
+) {
+  color: var(--qq-native-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page :is(
+  .qq-location-card .location-card-desc,
+  .chat-bundle-card--qq .chat-bundle-card-line,
+  .chat-bundle-card--qq .chat-bundle-card-foot,
+  .qq-transfer-foot
+) {
+  color: var(--qq-native-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-qq .chat-thread-page .qq-location-card .location-card-map {
+  border-color: var(--qq-native-line);
+  background-color: #202b31;
+  background-image:
+    linear-gradient(28deg, transparent 46%, rgba(76, 95, 101, 0.58) 47% 53%, transparent 54%),
+    linear-gradient(102deg, transparent 45%, rgba(62, 83, 91, 0.52) 46% 52%, transparent 53%);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-shell-page,
+  .chat-hub-page--wechat,
+  .moments-page.chat-hub-page--wechat
+) {
+  color-scheme: dark;
+  --wechat-bg: #111111;
+  --wechat-surface: #191919;
+  --wechat-surface-raised: #242424;
+  --wechat-ink: #ededed;
+  --wechat-muted: #858585;
+  --wechat-line: #2b2b2b;
+  --wechat-link: #7d90b6;
+  background: var(--wechat-bg);
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(.wechat-shell-page, .chat-hub-page--wechat) .chat-hub-ins-chrome {
+  background: var(--wechat-bg);
+  border-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-shell-page,
+  .chat-hub-page--wechat
+) :is(.chat-hub-icon-btn, .chat-hub-ins-page-title) {
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-tabs--wechat {
+  background: rgba(25, 25, 25, 0.98);
+  border-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-tabs--wechat .chat-hub-tab {
+  color: #a0a0a0;
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-tabs--wechat .chat-hub-tab.is-active {
+  color: var(--wechat-green);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-shell-scroll,
+  .chat-hub-page--wechat:not(.has-chat-hub-list-background) .chat-hub-scroll--ins
+) {
+  background: var(--wechat-surface);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-page--wechat:not(.has-chat-hub-list-background) :is(
+  .chat-list-row--ins,
+  .chat-list-swipe-row
+) {
+  background: var(--wechat-surface);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-page--wechat:not(.has-chat-hub-list-background) :is(
+  .chat-list-row--ins.is-pinned,
+  .chat-list-swipe-row.is-pinned
+) {
+  background: var(--wechat-surface-raised);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-page--wechat :is(
+  .chat-list-title,
+  .chat-hub-platform-search--wechat input
+) {
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-page--wechat :is(
+  .chat-list-preview,
+  .chat-list-time
+) {
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-hub-platform-search--wechat,
+html[data-color-mode="dark"].chat-platform-wechat .wechat-directory-search {
+  background: var(--wechat-surface-raised);
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-directory-search input {
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-directory-shortcuts,
+  .wechat-directory-contacts,
+  .wechat-directory-row,
+  .wechat-menu-group,
+  .wechat-menu-row,
+  .wechat-me-profile,
+  .wechat-feature-action-group,
+  .wechat-feature-section,
+  .wechat-feature-row
+) {
+  background: var(--wechat-surface);
+  color: var(--wechat-ink);
+  border-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-directory-row > strong {
+  border-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-feature-row::after {
+  background-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-directory-group > h2,
+  .wechat-menu-scroll,
+  .wechat-feature-scroll,
+  .wechat-feature-empty,
+  .wechat-feature-tag-group > h2,
+  .wechat-feature-search-hint
+) {
+  background: var(--wechat-bg);
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-directory-index button,
+  .wechat-me-copy strong,
+  .wechat-feature-copy strong
+) {
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat :is(
+  .wechat-directory-empty,
+  .wechat-me-copy small,
+  .wechat-me-qr,
+  .wechat-feature-copy small,
+  .wechat-feature-empty strong,
+  .wechat-feature-tag-empty
+) {
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-feature-search {
+  background: var(--wechat-surface-raised);
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-feature-search input {
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-game-placeholder {
+  background: var(--wechat-bg);
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-game-placeholder p,
+html[data-color-mode="dark"].chat-platform-wechat .wechat-game-placeholder > small {
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-game-slots > span {
+  background: var(--wechat-surface);
+  border-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-game-slots strong {
+  color: #b7b7b7;
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .wechat-game-slots i {
+  background: rgba(7, 193, 96, 0.14);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-page.chat-hub-page--wechat :is(
+  .moments-scroll,
+  .wechat-moments-hero,
+  .moments-feed,
+  .moment-post,
+  .chat-empty--ins
+) {
+  background: var(--wechat-surface);
+  border-color: var(--wechat-line);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-page .wechat-moments-cover:not([style*="background-image"]) {
+  background-color: #35513f;
+  background-image: linear-gradient(145deg, #3f5d47 0%, #2f4d39 58%, #20382a 100%);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-page .wechat-moments-avatar {
+  background: var(--wechat-surface-raised);
+  color: var(--wechat-ink);
+  border-color: var(--wechat-surface);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-page :is(
+  .moment-post-body,
+  .moment-comment-line,
+  .chat-empty-text
+) {
+  color: var(--wechat-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-page :is(
+  .moment-post-time,
+  .moment-post-vis,
+  .chat-empty-hint
+) {
+  color: var(--wechat-muted);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-page :is(
+  .moment-post-more,
+  .moment-comments,
+  .moment-comments.has-content,
+  .moment-comments.is-idle
+) {
+  background: var(--wechat-surface-raised);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .moments-profile-page.chat-hub-page--wechat .chat-hub-ins-chrome {
+  background: var(--wechat-bg);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page {
+  --chat-thread-bg: #111111;
+  --chat-thread-surface: #242424;
+  --chat-thread-ink: #ededed;
+  --chat-thread-muted: #858585;
+  --chat-thread-line: #2b2b2b;
+  --chat-reply-ink: #d2d2d2;
+  --chat-reply-quote-border: 2px solid rgba(210, 210, 210, 0.5);
+  --chat-role-bubble-bg-default: #242424;
+  --chat-user-bubble-bg-default: #3d6f35;
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page:not(.chat-thread-page--bubble-css-compat) .chat-bubble-sender {
+  color: #a8a8a8;
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page:not(.chat-thread-page--bubble-css-compat) .chat-bubble-reply {
+  color: #d2d2d2;
+  border-left-color: rgba(210, 210, 210, 0.5);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page :is(
+  .chat-thread-navbar,
+  .chat-thread-composer,
+  .chat-tools-sheet
+) {
+  background: #191919;
+  color: var(--chat-thread-ink);
+  border-color: var(--chat-thread-line);
+}
+
+/* 微信浅色皮肤会直接给标题和顶栏按钮写深色，夜间需覆盖到实际文字节点。 */
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page :is(
+  .chat-thread-navbar > .navbar-btn,
+  .chat-thread-title-stack .navbar-title
+) {
+  color: var(--chat-thread-ink);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page:not(.has-chat-wallpaper) .chat-thread-messages {
+  background: var(--chat-thread-bg);
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page:not(.chat-thread-page--bubble-css-compat) .chat-bubble-row.is-them .scrapbook-bubble {
+  background: var(--role-bubble-bg, var(--chat-session-bubble-other, var(--chat-role-bubble-bg-default)));
+  color: var(--role-bubble-ink, var(--chat-session-bubble-ink-other, var(--chat-thread-ink)));
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page:not(.chat-thread-page--bubble-css-compat) .chat-bubble-row.is-user .scrapbook-bubble {
+  background: var(--user-bubble-bg, var(--chat-session-bubble-self, var(--chat-user-bubble-bg-default)));
+  color: var(--user-bubble-ink, var(--chat-session-bubble-ink-self, var(--chat-thread-ink)));
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page :is(
+  .wechat-composer-input-shell,
+  .chat-composer-input,
+  .chat-tool-item .svg-icon
+) {
+  background: #2b2b2b;
+  color: var(--chat-thread-ink);
+  border-color: #343434;
+}
+
+html[data-color-mode="dark"].chat-platform-wechat .chat-thread-page .chat-bubble-body .chat-card:not(.story-card) {
+  background: #242424;
+  color: var(--chat-thread-ink);
+  border-color: var(--chat-thread-line);
+}
+
+html[data-color-mode="dark"] img {
+  color-scheme: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-color-mode="dark"] *,
+  html[data-color-mode="dark"] *::before,
+  html[data-color-mode="dark"] *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

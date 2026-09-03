@@ -1,0 +1,1344 @@
+/* 匿名主播 · 直播信息流 + 直播间（沿用 .anon-page Ins 浅灰壳，自成一套卡片体系） */
+
+.streamer-hub-poster {
+  margin-bottom: 10px;
+}
+
+.streamer-match-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.streamer-match-entry .svg-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.streamer-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding-bottom: 12px;
+}
+
+.streamer-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--anon-border);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+}
+
+.streamer-card:active {
+  transform: scale(0.98);
+}
+
+.streamer-card-cover {
+  position: relative;
+  height: 108px;
+  background: linear-gradient(135deg, #2a2c30, #55585d);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.streamer-card-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.streamer-live-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px 2px 5px;
+  border-radius: 999px;
+  background: rgba(220, 38, 38, 0.92);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.streamer-live-badge i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  animation: streamerLivePulse 1.4s ease-in-out infinite;
+}
+
+@keyframes streamerLivePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.7); }
+}
+
+.streamer-card.is-ended .streamer-card-cover {
+  filter: grayscale(0.35) brightness(0.82);
+}
+
+.streamer-card-offline-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.streamer-tier-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.streamer-source-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #27282a;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.streamer-card-body {
+  padding: 8px 10px 4px;
+}
+
+.streamer-card-body strong {
+  display: block;
+  font-size: 13px;
+  color: #202124;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.streamer-card-body small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--anon-muted);
+}
+
+.streamer-card-ticker {
+  margin: 6px 0 10px;
+  padding: 0 10px;
+  height: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 10px;
+  color: var(--anon-muted);
+}
+
+.streamer-card-ticker span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: streamerTickerScroll 9s linear infinite;
+}
+
+.streamer-ticker-empty {
+  display: inline-block;
+}
+
+@keyframes streamerTickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .streamer-live-badge i {
+    animation: none;
+  }
+  .streamer-card-ticker span {
+    animation: none;
+    padding-left: 0;
+  }
+  .streamer-flying-danmaku {
+    animation: none;
+    position: static;
+    display: block;
+    margin: 3px 10px;
+  }
+}
+
+/* ── 频道创建 ── */
+.anon-streamer-char-pick,
+.anon-streamer-gen-pick {
+  margin-top: 10px;
+}
+
+.anon-streamer-persona-card {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px dashed var(--anon-border);
+  background: rgba(15, 20, 28, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.anon-streamer-persona-card .anon-form-field {
+  gap: 4px;
+}
+
+.anon-streamer-persona-card .text-hint {
+  margin: 0;
+}
+
+.anon-streamer-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.anon-streamer-avatar-preview {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--anon-border);
+  background: rgba(0, 0, 0, 0.06);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.anon-streamer-avatar-preview::before {
+  content: '🎙️';
+  display: block;
+}
+
+.anon-streamer-avatar-preview[data-empty="0"]::before {
+  display: none;
+}
+
+.anon-streamer-avatar-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anon-streamer-avatar-actions {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.anon-streamer-avatar-actions .btn {
+  align-self: flex-start;
+}
+
+.anon-streamer-cover-preview {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--anon-border);
+}
+
+.anon-streamer-cover-preview img {
+  display: block;
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+}
+
+.anon-streamer-cover-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.anon-streamer-cover-actions .btn {
+  flex: 1;
+}
+
+.streamer-tier-chip.is-active,
+.streamer-category-chip.is-active,
+.streamer-image-tier-chip.is-active {
+  background: #27282a;
+  color: #fff;
+}
+
+.streamer-category-custom {
+  margin-top: 10px;
+}
+
+/* ── 直播间 ── */
+.anon-streamer-room-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* 房间里不少元素靠 hidden 属性切换，但类名里又显式写了 display，
+   会导致原生 [hidden]{display:none} 被作者样式盖掉；这里强制生效。 */
+.anon-streamer-room-page [hidden] {
+  display: none !important;
+}
+
+.streamer-room-navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.streamer-room-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.streamer-room-icon-btn {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(15, 20, 28, 0.08);
+  color: var(--anon-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.streamer-voice-btn {
+  width: 32px;
+  padding: 0;
+}
+
+.streamer-voice-btn .svg-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.streamer-voice-btn.is-muted,
+.streamer-voice-btn.is-disabled {
+  opacity: 0.42;
+}
+
+.streamer-history-btn {
+  width: 32px;
+  padding: 0;
+}
+
+.streamer-history-btn .svg-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.streamer-history-btn.is-open {
+  background: rgba(15, 20, 28, 0.16);
+}
+
+.streamer-room-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--anon-bg);
+}
+
+.streamer-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 46vh;
+  overflow: hidden;
+  background: linear-gradient(160deg, #23262b, #4b4f57);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+}
+
+.streamer-stage-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.streamer-stage-avatar-chip {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 70%;
+  padding: 6px 12px 6px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(10, 10, 14, 0.48);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.streamer-stage-avatar-chip:active {
+  transform: scale(0.98);
+}
+
+.streamer-stage-avatar-thumb {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.14);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+}
+
+.streamer-stage-avatar-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.streamer-stage-avatar-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.streamer-stage-avatar-chip .streamer-stage-live {
+  position: static;
+  align-self: flex-start;
+}
+
+.streamer-stage-offline-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.streamer-stage-avatar-chip strong {
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.streamer-stage-avatar-chip small {
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+.streamer-danmaku-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+  padding-top: 64px;
+}
+
+.streamer-flying-danmaku {
+  position: absolute;
+  right: -12%;
+  white-space: nowrap;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  animation-name: streamerDanmakuFly;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.streamer-flying-danmaku.is-user {
+  background: rgba(220, 38, 38, 0.82);
+}
+
+.streamer-flying-danmaku.is-static {
+  position: static;
+  display: block;
+  margin: 3px 10px;
+  animation: none;
+  opacity: 0.92;
+}
+
+@keyframes streamerDanmakuFly {
+  from { transform: translateX(0); }
+  to { transform: translateX(-160vw); }
+}
+
+.streamer-scene-loading {
+  position: absolute;
+  bottom: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 11px;
+}
+
+.streamer-stage-reroll-btn,
+.streamer-stage-upload-btn {
+  position: absolute;
+  top: 10px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(10, 10, 14, 0.48);
+  backdrop-filter: blur(6px);
+  color: #fff;
+}
+
+.streamer-stage-reroll-btn {
+  right: 10px;
+}
+
+.streamer-stage-upload-btn {
+  right: 48px;
+}
+
+.streamer-stage-reroll-btn:active,
+.streamer-stage-upload-btn:active {
+  transform: scale(0.94);
+}
+
+.streamer-stage-reroll-btn:disabled,
+.streamer-stage-upload-btn:disabled {
+  opacity: 0.5;
+}
+
+.streamer-stage-reroll-btn .svg-icon,
+.streamer-stage-upload-btn .svg-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.streamer-cover-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.streamer-cover-actions .btn {
+  flex: 1;
+}
+
+.streamer-stage-caption {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  z-index: 4;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.streamer-stage-caption .streamer-translate-btn,
+.streamer-history-row-text .streamer-translate-btn,
+.streamer-space-detail-body .streamer-translate-btn {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.streamer-stage-caption .streamer-translate-btn:hover,
+.streamer-stage-caption .streamer-translate-btn:focus-visible,
+.streamer-history-row-text .streamer-translate-btn:hover,
+.streamer-history-row-text .streamer-translate-btn:focus-visible,
+.streamer-space-detail-body .streamer-translate-btn:hover,
+.streamer-space-detail-body .streamer-translate-btn:focus-visible {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.streamer-stage-caption .chat-bubble-translation-divider,
+.streamer-history-row-text .chat-bubble-translation-divider,
+.streamer-space-detail-body .chat-bubble-translation-divider {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.streamer-stage-caption .chat-bubble-translation-text,
+.streamer-history-row-text .chat-bubble-translation-text,
+.streamer-space-detail-body .chat-bubble-translation-text {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 13px;
+}
+
+.streamer-ended-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(10, 10, 14, 0.74);
+  color: #fff;
+  text-align: center;
+  padding: 0 24px;
+  /* 遮罩本身不拦截点击，避免盖住左上角的主播头像入口；文案/按钮单独开回点击 */
+  pointer-events: none;
+}
+
+.streamer-ended-overlay p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  pointer-events: auto;
+}
+
+.streamer-restart-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+  pointer-events: auto;
+}
+
+.streamer-restart-custom {
+  display: flex;
+  gap: 8px;
+}
+
+.streamer-restart-custom .form-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.streamer-restart-custom .btn {
+  flex: 0 0 auto;
+}
+
+.streamer-ended-overlay .btn-outline {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── 本场记录 / 语音重听面板（房间内滑出，主播空间录屏详情复用同一套行样式） ── */
+.streamer-history-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 20%;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px 18px 0 0;
+  background: rgba(16, 17, 20, 0.92);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.streamer-history-panel-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.streamer-history-close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.streamer-history-close .svg-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.streamer-history-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px 14px calc(14px + var(--safe-bottom));
+}
+
+.streamer-history-empty {
+  padding: 24px 8px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.streamer-history-row {
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.streamer-history-row.is-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.streamer-history-row-text {
+  flex: 1;
+}
+
+.streamer-history-replay {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.streamer-history-replay .svg-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.streamer-history-replay.is-playing,
+.streamer-history-replay:disabled {
+  opacity: 0.5;
+}
+
+.streamer-history-row.is-danmaku {
+  display: flex;
+  gap: 6px;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.streamer-history-row.is-danmaku b {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 700;
+}
+
+.streamer-history-row.is-danmaku.is-user b {
+  color: #ff8a8a;
+}
+
+.streamer-settings-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 14px calc(16px + var(--safe-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.streamer-settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.streamer-settings-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.streamer-settings-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.46);
+}
+
+.streamer-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.streamer-settings-chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+}
+
+.streamer-settings-chip.is-active {
+  border-color: transparent;
+  background: #ff6f91;
+  color: #fff;
+  font-weight: 700;
+}
+
+.streamer-settings-toggle-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.streamer-settings-toggle-row input[type='checkbox'] {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+}
+
+.streamer-music-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(15, 20, 28, 0.06);
+}
+
+.streamer-music-track {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: var(--anon-text);
+}
+
+.streamer-music-note {
+  flex: 0 0 auto;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.streamer-music-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--anon-muted);
+}
+
+.streamer-music-controls {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.streamer-music-btn {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(15, 20, 28, 0.08);
+  color: var(--anon-text);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.streamer-music-btn.is-main {
+  width: 30px;
+  height: 30px;
+  background: var(--anon-accent, #ff6f91);
+  color: #fff;
+  font-size: 12px;
+}
+
+.streamer-music-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 12px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  text-align: left;
+  font-size: 13px;
+}
+
+.streamer-music-item strong {
+  font-weight: 700;
+}
+
+.streamer-music-item small {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+}
+
+.streamer-music-item.is-active {
+  background: rgba(255, 111, 145, 0.28);
+}
+
+.streamer-music-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.streamer-music-search {
+  display: flex;
+  gap: 8px;
+}
+
+.streamer-music-search .form-input {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.streamer-music-search .form-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.streamer-music-search .btn {
+  flex: 0 0 auto;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.streamer-music-dj-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.streamer-music-dj-row .streamer-settings-toggle-row {
+  flex: 1;
+  min-width: 0;
+}
+
+.streamer-music-char-pick {
+  flex: 0 0 auto;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+#streamer-music-search-results:empty,
+#streamer-music-list:empty {
+  display: none;
+}
+
+.streamer-room-status {
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--anon-muted);
+  text-align: center;
+}
+
+.streamer-room-composer {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px calc(10px + var(--safe-bottom));
+  border-top: 1px solid var(--anon-border);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.streamer-room-input {
+  flex: 1;
+}
+
+.streamer-gift-btn {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+}
+
+.streamer-gift-btn .svg-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.streamer-room-send {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #27282a;
+  color: #fff;
+  touch-action: manipulation;
+  transform: translateZ(0);
+}
+
+.streamer-room-send .svg-icon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 380px) {
+  .streamer-feed-grid {
+    gap: 8px;
+  }
+}
+
+/* ── 主播空间 ── */
+.streamer-space-scroll {
+  padding-bottom: 24px;
+}
+
+.streamer-space-profile {
+  position: relative;
+  margin: 12px 0 14px;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 150px;
+  background: linear-gradient(160deg, #23262b, #4b4f57);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+}
+
+.streamer-space-profile-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.68) 100%);
+}
+
+.streamer-space-profile-body {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 14px 16px;
+  color: #fff;
+}
+
+.streamer-space-avatar {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  color: #fff;
+  font-size: 22px;
+  display: grid;
+  place-items: center;
+}
+
+.streamer-space-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.streamer-space-avatar-edit {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(20, 20, 22, 0.9);
+  display: grid;
+  place-items: center;
+}
+
+.streamer-space-avatar-edit svg {
+  width: 10px;
+  height: 10px;
+}
+
+.streamer-space-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(220, 38, 38, 0.92);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.streamer-space-status-badge.is-ended {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.streamer-space-profile-body strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 17px;
+}
+
+.streamer-space-profile-body small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  opacity: 0.82;
+}
+
+.streamer-space-profile-body p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.streamer-space-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.streamer-space-name-row strong {
+  margin-top: 0;
+}
+
+.streamer-space-edit-persona {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.streamer-space-edit-persona svg {
+  width: 12px;
+  height: 12px;
+}
+
+.streamer-space-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0 16px;
+}
+
+.streamer-space-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  border: 1px solid var(--anon-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--anon-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.streamer-space-action-btn .svg-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.streamer-space-recordings h2 {
+  margin: 4px 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--anon-text);
+}
+
+#streamer-recording-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.streamer-recording-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid var(--anon-border);
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+  color: inherit;
+}
+
+.streamer-recording-card:active {
+  transform: scale(0.99);
+}
+
+.streamer-recording-cover {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2a2c30, #55585d);
+  background-size: cover;
+  background-position: center;
+}
+
+.streamer-recording-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.streamer-recording-body strong {
+  display: block;
+  font-size: 13px;
+  color: #202124;
+}
+
+.streamer-recording-body small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--anon-muted);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.streamer-recording-card .svg-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: var(--anon-muted);
+}
+
+.streamer-space-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.streamer-space-detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 6px 10px 6px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(15, 20, 28, 0.08);
+  color: var(--anon-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.streamer-space-detail-back .svg-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.streamer-space-detail-meta strong {
+  display: block;
+  font-size: 15px;
+  color: #202124;
+}
+
+.streamer-space-detail-meta small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--anon-muted);
+}
+
+.streamer-space-detail-body {
+  border-radius: 14px;
+  background: #17181b;
+  color: #fff;
+  padding: 10px 12px calc(12px + var(--safe-bottom));
+}
+
+.streamer-space-detail-body .streamer-history-row.is-line {
+  background: rgba(255, 255, 255, 0.08);
+}

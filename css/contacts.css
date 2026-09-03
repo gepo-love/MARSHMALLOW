@@ -1,0 +1,5419 @@
+/* ── 通讯录 · 翻页卡片 ── */
+
+.contacts-page {
+  --classbook-paper: #fffdf8;
+  --classbook-shadow: 0 10px 28px rgba(140, 115, 98, 0.12);
+  --classbook-hole: rgba(140, 115, 98, 0.18);
+}
+
+.contacts-scroll {
+  padding: 12px 14px calc(24px + var(--safe-bottom));
+  position: relative;
+}
+
+.contacts-scroll.is-closed {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.contacts-cover-scene {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg-paper, #fbf6f0);
+}
+
+.contacts-cover-desk {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 12% 28%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.contacts-cover-stage {
+  position: absolute;
+  left: 2%;
+  top: 62%;
+  width: min(200vw, 840px);
+  z-index: 2;
+  transform: translateY(-50%) rotate(-11deg);
+  transform-origin: left 38%;
+  transition: transform 0.22s ease, filter 0.22s ease;
+}
+
+.contacts-cover-stage:active {
+  transform: translateY(-50%) rotate(-11deg) scale(0.985);
+  filter: brightness(0.98);
+}
+
+.contacts-cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.contacts-cover-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.contacts-cover-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.contacts-cover-copy {
+  position: absolute;
+  left: 17%;
+  right: 37%;
+  top: 48%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.contacts-cover-title {
+  font-size: clamp(23px, 6.4vw, 30px);
+  font-weight: 800;
+  color: var(--ink-brown);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.contacts-cover-sub {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-blue);
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.contacts-cover-hint {
+  position: absolute;
+  left: 17%;
+  right: 37%;
+  bottom: 8%;
+  font-size: 10px;
+  color: var(--accent-orange);
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.contacts-inner {
+  position: relative;
+  padding-bottom: 72px;
+}
+
+.contacts-group-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.contacts-group-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.contacts-group-chip {
+  border: 1px solid rgba(241, 185, 143, 0.35);
+  background: var(--surface-card, #fffdf8);
+  color: var(--ink-brown);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.contacts-group-chip.is-active {
+  background: rgba(241, 185, 143, 0.28);
+  border-color: rgba(241, 185, 143, 0.65);
+  font-weight: 700;
+}
+
+.contacts-group-add {
+  flex-shrink: 0;
+}
+
+.contacts-export-fab {
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + var(--safe-bottom));
+  z-index: 20;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #f1b98f 0%, #e89a6a 100%);
+  box-shadow: 0 8px 22px rgba(232, 154, 106, 0.38);
+  cursor: pointer;
+}
+
+.contacts-export-fab:active {
+  transform: scale(0.96);
+}
+
+.contacts-danger-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(241, 185, 143, 0.28);
+}
+
+.contacts-export-note {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-brown);
+  opacity: 0.68;
+}
+
+.contacts-toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.contacts-toolbar .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+.contacts-stats {
+  font-size: 12px;
+  color: var(--ink-brown);
+  opacity: 0.72;
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+
+.classbook-page {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  background: var(--classbook-paper);
+  border-radius: 6px 20px 20px 6px;
+  box-shadow: var(--classbook-shadow);
+  margin-bottom: 18px;
+  padding: 18px 16px 18px 34px;
+  border: 1px solid rgba(241, 185, 143, 0.22);
+  transform-origin: left center;
+}
+
+.classbook-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(251, 246, 240, 0.35) 0%, transparent 18%);
+}
+
+.contacts-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.contacts-card-actions .btn {
+  flex: 1;
+}
+
+.classbook-holes {
+  position: absolute;
+  left: 10px;
+  top: 22px;
+  bottom: 22px;
+  width: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.classbook-hole {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg-paper);
+  box-shadow: inset 0 1px 2px rgba(92, 72, 58, 0.18);
+  border: 1px dashed var(--classbook-hole);
+}
+
+.classbook-page-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.classbook-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--surface-card, #fffdf8);
+  border: 2px dashed rgba(241, 185, 143, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.classbook-avatar img,
+.classbook-avatar-img,
+.classbook-avatar .is-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.classbook-avatar .is-fallback svg {
+  width: 72%;
+  height: 72%;
+}
+
+.classbook-page-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.classbook-page-title strong {
+  display: block;
+  font-size: 17px;
+  color: var(--ink-brown);
+  margin-bottom: 4px;
+}
+
+.classbook-page-meta {
+  font-size: 12px;
+  color: var(--ink-blue);
+  line-height: 1.45;
+}
+
+.classbook-tier {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.classbook-tier.is-main {
+  background: rgba(241, 185, 143, 0.35);
+  color: var(--accent-orange-ink);
+}
+
+.classbook-tier.is-npc {
+  background: rgba(92, 123, 143, 0.14);
+  color: var(--ink-blue);
+}
+
+.classbook-tier.is-background {
+  background: rgba(200, 180, 170, 0.2);
+  color: var(--ink-brown);
+}
+
+.classbook-snippet {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-brown);
+  opacity: 0.82;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.classbook-empty {
+  text-align: center;
+  padding: 48px 20px;
+}
+
+.classbook-empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.classbook-empty-text {
+  font-size: 15px;
+  color: var(--ink-brown);
+  margin-bottom: 6px;
+}
+
+.classbook-empty-sub {
+  font-size: 13px;
+  color: var(--ink-blue);
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 0 auto 18px;
+}
+
+.contacts-edit-scroll {
+  padding: 10px 12px calc(88px + var(--safe-bottom));
+}
+
+.contacts-quickfill {
+  margin-bottom: 12px;
+  border-radius: 14px;
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(139, 107, 86, 0.14);
+  overflow: hidden;
+}
+
+.contacts-quickfill-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  cursor: pointer;
+}
+
+.contacts-quickfill-toggle.is-open .contacts-quickfill-chevron {
+  transform: rotate(180deg);
+}
+
+.contacts-quickfill-chevron {
+  font-size: 10px;
+  color: var(--ink-blue);
+  transition: transform 0.2s ease;
+}
+
+.contacts-quickfill-body {
+  padding: 0 12px 12px;
+}
+
+.contacts-quickfill-lead {
+  margin: 0 0 8px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--ink-blue);
+}
+
+.contacts-quickfill-input {
+  min-height: 108px;
+  margin-bottom: 8px;
+}
+
+.contacts-quickfill-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.contacts-quickfill-hint {
+  margin: 8px 0 0;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--ink-blue);
+  opacity: 0.9;
+}
+
+.classbook-flip {
+  position: relative;
+  min-height: 320px;
+}
+
+.classbook-sheet {
+  display: none;
+  animation: classbookTurnIn 0.28s ease;
+}
+
+.classbook-sheet.is-active {
+  display: block;
+}
+
+/* iOS 会在带 transform 动画的表单祖先上保留合成层，刚进编辑页时首次点输入框
+ * 可能只有光标却不唤起键盘。通讯录表单在 iOS 取消翻页变换，不影响其它平台。 */
+html.ios-webkit .contacts-page .classbook-sheet {
+  animation: none;
+}
+/* iOS Safari 键盘态下 fixed + backdrop-filter 偶发留下错位命中层，
+ * 表现为设定框输入后其它按钮点不动。通讯录编辑底栏用实色，避免额外合成层。 */
+html.ios-webkit .contacts-page .classbook-pager {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+
+
+@keyframes classbookTurnIn {
+  from {
+    opacity: 0;
+    transform: perspective(800px) rotateY(-6deg) translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.classbook-sheet-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  margin: 0 0 4px;
+}
+
+.classbook-sheet-sub {
+  font-size: 12px;
+  color: var(--ink-blue);
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+
+.classbook-hint {
+  font-size: 11px;
+  color: var(--accent-orange-ink);
+  background: rgba(241, 185, 143, 0.16);
+  border-radius: 12px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
+
+.contacts-prompt-tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.contacts-prompt-tag {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  border: 1px dashed rgba(241, 185, 143, 0.42);
+  border-radius: 12px;
+  padding: 8px 9px;
+  background: rgba(255, 253, 248, 0.82);
+  color: var(--ink-brown);
+  cursor: pointer;
+}
+
+.contacts-prompt-tag input {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  accent-color: var(--accent-orange);
+}
+
+.contacts-prompt-tag span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contacts-prompt-tag strong {
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.contacts-prompt-tag small {
+  font-size: 10px;
+  line-height: 1.3;
+  color: var(--ink-blue);
+  opacity: 0.86;
+}
+
+.contacts-field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.contacts-field-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  margin-bottom: 6px;
+}
+
+.contacts-field-ai {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-blue);
+  opacity: 0.85;
+}
+
+.contacts-corpus-label {
+  align-items: center;
+}
+
+.contacts-corpus-ai {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid rgba(241, 185, 143, 0.52);
+  border-radius: 999px;
+  padding: 6px 11px;
+  background: rgba(241, 185, 143, 0.16);
+  color: var(--accent-orange-ink, #9b6641);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+}
+
+.contacts-corpus-ai .svg-icon {
+  font-size: 13px;
+}
+
+.contacts-corpus-ai:hover {
+  border-color: rgba(241, 185, 143, 0.78);
+  background: rgba(241, 185, 143, 0.25);
+}
+
+.contacts-corpus-ai:active {
+  transform: translateY(1px);
+}
+
+.contacts-corpus-ai:focus-visible {
+  outline: 2px solid var(--accent-orange, #f1b98f);
+  outline-offset: 2px;
+}
+
+.contacts-corpus-ai:disabled {
+  cursor: wait;
+  opacity: 0.64;
+  transform: none;
+}
+
+.contacts-corpus-guide {
+  display: block;
+  margin: 6px 2px 0;
+  color: var(--ink-blue);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.contacts-corpus-workbench {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 2px 0 12px;
+  padding: 13px 14px;
+  border: 1px solid rgba(241, 185, 143, 0.54);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 249, 238, 0.96), rgba(255, 238, 221, 0.74));
+  box-shadow: 0 8px 20px rgba(138, 91, 55, 0.08);
+}
+
+.contacts-corpus-workbench > div {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.contacts-corpus-workbench strong {
+  color: var(--ink-brown);
+  font-size: 13px;
+}
+
+.contacts-corpus-workbench span {
+  color: var(--ink-blue);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.contacts-corpus-guide-open {
+  flex: 0 0 auto;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid rgba(241, 185, 143, 0.76);
+  border-radius: 12px;
+  padding: 7px 11px;
+  background: var(--surface-card, #fffdf8);
+  color: var(--accent-orange-ink, #9b6641);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.contacts-corpus-guide-open:hover {
+  background: #fff7ed;
+}
+
+.contacts-corpus-guide-open:focus-visible,
+.contacts-corpus-situation-seeds button:focus-visible,
+.contacts-corpus-worldbooks summary:focus-visible,
+.contacts-corpus-worldbook-option input:focus-visible {
+  outline: 2px solid var(--accent-orange, #f1b98f);
+  outline-offset: 2px;
+}
+
+.contacts-corpus-guide-sheet {
+  width: min(560px, calc(100vw - 24px));
+  max-height: min(820px, calc(100dvh - 24px));
+  border-radius: var(--radius-xl);
+}
+
+.contacts-corpus-guide-overlay {
+  align-items: center;
+  padding: 12px;
+}
+
+.contacts-corpus-guide-sheet .modal-header {
+  align-items: flex-start;
+}
+
+.contacts-corpus-guide-sheet .modal-header h3 {
+  margin: 0;
+}
+
+.contacts-corpus-guide-sheet .modal-header p {
+  margin: 3px 0 0;
+  color: var(--ink-blue);
+  font-size: 11px;
+}
+
+.contacts-corpus-guide-body {
+  display: grid;
+  gap: 13px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.contacts-corpus-ai-draft {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid rgba(241, 185, 143, 0.48);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 249, 238, 0.9), rgba(255, 238, 221, 0.56));
+}
+
+.contacts-corpus-ai-draft-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.contacts-corpus-ai-draft-head > div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.contacts-corpus-ai-draft-head strong {
+  color: var(--ink-brown);
+  font-size: 13px;
+}
+
+.contacts-corpus-ai-draft-head span {
+  color: var(--ink-blue);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.contacts-corpus-ai-draft-head .btn {
+  flex: 0 0 auto;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding-inline: 12px;
+}
+
+.contacts-corpus-worldbooks {
+  color: var(--ink-blue);
+  font-size: 11px;
+}
+
+.contacts-corpus-worldbooks summary {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.contacts-corpus-worldbooks summary em {
+  margin-left: auto;
+  color: var(--accent-orange-ink, #9b6641);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.contacts-corpus-worldbook-list {
+  max-height: 160px;
+  display: grid;
+  gap: 6px;
+  overflow-y: auto;
+  padding: 6px 2px;
+}
+
+.contacts-corpus-worldbook-option {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--ink-brown);
+  cursor: pointer;
+}
+
+.contacts-corpus-worldbook-option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent-orange, #f1b98f);
+}
+
+.contacts-corpus-worldbook-empty {
+  padding: 8px;
+  color: var(--ink-blue);
+}
+
+.contacts-corpus-worldbooks p {
+  margin: 4px 2px 0;
+  color: var(--ink-blue);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.contacts-corpus-guide-field {
+  display: grid;
+  gap: 6px;
+}
+
+.contacts-corpus-guide-field > span {
+  color: var(--ink-brown);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.contacts-corpus-guide-field textarea {
+  min-height: 0;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.contacts-corpus-situation-seeds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: -5px;
+}
+
+.contacts-corpus-situation-seeds button {
+  min-height: 28px;
+  border: 1px solid rgba(241, 185, 143, 0.46);
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(241, 185, 143, 0.12);
+  color: var(--ink-brown);
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.contacts-corpus-guide-help {
+  color: var(--ink-blue);
+  font-size: 11px;
+}
+
+.contacts-corpus-guide-help summary {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contacts-corpus-guide-help ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  line-height: 1.65;
+}
+
+.contacts-corpus-guide-status {
+  min-height: 18px;
+  color: #a75d46;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.contacts-input,
+.contacts-textarea,
+.contacts-select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px dashed rgba(241, 185, 143, 0.38);
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--ink-brown);
+  background: var(--surface-card, #fffdf8);
+}
+
+.contacts-textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.5;
+}
+
+.contacts-input:focus,
+.contacts-textarea:focus,
+.contacts-select:focus {
+  outline: none;
+  border-color: rgba(241, 185, 143, 0.72);
+  box-shadow: 0 0 0 3px rgba(241, 185, 143, 0.18);
+}
+
+.contacts-voice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.contacts-voice-provider-group {
+  display: grid;
+  gap: 10px;
+  padding: 12px 0 2px;
+  border-top: 1px solid color-mix(in srgb, var(--ink-brown) 12%, transparent);
+}
+
+.contacts-voice-provider-group + .contacts-voice-provider-group {
+  margin-top: 8px;
+}
+
+.contacts-video-bg-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.contacts-video-bg-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.contacts-video-bg-display {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.contacts-video-bg-display label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.contacts-video-bg-display label > span {
+  color: var(--text-secondary, #8c7362);
+  font-size: 12px;
+}
+
+.contacts-video-bg-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contacts-video-bg-preview {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  width: min(100%, 220px);
+  border-radius: 18px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(241, 185, 143, 0.2), rgba(201, 217, 185, 0.18)),
+    var(--surface-card, #fffdf8);
+  border: 2px dashed rgba(241, 185, 143, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-hint, #a89282);
+  font-size: 12px;
+}
+
+.contacts-video-bg-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--contacts-video-bg-fit, cover);
+  object-position: var(--contacts-video-bg-position, center);
+}
+
+.contacts-video-bg-preview.is-empty {
+  min-height: 168px;
+}
+
+@media (max-width: 420px) {
+  .contacts-video-bg-display {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contacts-toggle-row {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.72);
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  color: var(--text-primary, #5c4a3f);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.contacts-toggle-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #f1b98f;
+}
+
+.contacts-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.contacts-avatar-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--surface-card, #fffdf8);
+  border: 2px dashed rgba(241, 185, 143, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  overflow: hidden;
+}
+
+.contacts-avatar-preview img,
+.contacts-avatar-img,
+.contacts-avatar-preview .is-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contacts-avatar-preview .is-fallback svg {
+  width: 72%;
+  height: 72%;
+}
+
+.contacts-avatar-actions {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: flex-start;
+}
+
+.classbook-pager {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 120;
+  padding: 10px 14px calc(10px + var(--safe-bottom));
+  background: var(--surface-card, #fffdf8);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px dashed rgba(241, 185, 143, 0.28);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.classbook-pager-dots {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.classbook-pager-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(140, 115, 98, 0.22);
+  cursor: pointer;
+}
+
+.classbook-pager-dot.is-active {
+  background: var(--accent-orange);
+  transform: scale(1.15);
+}
+
+.classbook-pager-label {
+  font-size: 11px;
+  color: var(--ink-blue);
+  white-space: nowrap;
+}
+
+.contacts-rel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.contacts-rel-item {
+  padding: 10px;
+  border-radius: 14px;
+  background: var(--surface-card, #fffdf8);
+  border: 1px dashed rgba(241, 185, 143, 0.32);
+}
+
+.contacts-rel-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.contacts-rel-row .contacts-select {
+  flex: 1;
+}
+
+.contacts-import-scroll {
+  padding: 12px 14px calc(24px + var(--safe-bottom));
+}
+
+.contacts-guide {
+  background: var(--surface-card, #fffdf8);
+  border: 1px dashed rgba(241, 185, 143, 0.35);
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.contacts-guide-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  margin: 0 0 8px;
+}
+
+.contacts-guide ol {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-blue);
+}
+
+.contacts-import-scope {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(241, 185, 143, 0.12);
+  border: 1px solid rgba(241, 185, 143, 0.28);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-brown);
+}
+
+.contacts-import-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0;
+  max-height: 42vh;
+  overflow: auto;
+}
+
+.contacts-import-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--classbook-paper);
+  border: 1px solid rgba(241, 185, 143, 0.22);
+}
+
+.contacts-import-row input[type="checkbox"] {
+  margin-top: 4px;
+  accent-color: var(--accent-orange);
+}
+
+.contacts-import-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-brown);
+}
+
+.contacts-import-id {
+  font-size: 11px;
+  color: var(--ink-blue);
+  opacity: 0.75;
+  word-break: break-all;
+}
+
+/* ════════════════════════════════════════════════
+   拨号 App 风格通讯录（柔和马卡龙 · 圆润 squircle）
+   ════════════════════════════════════════════════ */
+
+.dialer-page {
+  --dial-blue: #b6cde0;
+  --dial-blue-soft: #dcedf6;
+  --dial-peach: #fbe2cd;
+  --dial-pink: #fde2e4;
+  --dial-cream: #fff9f2;
+  --dial-ink: #5c7b8f;
+  --dial-ink-soft: #88a3b8;
+  --dial-ink-muted: #a0b4c0;
+  --dial-call: #b6cde0;
+  --dial-tab-idle: #cbd5e1;
+  --dial-radius: 22px;
+  --dialer-call-bottom-gap: 28px;
+  background: var(--dial-cream);
+  position: relative;
+  overflow: hidden;
+}
+
+.dialer-navbar {
+  position: relative;
+  z-index: 3;
+  background: rgba(255, 249, 242, 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.dialer-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 14px 24px;
+  scrollbar-width: thin;
+}
+
+.dialer-body[data-tab="keypad"] {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* ── 搜索框（拨号显示屏质感）── */
+.dialer-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  height: 46px;
+  border-radius: var(--radius-full);
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.1);
+  box-shadow: 0 4px 14px rgba(140, 115, 98, 0.06);
+  margin-bottom: 14px;
+}
+
+.dialer-search-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--dial-ink-soft);
+  font-size: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.dialer-search-icon .svg-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.dialer-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--dial-ink);
+  outline: none;
+}
+
+.dialer-search-input::placeholder {
+  color: var(--dial-ink-soft);
+  opacity: 0.7;
+}
+
+.dialer-search-clear {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(140, 115, 98, 0.08);
+  color: var(--dial-ink-soft);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ── 分组 chips ── */
+.dialer-group-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.dialer-chips {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.dialer-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.dialer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 7px 13px;
+  font-size: 13px;
+  color: var(--dial-ink);
+  background: var(--dial-blue-soft);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.18s ease;
+}
+
+.dialer-chip:active {
+  transform: scale(0.95);
+}
+
+.dialer-chip.is-active {
+  background: var(--dial-blue);
+  color: #fff;
+  font-weight: 700;
+}
+
+.dialer-chip-count {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.dialer-chip.is-active .dialer-chip-count {
+  opacity: 0.85;
+}
+
+.dialer-chip-add {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 14px;
+  background: var(--dial-peach);
+  color: #b07a4f;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.dialer-chip-add:active {
+  transform: scale(0.94);
+}
+
+/* ── 工具栏 ── */
+.dialer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.dialer-tool {
+  flex: 1 1 calc(20% - 8px);
+  min-width: 56px;
+  border: none;
+  border-radius: 14px;
+  padding: 9px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dial-ink);
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.08);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.dialer-tool:active {
+  transform: scale(0.96);
+}
+
+.dialer-tool:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dialer-tool--danger {
+  color: #b42318;
+  background: rgba(180, 35, 24, 0.06);
+  border-color: rgba(180, 35, 24, 0.14);
+}
+
+.dialer-batch-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.dialer-batch-count {
+  flex: 1 1 auto;
+  min-width: 64px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dial-ink-soft);
+  padding: 0 4px;
+}
+
+.dialer-batch-bar .dialer-tool {
+  flex: 0 1 auto;
+  min-width: 72px;
+  padding-inline: 10px;
+}
+
+.dialer-row--select {
+  cursor: pointer;
+}
+
+.dialer-row--select.is-selected {
+  background: var(--dial-blue-soft);
+  border-color: rgba(92, 123, 143, 0.18);
+}
+
+.dialer-row-check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(92, 123, 143, 0.28);
+  background: rgba(255, 255, 255, 0.7);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dial-ink);
+}
+
+.dialer-row--select.is-selected .dialer-row-check {
+  background: var(--dial-ink);
+  border-color: var(--dial-ink);
+  color: #fff;
+}
+
+.dialer-row-check .svg-icon,
+.dialer-sheet-delete .svg-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+}
+
+.dialer-row-check .svg-icon svg,
+.dialer-sheet-delete .svg-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dialer-sheet-delete .svg-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 底部管理抽屉 */
+.dialer-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.dialer-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(40, 54, 64, 0.28);
+  cursor: pointer;
+}
+
+.dialer-sheet-panel {
+  position: relative;
+  z-index: 1;
+  max-height: min(62vh, 480px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px 22px 0 0;
+  background: var(--surface-card, #fffdf8);
+  box-shadow: 0 -10px 28px rgba(92, 123, 143, 0.16);
+  padding: 14px 14px calc(14px + var(--safe-bottom, 0px));
+}
+
+.dialer-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.dialer-sheet-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dial-ink);
+}
+
+.dialer-sheet-close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--dial-ink-muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.dialer-sheet-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dialer-sheet-item,
+.dialer-sheet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(140, 115, 98, 0.08);
+  background: var(--dial-cream);
+  color: var(--dial-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dialer-sheet-item:active {
+  transform: scale(0.99);
+}
+
+.dialer-sheet-item-name {
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.dialer-sheet-item-meta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dial-ink-muted);
+  white-space: nowrap;
+}
+
+.dialer-sheet-row {
+  cursor: default;
+}
+
+.dialer-sheet-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.dialer-sheet-action {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(140, 115, 98, 0.16);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dial-ink-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.dialer-sheet-action[aria-pressed="true"] {
+  border-color: rgba(77, 135, 118, 0.28);
+  background: rgba(77, 135, 118, 0.1);
+  color: #356f60;
+}
+
+.dialer-sheet-action:focus-visible,
+.dialer-sheet-edit:focus-visible,
+.dialer-sheet-delete:focus-visible {
+  outline: 2px solid var(--dial-ink);
+  outline-offset: 2px;
+}
+
+.dialer-sheet-edit {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--dial-ink-muted);
+  cursor: pointer;
+}
+
+.dialer-sheet-edit svg {
+  width: 15px;
+  height: 15px;
+}
+
+.dialer-sheet-delete {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(192, 86, 63, 0.1);
+  color: #c0563f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dialer-sheet-delete svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dialer-sheet-empty {
+  padding: 24px 8px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--dial-ink-muted);
+}
+
+.dialer-sheet-foot {
+  margin-top: 10px;
+}
+
+.dialer-sheet-foot .dialer-tool {
+  width: 100%;
+  flex: none;
+}
+
+/* ── 分节标题 ── */
+.dialer-section-head {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--dial-ink-soft);
+  margin: 18px 4px 8px;
+}
+
+.dialer-section-head:first-child {
+  margin-top: 2px;
+}
+
+/* ── 列表行 ── */
+.dialer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dialer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--dial-radius);
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.06);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.18s ease;
+}
+
+.dialer-swipe-row {
+  --swipe-offset: 0px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--dial-radius);
+}
+
+.dialer-swipe-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  box-sizing: border-box;
+  transform: translateX(var(--swipe-offset));
+  touch-action: pan-y;
+  will-change: transform;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.78, 0.2, 1),
+    border-radius 140ms ease;
+}
+
+.dialer-swipe-actions {
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  width: 148px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.dialer-swipe-row.is-swipe-open {
+  --swipe-offset: -148px;
+}
+
+.dialer-swipe-row.is-swipe-open .dialer-swipe-content,
+.dialer-swipe-row.is-swipe-dragging .dialer-swipe-content {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dialer-swipe-row .dialer-row-avatar,
+.dialer-swipe-row .dialer-row-main {
+  transform: translateX(calc(-1 * var(--swipe-offset)));
+}
+
+.dialer-swipe-row.is-swipe-open .dialer-row-edit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dialer-swipe-row.is-swipe-open .dialer-swipe-actions {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.dialer-swipe-action {
+  width: 74px;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #fff;
+  background: #7694a8;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.dialer-swipe-action.is-pin {
+  background: #5c6f7c;
+}
+
+.dialer-swipe-action.is-pin.is-on {
+  background: #8a7464;
+}
+
+.dialer-swipe-action .dialer-glyph {
+  font-size: 20px;
+}
+
+.dialer-swipe-row .dialer-row-avatar,
+.dialer-swipe-row .dialer-row-main,
+.dialer-swipe-row .dialer-row-edit {
+  transition: transform 220ms cubic-bezier(0.2, 0.78, 0.2, 1), opacity 120ms ease;
+}
+
+.dialer-swipe-action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+
+.dialer-swipe-row.is-swipe-dragging .dialer-swipe-content,
+.dialer-swipe-row.is-swipe-dragging .dialer-row-avatar,
+.dialer-swipe-row.is-swipe-dragging .dialer-row-main,
+.dialer-swipe-row.is-swipe-dragging .dialer-row-edit {
+  transition: none;
+}
+
+.dialer-swipe-row.is-swipe-dragging .dialer-swipe-content {
+  transition: border-radius 140ms ease;
+}
+
+.dialer-row:active {
+  transform: scale(0.99);
+  background: var(--dial-cream);
+}
+
+.dialer-row-avatar {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--dial-blue-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialer-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dialer-avatar-img.is-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dial-ink-soft);
+}
+
+.dialer-avatar-img.is-fallback svg {
+  width: 60%;
+  height: 60%;
+}
+
+.dialer-row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dialer-row-main--name-only {
+  display: flex;
+  align-items: center;
+}
+
+.dialer-row-name-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dialer-row-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dial-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dialer-row-name-line .dialer-row-name {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.dialer-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  min-width: 0;
+}
+
+.dialer-row-sub {
+  font-size: 12px;
+  color: var(--dial-ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dialer-tier {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.dialer-tier.is-main {
+  background: var(--dial-peach);
+  color: #b07a4f;
+}
+
+.dialer-tier.is-npc {
+  background: var(--dial-blue-soft);
+  color: var(--dial-ink);
+}
+
+.dialer-tier.is-background {
+  background: rgba(200, 180, 170, 0.22);
+  color: var(--ink-brown);
+}
+
+.dialer-row-star,
+.dialer-row-edit {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--dial-ink-soft);
+  cursor: pointer;
+}
+
+.dialer-row-star.is-on {
+  color: #efb15e;
+}
+
+.dialer-row-edit .svg-icon {
+  font-size: 18px;
+}
+
+.dialer-row-star:active,
+.dialer-row-edit:active {
+  transform: scale(0.9);
+}
+
+.dialer-row-call {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--dial-blue);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(158, 197, 221, 0.5);
+  transition: transform 0.12s ease;
+}
+
+.dialer-row-call:active {
+  transform: scale(0.92);
+}
+
+.dialer-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2em;
+  height: 1.2em;
+  color: currentColor;
+}
+
+.dialer-glyph svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dialer-row-call .dialer-glyph {
+  font-size: 20px;
+}
+
+/* ── 快捷拨号格子 ── */
+.dialer-quick-grid,
+.dialer-pad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.dialer-quick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 6px;
+  border: none;
+  border-radius: var(--dial-radius);
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.06);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.dialer-quick:nth-child(3n + 1) { background: var(--dial-pink); }
+.dialer-quick:nth-child(3n + 2) { background: var(--dial-blue-soft); }
+.dialer-quick:nth-child(3n + 3) { background: var(--dial-peach); }
+
+.dialer-quick:active {
+  transform: scale(0.95);
+}
+
+.dialer-quick-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(140, 115, 98, 0.1);
+}
+
+.dialer-quick-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dial-ink);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 最近通话 ── */
+.dialer-recent.is-miss .dialer-row-name {
+  color: #d98a8a;
+}
+
+.dialer-recent-icon {
+  display: inline-flex;
+  color: var(--dial-ink-soft);
+  font-size: 14px;
+}
+
+.dialer-recent.is-miss .dialer-recent-icon {
+  color: #d98a8a;
+}
+
+.dialer-recent-time {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--dial-ink-soft);
+}
+
+/* ── 拨号键盘页（参考 UI 1:1）── */
+.dialer-pad {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 4px;
+  box-sizing: border-box;
+}
+
+.dialer-deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dialer-deco-star {
+  top: 8px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  opacity: 0.6;
+}
+
+.dialer-deco-cloud {
+  top: 56px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  opacity: 0.8;
+}
+
+.dialer-pad-matchzone {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px 4px;
+}
+
+.dialer-pad-matchzone.has-results {
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.dialer-pad-match-empty {
+  font-size: 13px;
+  color: var(--dial-ink-muted);
+  text-align: center;
+}
+
+.dialer-pad-lower {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-bottom: 2px;
+}
+
+.dialer-pad-screen {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px 10px;
+  min-height: 60px;
+}
+
+.dialer-pad-readout {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  color: var(--dial-ink);
+  text-align: center;
+  outline: none;
+  min-height: 44px;
+}
+
+.dialer-pad-readout::placeholder {
+  color: transparent;
+}
+
+.dialer-pad-readout-sub {
+  margin-top: 5px;
+  font-size: 14px;
+  color: var(--dial-ink-muted);
+}
+
+.dialer-dial-matches {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 2px 0;
+  scrollbar-width: none;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.dialer-dial-matches.is-wide {
+  justify-content: flex-start;
+}
+
+.dialer-dial-matches::-webkit-scrollbar {
+  display: none;
+}
+
+.dialer-dial-chip {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 64px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dialer-dial-chip-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--dial-blue-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 9px rgba(140, 115, 98, 0.12);
+  transition: transform 0.12s ease;
+}
+
+.dialer-dial-chip:active .dialer-dial-chip-avatar {
+  transform: scale(0.93);
+}
+
+.dialer-dial-chip-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dial-ink);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dialer-dial-chip-num {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--dial-ink-muted);
+  letter-spacing: 0.06em;
+}
+
+.dialer-keys {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 68px);
+  justify-content: center;
+  gap: 16px;
+  padding: 0 28px 16px;
+}
+
+.dialer-key {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  color: var(--dial-ink);
+  transition: transform 0.1s ease;
+}
+
+.dialer-key:active {
+  transform: scale(0.95);
+}
+
+.dialer-key--pink { background: var(--dial-pink); }
+.dialer-key--blue { background: var(--dial-blue-soft); }
+.dialer-key--peach { background: var(--dial-peach); }
+
+.dialer-key b {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.dialer-key i {
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--dial-ink-soft);
+}
+
+.dialer-dial-callrow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 44px var(--dialer-call-bottom-gap);
+}
+
+.dialer-dial-callrow-side {
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.dialer-dial-call {
+  width: 70px;
+  height: 70px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 24px;
+  background: var(--dial-call);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(182, 205, 224, 0.4);
+  transition: transform 0.12s ease;
+}
+
+.dialer-dial-call:active {
+  transform: scale(0.95);
+}
+
+.dialer-dial-call .dialer-glyph {
+  font-size: 32px;
+}
+
+.dialer-dial-call.is-disabled {
+  background: #d8d2cb;
+  box-shadow: none;
+  opacity: 0.72;
+}
+
+.dialer-pad-back {
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--dial-ink-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dialer-pad-back.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dialer-pad-back .dialer-glyph {
+  font-size: 26px;
+}
+
+@media (max-height: 700px) {
+  .dialer-page {
+    --dialer-call-bottom-gap: 22px;
+  }
+
+  .dialer-pad-matchzone {
+    min-height: 96px;
+  }
+
+  .dialer-pad-screen {
+    min-height: 52px;
+    padding-bottom: 6px;
+  }
+
+  .dialer-pad-readout {
+    min-height: 40px;
+    font-size: 32px;
+  }
+
+  .dialer-keys {
+    grid-template-columns: repeat(3, 62px);
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  .dialer-key {
+    width: 62px;
+    height: 62px;
+    border-radius: 20px;
+  }
+
+  .dialer-key b {
+    font-size: 27px;
+  }
+
+  .dialer-dial-call {
+    width: 64px;
+    height: 64px;
+    border-radius: 22px;
+  }
+}
+
+@media (max-height: 650px) {
+  .dialer-page {
+    --dialer-call-bottom-gap: 18px;
+  }
+
+  .dialer-pad-matchzone {
+    min-height: 52px;
+  }
+
+  .dialer-pad-screen {
+    min-height: 42px;
+    padding-bottom: 4px;
+  }
+
+  .dialer-pad-readout {
+    min-height: 36px;
+    font-size: 28px;
+  }
+
+  .dialer-keys {
+    grid-template-columns: repeat(3, 52px);
+    gap: 7px;
+    padding-bottom: 6px;
+  }
+
+  .dialer-key {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+  }
+
+  .dialer-key b {
+    font-size: 24px;
+  }
+
+  .dialer-key i {
+    font-size: 8px;
+  }
+
+  .dialer-dial-call {
+    width: 56px;
+    height: 56px;
+    border-radius: 20px;
+  }
+
+  .dialer-dial-call .dialer-glyph {
+    font-size: 28px;
+  }
+}
+
+/* ── 空态 ── */
+.dialer-empty {
+  text-align: center;
+  padding: 52px 24px;
+}
+
+.dialer-empty-art {
+  display: inline-flex;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 14px;
+  color: var(--dial-blue);
+  background: var(--dial-blue-soft);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialer-empty-art .dialer-glyph {
+  font-size: 30px;
+}
+
+.dialer-empty-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dial-ink);
+  margin-bottom: 6px;
+}
+
+.dialer-empty-sub {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--dial-ink-soft);
+  max-width: 270px;
+  margin: 0 auto 18px;
+}
+
+.dialer-empty-btn {
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--dial-blue);
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(158, 197, 221, 0.45);
+}
+
+.dialer-empty-btn:active {
+  transform: scale(0.96);
+}
+
+/* ── 底部 Tab 导航 ── */
+.dialer-tabbar {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  padding: 8px 20px calc(8px + var(--safe-bottom));
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.dialer-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  padding: 6px 2px;
+  color: var(--dial-tab-idle);
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.dialer-tab .dialer-glyph {
+  font-size: 24px;
+}
+
+.dialer-tab-label {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.dialer-tab.is-active {
+  color: var(--dial-ink);
+}
+
+.dialer-tab.is-active .dialer-tab-label {
+  font-weight: 600;
+}
+
+.contacts-map-actions,
+.contacts-weather-row,
+.user-space-weather-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.contacts-map-actions {
+  flex-wrap: wrap;
+  margin: 2px 0 8px;
+}
+
+.contacts-map-actions .btn {
+  flex: 1 1 132px;
+}
+
+.contacts-weather-status,
+.user-space-weather-row .us-weather-status {
+  flex: 1;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.contacts-map-results,
+.contacts-location-box {
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(241, 185, 143, 0.36);
+  background: rgba(255, 253, 248, 0.72);
+  padding: 10px;
+}
+
+.contacts-map-result-head,
+.contacts-location-head {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-brown);
+  margin-bottom: 8px;
+}
+
+.contacts-map-pois,
+.contacts-location-anchors {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.contacts-map-poi {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 9px;
+  border-radius: 12px;
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.08);
+  color: var(--ink-brown);
+}
+
+.contacts-map-poi input {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  accent-color: var(--accent-orange);
+}
+
+.contacts-map-poi span,
+.contacts-location-anchor {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contacts-map-poi strong,
+.contacts-location-anchor strong {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.contacts-map-poi small,
+.contacts-location-anchor span,
+.contacts-location-empty,
+.contacts-map-empty {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-blue);
+  opacity: 0.86;
+}
+
+.contacts-map-accept {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.contacts-location-anchor {
+  padding: 8px 9px;
+  border-radius: 12px;
+  background: rgba(241, 185, 143, 0.12);
+  border: 1px solid rgba(241, 185, 143, 0.22);
+  color: var(--ink-brown);
+}
+
+/* AI 补全预览弹窗 */
+.ai-fill-subtitle {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-blue);
+}
+.ai-fill-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.ai-fill-count {
+  font-size: 12px;
+  color: var(--ink-brown);
+  font-weight: 600;
+}
+.ai-fill-toggle-all {
+  border: none;
+  background: rgba(140, 115, 98, 0.1);
+  color: var(--ink-brown);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.ai-fill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ai-fill-field {
+  border: 1px solid rgba(140, 115, 98, 0.16);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(255, 253, 248, 0.7);
+  transition: opacity 0.15s ease;
+}
+.ai-fill-field.is-off {
+  opacity: 0.45;
+}
+.ai-fill-field-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.ai-fill-check {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--tape-orange, #f1b98f);
+  flex: 0 0 auto;
+}
+.ai-fill-field-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-brown);
+}
+.ai-fill-value {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+textarea.ai-fill-value {
+  resize: vertical;
+  line-height: 1.5;
+}
+.ai-raw-text {
+  width: 100%;
+  min-height: 260px;
+  box-sizing: border-box;
+  resize: vertical;
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.ai-fill-footer {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px dashed rgba(140, 115, 98, 0.18);
+}
+.ai-fill-footer .btn {
+  flex: 1 1 0;
+}
+
+/* ════════════════════════════════════════════════
+   通讯录：置顶分区 · 可折叠分组 · 右侧快捷滑条
+   ════════════════════════════════════════════════ */
+
+.dialer-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dialer-sec-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 6px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dialer-sec-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--dial-ink-soft);
+}
+
+.dialer-sec-star {
+  display: inline-flex;
+  color: #efb15e;
+}
+.dialer-sec-star .dialer-glyph,
+.dialer-sec-star .dialer-glyph svg {
+  width: 14px;
+  height: 14px;
+}
+
+.dialer-sec-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dial-ink-muted);
+  padding-left: 2px;
+}
+
+.dialer-sec-chev {
+  display: inline-flex;
+  color: var(--dial-ink-muted);
+  transition: transform 0.2s ease;
+}
+.dialer-sec-chev .dialer-glyph,
+.dialer-sec-chev .dialer-glyph svg {
+  width: 18px;
+  height: 18px;
+}
+.dialer-sec.is-collapsed .dialer-sec-chev {
+  transform: rotate(-90deg);
+}
+
+.dialer-sec-body {
+  overflow: hidden;
+}
+.dialer-sec.is-collapsed .dialer-sec-body {
+  display: none;
+}
+
+.dialer-sec-head:focus-visible {
+  outline: 2px solid var(--dial-ink);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* 列表为右侧滑条让出通道 */
+.dialer-body.has-rail {
+  padding-right: 34px;
+}
+
+/* ── 右侧快捷分组滑条 ── */
+.dialer-rail {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 6px 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 16px rgba(92, 123, 143, 0.16);
+  touch-action: none;
+  user-select: none;
+}
+
+.dialer-rail-item {
+  width: 22px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--dial-ink-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.dialer-rail-item.is-active {
+  color: #fff;
+  background: var(--dial-ink);
+}
+
+/* 关系网占位 */
+.dialer-net-coming .dialer-empty-art {
+  color: var(--dial-ink-soft);
+}
+
+/* ════════════════════════════════════════════════
+   毛玻璃白页作用域：窗 + 海主题（.dialer-page--glass）
+   ════════════════════════════════════════════════ */
+
+.dialer-page--glass {
+  --dial-blue: #aebfc9;
+  --dial-blue-soft: rgba(255, 255, 255, 0.55);
+  --dial-peach: rgba(255, 255, 255, 0.55);
+  --dial-pink: rgba(255, 255, 255, 0.55);
+  --dial-cream: #eef0ef;
+  --dial-ink: #515c63;
+  --dial-ink-soft: rgba(81, 92, 99, 0.66);
+  --dial-ink-muted: rgba(81, 92, 99, 0.42);
+  --dial-call: #6b7780;
+  --dial-tab-idle: rgba(81, 92, 99, 0.36);
+  --dial-radius: 18px;
+}
+
+.dialer-page--glass .dialer-navbar,
+.dialer-page--glass .dialer-tabbar {
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border-color: rgba(81, 92, 99, 0.08);
+}
+
+.dialer-page--glass .dialer-search,
+.dialer-page--glass .dialer-row,
+.dialer-page--glass .dialer-tool,
+.dialer-page--glass .dialer-recent,
+.dialer-page--glass .dialer-sheet-panel,
+.dialer-page--glass .dialer-sheet-item,
+.dialer-page--glass .dialer-sheet-row {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 22px rgba(70, 86, 96, 0.08);
+  -webkit-backdrop-filter: blur(10px) saturate(115%);
+  backdrop-filter: blur(10px) saturate(115%);
+}
+
+.dialer-page--glass .dialer-tool--danger {
+  color: #b42318;
+  background: rgba(180, 35, 24, 0.1);
+  border-color: rgba(180, 35, 24, 0.18);
+}
+
+.dialer-page--glass .dialer-row--select.is-selected {
+  background: rgba(214, 228, 236, 0.82);
+}
+
+.dialer-page--glass .dialer-sheet-panel {
+  background: rgba(255, 252, 248, 0.92);
+  box-shadow: 0 -12px 32px rgba(70, 86, 96, 0.18);
+}
+
+.dialer-page--glass .dialer-row:active {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.dialer-page--glass .dialer-row-call,
+.dialer-page--glass .dialer-dial-call {
+  background: var(--dial-call);
+  box-shadow: 0 6px 14px rgba(81, 92, 99, 0.28);
+}
+
+.dialer-page--glass .dialer-chip {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(81, 92, 99, 0.12);
+}
+.dialer-page--glass .dialer-chip.is-active {
+  background: var(--dial-ink);
+  color: #fff;
+}
+.dialer-page--glass .dialer-chip-add {
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--dial-ink);
+}
+
+.dialer-page--glass .dialer-key {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.dialer-page--glass .dialer-rail {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialer-sec-chev,
+  .dialer-rail-item,
+  .dialer-swipe-content,
+  .dialer-swipe-row .dialer-row-avatar,
+  .dialer-swipe-row .dialer-row-main,
+  .dialer-swipe-row .dialer-row-edit {
+    transition: none;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   角色资料页：形象图展示陈列
+   ════════════════════════════════════════════════ */
+
+.contacts-showcase {
+  margin: 4px 0 16px;
+}
+
+.contacts-showcase-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.contacts-showcase-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink, #5b4a3f);
+}
+
+.contacts-showcase-gen {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line, rgba(140, 115, 98, 0.2));
+  background: var(--surface-card, #fffdf8);
+  color: var(--ink-soft, #8a7a6c);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.contacts-showcase-gen .svg-icon {
+  font-size: 14px;
+}
+.contacts-showcase-gen:active {
+  transform: scale(0.97);
+}
+.contacts-showcase-gen:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.contacts-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 10px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.contacts-shot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 110px;
+  height: 144px;
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.08));
+  box-shadow: 0 8px 20px rgba(80, 60, 45, 0.12);
+  scroll-snap-align: start;
+}
+.contacts-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.contacts-shot.is-avatar {
+  outline: 2.5px solid var(--accent, #efb15e);
+  outline-offset: -2.5px;
+}
+
+.contacts-shot-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  padding: 6px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.42));
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.contacts-shot:hover .contacts-shot-bar,
+.contacts-shot:focus-within .contacts-shot-bar {
+  opacity: 1;
+}
+
+.contacts-shot-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #5b4a3f;
+  cursor: pointer;
+}
+.contacts-shot-btn .svg-icon {
+  font-size: 15px;
+}
+.contacts-shot-del:hover {
+  background: #ffe2e2;
+  color: #c0392b;
+}
+
+.contacts-shot-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1.5px dashed var(--line, rgba(140, 115, 98, 0.3));
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink-soft, #8a7a6c);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.contacts-shot-add .svg-icon {
+  font-size: 20px;
+}
+
+/* 触屏没有 hover，操作条常显 */
+@media (hover: none) {
+  .contacts-shot-bar {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contacts-shot-bar,
+  .contacts-corpus-ai {
+    transition: none;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   角色资料编辑页：窗 / 海主题玻璃白卡（.contacts-edit--glass）
+   把奶油课本翻页换成 ins 简约白卡；手账主题不受影响
+   ════════════════════════════════════════════════ */
+
+.contacts-edit--glass {
+  --glass-ink: #515c63;
+  --glass-ink-soft: rgba(81, 92, 99, 0.62);
+  --glass-line: rgba(81, 92, 99, 0.16);
+  --glass-card: rgba(255, 255, 255, 0.64);
+  --glass-accent: #6b7780;
+}
+
+.contacts-edit--glass .classbook-page {
+  background: var(--glass-card);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22px;
+  padding: 18px 16px;
+  box-shadow: 0 12px 32px rgba(70, 86, 96, 0.12);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
+}
+.contacts-edit--glass .classbook-page::after {
+  display: none;
+}
+.contacts-edit--glass .classbook-holes {
+  display: none;
+}
+.contacts-edit--glass .classbook-sheet {
+  animation: none;
+}
+
+.contacts-edit--glass .classbook-sheet-title,
+.contacts-edit--glass .classbook-page-title strong,
+.contacts-edit--glass .contacts-field-label,
+.contacts-edit--glass .contacts-showcase-title {
+  color: var(--glass-ink);
+}
+.contacts-edit--glass .classbook-sheet-sub,
+.contacts-edit--glass .classbook-page-meta,
+.contacts-edit--glass .contacts-field-ai,
+.contacts-edit--glass .contacts-corpus-guide {
+  color: var(--glass-ink-soft);
+}
+
+.contacts-edit--glass .contacts-corpus-ai {
+  border-color: var(--glass-line);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--glass-ink);
+}
+
+.contacts-edit--glass .contacts-corpus-ai:hover {
+  border-color: rgba(81, 92, 99, 0.3);
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.contacts-edit--glass .contacts-corpus-ai:focus-visible {
+  outline-color: var(--glass-accent);
+}
+
+.contacts-edit--glass .contacts-corpus-workbench {
+  border-color: var(--glass-line);
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: 0 8px 22px rgba(70, 86, 96, 0.09);
+}
+
+.contacts-edit--glass .contacts-corpus-workbench strong,
+.contacts-edit--glass .contacts-corpus-guide-open {
+  color: var(--glass-ink);
+}
+
+.contacts-edit--glass .contacts-corpus-workbench span {
+  color: var(--glass-ink-soft);
+}
+
+.contacts-edit--glass .contacts-corpus-guide-open {
+  border-color: var(--glass-line);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.contacts-edit--glass .contacts-corpus-guide-open:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.contacts-edit--glass .contacts-corpus-guide-open:focus-visible {
+  outline-color: var(--glass-accent);
+}
+
+.contacts-edit--glass .contacts-input,
+.contacts-edit--glass .contacts-textarea,
+.contacts-edit--glass .contacts-select {
+  border: 1px solid var(--glass-line);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--glass-ink);
+}
+.contacts-edit--glass .contacts-input:focus,
+.contacts-edit--glass .contacts-textarea:focus,
+.contacts-edit--glass .contacts-select:focus {
+  border-color: var(--glass-accent);
+  box-shadow: 0 0 0 3px rgba(107, 119, 128, 0.16);
+}
+
+.contacts-edit--glass .contacts-avatar-preview,
+.contacts-edit--glass .classbook-avatar {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 6px 16px rgba(70, 86, 96, 0.12);
+}
+
+.contacts-edit--glass .contacts-prompt-tag {
+  border: 1px solid var(--glass-line);
+  background: rgba(255, 255, 255, 0.5);
+}
+.contacts-edit--glass .contacts-prompt-tag strong {
+  color: var(--glass-ink);
+}
+.contacts-edit--glass .contacts-prompt-tag small {
+  color: var(--glass-ink-soft);
+}
+
+.contacts-edit--glass .contacts-showcase-gen {
+  border-color: var(--glass-line);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--glass-ink);
+}
+
+.contacts-edit--glass .contacts-toggle-row {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-line);
+  color: var(--glass-ink);
+}
+.contacts-edit--glass .contacts-video-bg-preview {
+  border: 1px solid var(--glass-line);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)),
+    rgba(255, 255, 255, 0.5);
+  color: var(--glass-ink-soft);
+}
+
+.contacts-edit--glass .classbook-pager {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border-top: 1px solid var(--glass-line);
+}
+.contacts-edit--glass .classbook-pager-label {
+  color: var(--glass-ink-soft);
+}
+.contacts-edit--glass .classbook-pager-dot.is-active {
+  background: var(--glass-ink);
+}
+
+.contacts-edit--glass .contacts-danger-zone {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-line);
+}
+
+/* ════════════════════════════════════════════════
+   角色名片展示页 · 窗口拼贴个人主页（点击通讯录行进入）
+   个人简介窗 / 形象图秀图窗 / 关于我窗，页内可编辑上传
+   ════════════════════════════════════════════════ */
+
+.contacts-card-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+  padding: 12px 14px calc(86px + var(--safe-bottom));
+}
+
+/* ── 窗口卡外壳 ── */
+.cc-win {
+  flex: 0 0 auto;
+  background: var(--surface-card, #fffdf8);
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(80, 60, 45, 0.1);
+  overflow: hidden;
+}
+.cc-win + .cc-win {
+  margin-top: 14px;
+}
+.cc-win-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(140, 115, 98, 0.1);
+}
+.cc-win-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-brown, #5b4a3f);
+}
+.cc-win-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.cc-win-edit {
+  border: 0;
+  background: transparent;
+  color: var(--ink-blue, #a08b79);
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+}
+.cc-win-edit .svg-icon {
+  font-size: 15px;
+}
+.cc-win-min,
+.cc-win-close {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(140, 115, 98, 0.22);
+}
+.cc-win-close {
+  background: rgba(216, 138, 120, 0.5);
+}
+.cc-win-body {
+  padding: 14px;
+}
+
+/* ── 个人简介窗 ── */
+.cc-intro-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.cc-avatar {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.08));
+  box-shadow: 0 4px 12px rgba(80, 60, 45, 0.14);
+}
+.cc-avatar img,
+.cc-avatar-img,
+.cc-avatar .is-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cc-avatar .is-fallback {
+  display: grid;
+  place-items: center;
+}
+.cc-avatar .is-fallback svg {
+  width: 56%;
+  height: 56%;
+}
+.cc-intro-id {
+  min-width: 0;
+}
+.cc-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-brown, #5b4a3f);
+}
+.cc-handle {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--ink-blue, #8a7a6c);
+}
+.cc-chips {
+  margin-top: 7px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cc-chip {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.09));
+  font-size: 11px;
+  color: var(--ink-brown, #6b5848);
+}
+.cc-sign {
+  margin: 13px 0 2px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-brown, #6b5848);
+}
+.cc-sign.is-empty {
+  color: var(--ink-blue, #b0a08f);
+}
+.cc-sub-h {
+  margin: 14px 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-brown, #5b4a3f);
+}
+.cc-contacts {
+  border-radius: 12px;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.05));
+  padding: 2px 12px;
+}
+.cc-contact {
+  display: flex;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(140, 115, 98, 0.09);
+  font-size: 13px;
+}
+.cc-contact:last-child {
+  border-bottom: 0;
+}
+.cc-contact.is-empty {
+  justify-content: center;
+  color: var(--ink-blue, #b0a08f);
+}
+.cc-contact-k {
+  flex: 0 0 78px;
+  color: var(--ink-blue, #8a7a6c);
+}
+.cc-contact-v {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink-brown, #5b4a3f);
+  word-break: break-word;
+}
+.cc-intro-foot {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+.cc-send {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent-orange, #f1b98f);
+  color: #5b4a3f;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cc-send .svg-icon {
+  font-size: 16px;
+}
+
+/* ── 编辑态通用 ── */
+.cc-ed-label {
+  display: block;
+  margin: 12px 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-blue, #8a7a6c);
+}
+.cc-ed-sign,
+.cc-ed-about,
+.cc-lock-prompt,
+.cc-ec-label,
+.cc-ec-value,
+.cc-lock-seed {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(140, 115, 98, 0.22);
+  border-radius: 10px;
+  padding: 9px 11px;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--ink-brown, #5b4a3f);
+  background: #fff;
+  resize: vertical;
+}
+.cc-ec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cc-ec-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.cc-ec-label {
+  flex: 0 0 92px;
+}
+.cc-ec-value {
+  flex: 1;
+}
+.cc-ec-del {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(140, 115, 98, 0.22);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-blue, #a08b79);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.cc-ec-add {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px dashed rgba(140, 115, 98, 0.3);
+  border-radius: 10px;
+  background: transparent;
+  font-size: 12.5px;
+  color: var(--ink-blue, #8a7a6c);
+  cursor: pointer;
+}
+.cc-ed-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.cc-ed-cancel,
+.cc-ed-save {
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cc-ed-cancel {
+  border: 1px solid rgba(140, 115, 98, 0.22);
+  background: transparent;
+  color: var(--ink-brown, #6b5848);
+}
+.cc-ed-save {
+  border: 0;
+  background: var(--accent-orange, #f1b98f);
+  color: #5b4a3f;
+}
+
+/* ── 形象图秀图窗（纯装饰）── */
+.cc-shots-empty {
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-blue, #8a7a6c);
+}
+.cc-shots {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cc-shots::-webkit-scrollbar {
+  display: none;
+}
+.cc-shot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 132px;
+  height: 176px;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.08));
+  box-shadow: 0 8px 18px rgba(80, 60, 45, 0.14);
+}
+.cc-shot.is-avatar {
+  outline: 2px solid var(--accent-orange, #f1b98f);
+  outline-offset: -2px;
+}
+.cc-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cc-shot-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px 7px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+.cc-shot-btn {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #5b4a3f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cc-shot-btn .svg-icon {
+  font-size: 14px;
+}
+.cc-shot-del {
+  margin-left: auto;
+  color: #c0594b;
+}
+.cc-shot-add {
+  flex: 0 0 auto;
+  width: 132px;
+  height: 176px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(140, 115, 98, 0.3);
+  color: var(--ink-blue, #8a7a6c);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.cc-shot-add .svg-icon {
+  font-size: 22px;
+}
+
+/* ── 关于我窗 ── */
+.cc-about-lines {
+  display: flex;
+  flex-direction: column;
+}
+.cc-about-line {
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(140, 115, 98, 0.1);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-brown, #5b4a3f);
+}
+.cc-about-line:last-child {
+  border-bottom: 0;
+}
+.cc-about-empty {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-blue, #a08b79);
+}
+
+/* ── 底部跳转 chat dock ── */
+.contacts-card-actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 120;
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px calc(10px + var(--safe-bottom));
+  background: var(--surface-card, #fffdf8);
+  border-top: 1px solid rgba(140, 115, 98, 0.12);
+}
+.cc-act {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 48px;
+  border-radius: 15px;
+  border: 1px solid rgba(140, 115, 98, 0.18);
+  background: var(--surface-soft, rgba(140, 115, 98, 0.06));
+  color: var(--ink-brown, #5b4a3f);
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cc-call {
+  flex: 0 0 auto;
+  width: 96px;
+}
+.cc-msg.is-primary {
+  flex: 1;
+  border: 0;
+  background: var(--accent-orange, #f1b98f);
+  color: #5b4a3f;
+}
+.cc-act .svg-icon {
+  font-size: 18px;
+}
+.cc-act:active {
+  transform: scale(0.98);
+}
+
+/* ── 窗 / 海主题：清爽白雾（无柔光）── */
+.contacts-card--glass {
+  --glass-ink: #44525c;
+  --glass-ink-soft: rgba(68, 82, 92, 0.6);
+  --glass-line: rgba(68, 82, 92, 0.14);
+}
+.contacts-card--glass .cc-win {
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
+}
+.contacts-card--glass .cc-win-title,
+.contacts-card--glass .cc-name,
+.contacts-card--glass .cc-sub-h,
+.contacts-card--glass .cc-contact-v,
+.contacts-card--glass .cc-about-line {
+  color: var(--glass-ink);
+}
+.contacts-card--glass .cc-handle,
+.contacts-card--glass .cc-sign,
+.contacts-card--glass .cc-contact-k,
+.contacts-card--glass .cc-about-empty,
+.contacts-card--glass .cc-shots-empty {
+  color: var(--glass-ink-soft);
+}
+.contacts-card--glass .cc-chip,
+.contacts-card--glass .cc-contacts {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--glass-ink);
+}
+.contacts-card--glass .cc-win-bar,
+.contacts-card--glass .cc-contact,
+.contacts-card--glass .cc-about-line {
+  border-bottom-color: var(--glass-line);
+}
+.contacts-card--glass .cc-send,
+.contacts-card--glass .cc-ed-save,
+.contacts-card--glass .cc-msg.is-primary {
+  background: var(--glass-ink);
+  color: #fff;
+}
+.contacts-card--glass .contacts-card-actions {
+  background: rgba(255, 255, 255, 0.74);
+  border-top: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+.contacts-card--glass .cc-act {
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--glass-line);
+  color: var(--glass-ink);
+}
+
+/* ── 编辑页：分组小标题（给长表单节奏）── */
+.contacts-group-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 22px 2px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink-brown, #6b5848);
+}
+.contacts-group-label::before {
+  content: "";
+  align-self: center;
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.5;
+}
+.contacts-group-note {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-blue, #a08b79);
+}
+.contacts-persona-clear {
+  margin-left: auto;
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: #a45f59;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+.contacts-persona-clear:disabled {
+  opacity: 0.45;
+  cursor: wait;
+}
+.contacts-persona-clear:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.contacts-edit--glass .contacts-group-label {
+  color: var(--glass-ink, #44525c);
+}
+.contacts-edit--glass .contacts-persona-clear {
+  color: #9a625f;
+}
+.contacts-edit--glass .contacts-group-note {
+  color: var(--glass-ink-soft, rgba(68, 82, 92, 0.6));
+}
+
+/* ── 编辑页：生图锁定（锁 seed / 锁人设）── */
+.contacts-lock {
+  margin: 10px 2px 4px;
+  padding: 12px 14px;
+  border: 1px solid rgba(140, 115, 98, 0.18);
+  border-radius: 14px;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.05));
+}
+.contacts-lock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.contacts-lock-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-brown, #5b4a3f);
+}
+.contacts-lock-mode {
+  width: auto;
+  max-width: 60%;
+}
+.contacts-lock-body {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.contacts-lock-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.contacts-lock-note {
+  font-size: 11px;
+  color: var(--ink-blue, #a08b79);
+}
+.contacts-lock-ref-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.contacts-lock-ref-preview {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--surface-card, #fffdf8);
+  border: 1.5px dashed rgba(241, 185, 143, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.contacts-lock-ref-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contacts-lock-ref-preview span {
+  font-size: 10px;
+  color: var(--ink-blue, #a08b79);
+  text-align: center;
+  padding: 0 4px;
+}
+.contacts-lock-ref-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.contacts-lock-ref-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.contacts-lock-ref-hint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-blue, #a08b79);
+}
+.contacts-edit--glass .contacts-lock {
+  border-color: var(--glass-line, rgba(68, 82, 92, 0.14));
+  background: rgba(255, 255, 255, 0.4);
+}
+.contacts-edit--glass .contacts-lock-title {
+  color: var(--glass-ink, #44525c);
+}
+.contacts-edit--glass .contacts-lock-note {
+  color: var(--glass-ink-soft, rgba(68, 82, 92, 0.6));
+}
+.contacts-edit--glass .contacts-lock-ref-hint {
+  color: var(--glass-ink-soft, rgba(68, 82, 92, 0.6));
+}
+.contacts-edit--glass .contacts-lock-ref-preview {
+  border-color: var(--glass-line, rgba(68, 82, 92, 0.14));
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ════════════════════════════════════════════════
+   人物关系网（全局）：节点连线图 + 小群共享记忆
+   ════════════════════════════════════════════════ */
+.rel-net-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 14px calc(20px + var(--safe-bottom));
+}
+.rn-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.rn-tool {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 38px;
+  border: 1px solid rgba(140, 115, 98, 0.2);
+  border-radius: 12px;
+  background: var(--surface-card, #fffdf8);
+  color: var(--ink-brown, #5b4a3f);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rn-tool .svg-icon {
+  font-size: 14px;
+}
+.rn-canvas-wrap {
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  border-radius: 18px;
+  background: var(--surface-card, #fffdf8);
+  box-shadow: 0 10px 26px rgba(80, 60, 45, 0.08);
+  padding: 6px;
+}
+.rn-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.rn-edge {
+  stroke: rgba(140, 115, 98, 0.34);
+  stroke-width: 1.4;
+}
+.rn-edge.is-derived {
+  stroke-dasharray: 4 4;
+}
+.rn-edge-label {
+  fill: var(--ink-blue, #a08b79);
+  font-size: 8px;
+}
+.rn-node {
+  cursor: pointer;
+}
+.rn-node-dot {
+  fill: var(--surface-soft, #efe6dd);
+  stroke: rgba(140, 115, 98, 0.3);
+  stroke-width: 1.4;
+}
+.rn-hex {
+  fill: var(--surface-soft, #efe6dd);
+  stroke: rgba(140, 115, 98, 0.32);
+  stroke-width: 1.2;
+}
+.rn-node--char .rn-hex {
+  fill: rgba(241, 185, 143, 0.35);
+}
+.rn-node--npc .rn-hex {
+  fill: #fff;
+  stroke-dasharray: 3 3;
+}
+.rn-mesh {
+  stroke: rgba(140, 115, 98, 0.2);
+  stroke-width: 1;
+}
+.rn-grid-bg {
+  opacity: 0.45;
+}
+.rn-grid-path {
+  stroke: rgba(140, 115, 98, 0.08);
+  stroke-width: 0.6;
+}
+.rn-mesh-note {
+  margin: 8px 2px 0;
+  font-size: 11.5px;
+  color: var(--ink-blue, #a08b79);
+  line-height: 1.5;
+}
+.rn-node--me .rn-node-dot {
+  fill: var(--accent-orange, #f1b98f);
+  stroke: none;
+}
+.rn-node--npc .rn-node-dot {
+  fill: #fff;
+  stroke-dasharray: 3 3;
+}
+.rn-node-initial {
+  fill: var(--ink-brown, #5b4a3f);
+  font-size: 13px;
+  font-weight: 700;
+}
+.rn-node--me .rn-node-initial {
+  fill: #5b4a3f;
+}
+.rn-node-name {
+  fill: var(--ink-blue, #8a7a6c);
+  font-size: 9px;
+}
+.rn-section-h {
+  margin: 18px 2px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-section-h--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.rn-section-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-blue, #a08b79);
+  cursor: pointer;
+}
+.rn-edge-empty {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px dashed rgba(140, 115, 98, 0.22);
+  font-size: 12.5px;
+  color: var(--ink-blue, #8a7a6c);
+  line-height: 1.55;
+}
+.rn-edge-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.rn-edge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid rgba(140, 115, 98, 0.16);
+  border-radius: 12px;
+  background: var(--surface-card, #fffdf8);
+  text-align: left;
+  cursor: pointer;
+}
+.rn-edge-pair {
+  font-size: 13.5px;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-edge-edit-hint {
+  font-size: 12px;
+  color: var(--ink-blue, #a08b79);
+  flex-shrink: 0;
+}
+.rn-group-note {
+  margin: 12px 2px 0;
+  font-size: 12px;
+  color: var(--ink-blue, #8a7a6c);
+  line-height: 1.5;
+}
+.rn-group {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  grid-template-areas: "mesh body";
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border: 1px solid rgba(140, 115, 98, 0.16);
+  border-radius: 14px;
+  background: var(--surface-card, #fffdf8);
+  cursor: pointer;
+}
+.rn-group-mesh {
+  grid-area: mesh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  border-radius: 10px;
+  background: rgba(140, 115, 98, 0.06);
+}
+.rn-grp-mesh {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.rn-grp-line {
+  stroke: rgba(140, 115, 98, 0.38);
+  stroke-width: 1.2;
+}
+.rn-grp-hex {
+  fill: rgba(241, 185, 143, 0.5);
+  stroke: rgba(140, 115, 98, 0.35);
+  stroke-width: 0.8;
+}
+.rn-grp-hex--npc {
+  fill: #fff;
+  stroke-dasharray: 2 2;
+}
+.rn-group-body {
+  grid-area: body;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "name share" "members share";
+  gap: 2px 10px;
+  align-items: center;
+}
+.rn-group-name {
+  grid-area: name;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-groups-empty {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(140, 115, 98, 0.26);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-blue, #8a7a6c);
+}
+.rn-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rn-group-members {
+  grid-area: members;
+  font-size: 12px;
+  color: var(--ink-blue, #8a7a6c);
+}
+.rn-group-share {
+  grid-area: share;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface-soft, rgba(140, 115, 98, 0.1));
+  color: var(--ink-blue, #a08b79);
+}
+.rn-group-share.is-on {
+  background: rgba(241, 185, 143, 0.22);
+  color: #c98a5b;
+  font-weight: 600;
+}
+
+/* ── 关系网弹层 ── */
+.rn-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(40, 30, 24, 0.34);
+}
+.rn-sheet {
+  width: 100%;
+  max-width: 460px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background: var(--surface-card, #fffdf8);
+  border-radius: 20px 20px 0 0;
+  padding-bottom: calc(8px + var(--safe-bottom));
+}
+.rn-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(140, 115, 98, 0.12);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-sheet-x {
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink-blue, #a08b79);
+  cursor: pointer;
+}
+.rn-sheet-body {
+  padding: 14px 16px;
+}
+.rn-sheet-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 16px 14px;
+}
+.rn-ed-label {
+  display: block;
+  margin: 12px 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-blue, #8a7a6c);
+}
+.rn-ed-label:first-child {
+  margin-top: 0;
+}
+.rn-input,
+.rn-select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(140, 115, 98, 0.22);
+  border-radius: 10px;
+  padding: 9px 11px;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--ink-brown, #5b4a3f);
+  background: #fff;
+}
+.rn-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.rn-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid rgba(140, 115, 98, 0.2);
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: var(--ink-brown, #5b4a3f);
+  cursor: pointer;
+}
+.rn-npc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.rn-check--npc span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.rn-check--npc small {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ink-blue, #a08b79);
+}
+.rn-npc-delete {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #a26d67;
+  background: transparent;
+  cursor: pointer;
+}
+.rn-npc-delete:hover {
+  background: rgba(162, 109, 103, 0.1);
+}
+.rn-npc-delete:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.rn-npc-delete svg {
+  width: 14px;
+  height: 14px;
+}
+.rn-toggle {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--ink-brown, #5b4a3f);
+  cursor: pointer;
+}
+.rn-toggle i {
+  display: block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  font-style: normal;
+  color: var(--ink-blue, #a08b79);
+}
+.rn-btn {
+  padding: 9px 18px;
+  border-radius: 11px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rn-btn-ok {
+  border: 0;
+  background: var(--accent-orange, #f1b98f);
+  color: #5b4a3f;
+}
+.rn-btn-danger {
+  border: 1px solid rgba(192, 89, 75, 0.4);
+  background: transparent;
+  color: #c0594b;
+}
+
+/* ── 窗 / 海主题 ── */
+.rel-net--glass {
+  --glass-ink: #44525c;
+  --glass-ink-soft: rgba(68, 82, 92, 0.6);
+  --glass-line: rgba(68, 82, 92, 0.14);
+}
+.rel-net--glass .rn-tool,
+.rel-net--glass .rn-canvas-wrap,
+.rel-net--glass .rn-group,
+.rel-net--glass .rn-sheet {
+  background: rgba(255, 255, 255, 0.66);
+  border-color: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
+  color: var(--glass-ink);
+}
+.rel-net--glass .rn-tool,
+.rel-net--glass .rn-group-name,
+.rel-net--glass .rn-section-h,
+.rel-net--glass .rn-sheet-head {
+  color: var(--glass-ink);
+}
+.rel-net--glass .rn-node-initial {
+  fill: var(--glass-ink);
+}
+.rel-net--glass .rn-btn-ok {
+  background: var(--glass-ink);
+  color: #fff;
+}
+
+/* ── 关系网 · 大网套小网（几何网状） ── */
+.rn-ov-hint {
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(140, 115, 98, 0.26);
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-blue, #8a7a6c);
+}
+.rn-master-map {
+  margin-bottom: 14px;
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  border-radius: 16px;
+  background: var(--surface-card, #fffdf8);
+  overflow: hidden;
+}
+.rn-map-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.rn-map-hub {
+  fill: rgba(140, 115, 98, 0.18);
+  stroke: rgba(140, 115, 98, 0.35);
+  stroke-width: 1.2;
+}
+.rn-map-spoke {
+  stroke: rgba(140, 115, 98, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 4 5;
+}
+.rn-map-label {
+  fill: var(--ink-blue, #8a7a6c);
+  font-size: 8px;
+}
+.rn-subnet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rn-subnet-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  border-radius: 16px;
+  background: var(--surface-card, #fffdf8);
+  box-shadow: 0 6px 18px rgba(80, 60, 45, 0.05);
+  text-align: left;
+  cursor: pointer;
+}
+.rn-subnet-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.rn-subnet-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-subnet-sub {
+  font-size: 12px;
+  color: var(--ink-blue, #8a7a6c);
+}
+.rn-subnet-chev {
+  font-size: 20px;
+  color: var(--ink-blue, #c4b5a8);
+}
+.rn-subnet-row--add {
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-blue, #a08b79);
+  font-size: 13.5px;
+  font-weight: 600;
+  border-style: dashed;
+  background: transparent;
+  box-shadow: none;
+  margin-top: 4px;
+}
+.rn-nav-add .svg-icon {
+  font-size: 20px;
+}
+
+/* ── 子网内：例图式关系场景 + 管理面板 ── */
+.rn-subnet-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.rn-subnet-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-blue, #8a7a6c);
+  font-size: 13px;
+  cursor: pointer;
+}
+.rn-subnet-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-subnet-more {
+  border: 0;
+  background: transparent;
+  color: var(--ink-blue, #a08b79);
+  font-size: 20px;
+  cursor: pointer;
+}
+.rn-filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.rn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 0;
+}
+.rn-pill--dark {
+  background: #3d4550;
+  color: #fff;
+}
+.rn-pill--dark .rn-group-pick {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  padding-right: 4px;
+  max-width: 140px;
+}
+.rn-pill--ghost {
+  background: rgba(140, 115, 98, 0.1);
+  color: var(--ink-blue, #8a7a6c);
+}
+
+.rn-scene {
+  border-radius: 18px;
+  background: #eceff2;
+  border: 1px solid rgba(140, 115, 98, 0.1);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.rn-scene--empty {
+  padding: 36px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-blue, #8a7a6c);
+  line-height: 1.6;
+}
+.rn-scene-cta {
+  margin-top: 12px;
+  padding: 9px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: #3d4550;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rn-scene-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.rn-scene-edge {
+  stroke: rgba(60, 70, 80, 0.35);
+  stroke-width: 1.4;
+}
+.rn-scene-edge-label {
+  fill: var(--ink-blue, #7a8490);
+  font-size: 11px;
+  font-weight: 600;
+}
+.rn-scene-node {
+  fill: #fff;
+  stroke: rgba(60, 70, 80, 0.2);
+  stroke-width: 1.4;
+}
+.rn-scene-node.is-npc {
+  fill: #f8f9fa;
+  stroke-dasharray: 4 3;
+}
+.rn-scene-node-wrap--me .rn-scene-node {
+  fill: #3d4550;
+  stroke: none;
+}
+.rn-scene-node-wrap--me .rn-scene-icon {
+  color: #fff;
+}
+.rn-scene-icon {
+  color: #8a949e;
+}
+.rn-scene-name {
+  fill: var(--ink-brown, #4a4f55);
+  font-size: 12px;
+  font-weight: 600;
+}
+.rn-scene-npc-tag {
+  fill: var(--ink-blue, #9aa3ad);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.rn-scene-cap {
+  padding: 10px 14px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-blue, #7a8490);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.rn-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rn-panel {
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  border-radius: 16px;
+  background: var(--surface-card, #fffdf8);
+  overflow: hidden;
+}
+.rn-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(140, 115, 98, 0.1);
+}
+.rn-panel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-panel-count {
+  font-size: 12px;
+  color: var(--ink-blue, #a08b79);
+}
+.rn-panel-head .rn-panel-action:first-of-type {
+  margin-left: auto;
+}
+.rn-panel-head .rn-panel-action + .rn-panel-action {
+  margin-left: 8px;
+}
+.rn-panel-empty-inline {
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: var(--ink-blue, #8a7a6c);
+  line-height: 1.55;
+}
+.rn-member-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+}
+.rn-chip {
+  display: inline-flex;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  background: rgba(140, 115, 98, 0.1);
+  color: var(--ink-brown, #5b4a3f);
+}
+.rn-chip--npc {
+  border: 1px dashed rgba(140, 115, 98, 0.35);
+  background: transparent;
+}
+.rn-chip--more {
+  color: var(--ink-blue, #a08b79);
+}
+.rn-list {
+  display: flex;
+  flex-direction: column;
+}
+.rn-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid rgba(140, 115, 98, 0.08);
+  background: transparent;
+  text-align: left;
+  font-size: 13.5px;
+  color: var(--ink-brown, #5b4a3f);
+  cursor: pointer;
+}
+.rn-list-row:last-child {
+  border-bottom: 0;
+}
+.rn-list-row.is-active {
+  background: rgba(241, 185, 143, 0.12);
+}
+.rn-list-row-meta,
+.rn-list-row-hint {
+  font-size: 12px;
+  color: var(--ink-blue, #a08b79);
+  flex-shrink: 0;
+}
+
+.rn-ledger-panel {
+  margin-top: 16px;
+}
+
+.rn-ledger-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rn-ledger-remove {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(140, 115, 98, 0.08);
+  color: var(--ink-blue, #8a7a6c);
+  font: inherit;
+  cursor: pointer;
+}
+
+.rn-ledger-main:focus-visible,
+.rn-ledger-remove:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.rel-net--glass .rn-subnet-row,
+.rel-net--glass .rn-panel,
+.rel-net--glass .rn-scene {
+  background: rgba(255, 255, 255, 0.66);
+  border-color: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
+}
+.rel-net--glass .rn-scene {
+  background: rgba(236, 239, 242, 0.55);
+}
+.rel-net--glass .rn-subnet-name,
+.rel-net--glass .rn-subnet-title,
+.rel-net--glass .rn-panel-title {
+  color: var(--glass-ink, #44525c);
+}
+.rel-net--glass .rn-pill--dark {
+  background: var(--glass-ink, #44525c);
+}
+.rel-net--glass .rn-scene-node-wrap--me .rn-scene-node {
+  fill: var(--glass-ink, #44525c);
+}
+.rel-net--glass .rn-scene-cta {
+  background: var(--glass-ink, #44525c);
+}
+
+/* 通讯录列表收敛：只让左滑操作保留强块面，其余控件降低胶囊感 */
+.dialer-page .dialer-navbar .navbar-btn {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.dialer-page .dialer-navbar .navbar-btn:active {
+  background: transparent;
+  opacity: 0.55;
+}
+
+.dialer-page .dialer-search {
+  height: 44px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  border-color: rgba(92, 123, 143, 0.1);
+  box-shadow: none;
+}
+
+.dialer-page .dialer-search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dialer-page .dialer-search-row .dialer-search {
+  margin-bottom: 0;
+}
+
+.dialer-default-avatar {
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  border: 1px solid rgba(92, 123, 143, 0.12);
+  border-radius: 50%;
+  background: var(--surface-card, #fffdf8);
+  cursor: pointer;
+}
+
+.dialer-default-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.dialer-avatar-options {
+  display: grid;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.dialer-avatar-option {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 70px;
+  padding: 8px 10px;
+  border: 1px solid rgba(92, 123, 143, 0.1);
+  border-radius: 15px;
+  background: transparent;
+  color: var(--dial-ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.dialer-avatar-option.is-active {
+  border-color: rgba(92, 123, 143, 0.38);
+  background: rgba(92, 123, 143, 0.06);
+}
+
+.dialer-avatar-option img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dialer-avatar-option span {
+  display: grid;
+  gap: 3px;
+}
+
+.dialer-avatar-option strong {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.dialer-avatar-option small {
+  color: var(--dial-ink-soft);
+  font-size: 12px;
+}
+
+.dialer-avatar-option i {
+  color: var(--dial-ink);
+  font-size: 18px;
+  font-style: normal;
+  text-align: center;
+}
+
+.dialer-avatar-upload-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dialer-avatar-upload {
+  position: relative;
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(92, 123, 143, 0.16);
+  border-radius: 13px;
+  background: var(--surface-card, #fffdf8);
+  color: var(--dial-ink);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.dialer-avatar-upload .default-avatar-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dialer-avatar-upload--danger {
+  color: #a35d5d;
+}
+
+.dialer-avatar-upload:focus-within,
+.dialer-avatar-upload:focus-visible {
+  outline: 2px solid rgba(92, 123, 143, 0.42);
+  outline-offset: 2px;
+}
+
+.dialer-page .dialer-toolbar {
+  flex-wrap: nowrap;
+  gap: 0;
+  margin: 0 0 14px;
+  padding: 2px 0;
+  border-top: 1px solid rgba(92, 123, 143, 0.1);
+  border-bottom: 1px solid rgba(92, 123, 143, 0.1);
+}
+
+.dialer-page .dialer-toolbar > .dialer-tool {
+  position: relative;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dialer-page .dialer-toolbar > .dialer-tool + .dialer-tool::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: rgba(92, 123, 143, 0.1);
+}
+
+.dialer-page .dialer-toolbar > .dialer-tool:active {
+  transform: none;
+  background: rgba(92, 123, 143, 0.06);
+}
+
+.dialer-page .dialer-row,
+.dialer-page .dialer-swipe-row {
+  border-radius: 14px;
+}
+
+.dialer-page .dialer-row {
+  border-color: rgba(92, 123, 143, 0.08);
+  box-shadow: none;
+}
+
+.dialer-page .dialer-list {
+  gap: 6px;
+}
+
+.dialer-page .dialer-sec-head {
+  padding-inline: 5px;
+}
+
+.dialer-page .dialer-rail,
+.dialer-page--glass .dialer-rail {
+  padding: 4px 2px;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.dialer-page .dialer-rail-item {
+  width: 20px;
+  height: 18px;
+}
+
+.dialer-page--glass .dialer-search,
+.dialer-page--glass .dialer-toolbar > .dialer-tool,
+.dialer-page--glass .dialer-row {
+  box-shadow: none;
+}
+
+.dialer-page--glass .dialer-toolbar > .dialer-tool {
+  border: 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+@media (max-width: 360px) {
+  .dialer-page .dialer-toolbar > .dialer-tool {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   通讯录导出：分组一键选择 + 角色逐项选择
+   ════════════════════════════════════════════════ */
+.contacts-export-page {
+  --export-bg: #f4f6f7;
+  --export-card: #fff;
+  --export-ink: #536672;
+  --export-muted: #8b9ca6;
+  --export-line: rgba(83, 102, 114, 0.12);
+  --export-selected: #e6eff3;
+  --export-accent: #607d8d;
+  background: var(--export-bg);
+  color: var(--export-ink);
+}
+
+.contacts-export-navbar {
+  flex: 0 0 auto;
+  background: rgba(244, 246, 247, 0.9);
+  border-bottom: 1px solid var(--export-line);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.contact-export-nav-count {
+  min-width: 40px;
+  padding-right: 12px;
+  color: var(--export-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.contacts-export-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 14px 18px;
+}
+
+.contact-export-tools {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.contact-export-tool {
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid var(--export-line);
+  border-radius: 11px;
+  background: var(--export-card);
+  color: var(--export-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.contact-export-tool:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.contact-export-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-export-group {
+  overflow: hidden;
+  border: 1px solid var(--export-line);
+  border-radius: 18px;
+  background: var(--export-card);
+  box-shadow: 0 8px 24px rgba(66, 82, 92, 0.05);
+}
+
+.contact-export-group-head {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 0;
+  border-bottom: 1px solid var(--export-line);
+  background: rgba(230, 239, 243, 0.38);
+  color: var(--export-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.contact-export-group-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contact-export-group-count {
+  color: var(--export-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.contact-export-group-action {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--export-accent);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.contact-export-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-export-row {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 13px;
+  border: 0;
+  border-bottom: 1px solid var(--export-line);
+  background: transparent;
+  color: var(--export-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.contact-export-row:last-child {
+  border-bottom: 0;
+}
+
+.contact-export-row.is-selected {
+  background: var(--export-selected);
+}
+
+.contact-export-avatar {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #edf2f4;
+}
+
+.contact-export-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.contact-export-check {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(83, 102, 114, 0.25);
+  border-radius: 7px;
+  background: #fff;
+  color: #fff;
+}
+
+.contact-export-check.is-all,
+.contact-export-check.is-some {
+  border-color: var(--export-accent);
+  background: var(--export-accent);
+}
+
+.contact-export-check .svg-icon {
+  width: 13px;
+  height: 13px;
+}
+
+.contact-export-footer {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px 14px calc(10px + var(--safe-bottom));
+  border-top: 1px solid var(--export-line);
+  background: rgba(244, 246, 247, 0.9);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.contact-export-submit,
+.contact-export-share {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--export-accent);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.contact-export-share {
+  border: 1px solid var(--export-accent);
+  background: transparent;
+  color: var(--export-accent);
+}
+
+.contact-export-submit:disabled,
+.contact-export-share:disabled {
+  background: #cbd4d9;
+  border-color: #cbd4d9;
+  color: #fff;
+  cursor: default;
+}
+
+.contact-export-empty {
+  padding: 72px 20px;
+  color: var(--export-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.contact-export-tool:focus-visible,
+.contact-export-group-head:focus-visible,
+.contact-export-row:focus-visible,
+.contact-export-share:focus-visible,
+.contact-export-submit:focus-visible {
+  outline: 2px solid var(--export-accent);
+  outline-offset: 2px;
+}
+
+.contacts-export-page--glass {
+  --export-bg: #edf0f1;
+  --export-card: rgba(255, 255, 255, 0.66);
+  --export-selected: rgba(211, 226, 233, 0.8);
+}
+
+.contacts-export-page--glass .contacts-export-navbar,
+.contacts-export-page--glass .contact-export-footer {
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.contacts-export-page--glass .contact-export-group,
+.contacts-export-page--glass .contact-export-tool {
+  border-color: rgba(255, 255, 255, 0.76);
+  -webkit-backdrop-filter: blur(14px) saturate(116%);
+  backdrop-filter: blur(14px) saturate(116%);
+}
+
+@media (max-width: 360px) {
+  .contacts-export-scroll {
+    padding-inline: 10px;
+  }
+
+  .contact-export-group-head,
+  .contact-export-row {
+    padding-inline: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-export-row,
+  .contact-export-submit {
+    transition: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .contacts-corpus-workbench {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contacts-corpus-guide-open {
+    width: 100%;
+  }
+
+  .contacts-corpus-ai-draft-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contacts-corpus-ai-draft-head .btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* 批量角色生成 */
+.character-batch-sheet {
+  max-width: 620px;
+}
+
+.character-batch-body,
+.character-batch-results {
+  display: grid;
+  gap: 12px;
+}
+
+.character-batch-grid {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.character-batch-options {
+  border: 1px solid rgba(92, 123, 143, 0.13);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.character-batch-options summary {
+  padding: 11px 12px;
+  color: var(--text, #536672);
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.character-batch-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 180px;
+  padding: 0 12px 12px;
+  overflow-y: auto;
+}
+
+.character-batch-checks label,
+.character-batch-card-check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 13px;
+}
+
+.character-batch-result-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  color: var(--text, #536672);
+}
+
+.character-batch-result-head span {
+  color: var(--text-secondary, #8b9ca6);
+  font-size: 12px;
+}
+
+.character-batch-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(92, 123, 143, 0.13);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.character-batch-footer {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.character-batch-footer .btn {
+  flex: 1;
+}
+
+@media (max-width: 420px) {
+  .character-batch-grid,
+  .character-batch-checks {
+    grid-template-columns: 1fr;
+  }
+}

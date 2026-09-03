@@ -1,0 +1,200 @@
+.app-group-overlay {
+  align-items: center;
+  justify-content: center;
+  padding: calc(18px + var(--safe-top, 0px)) 18px calc(18px + var(--safe-bottom, 0px));
+  background: rgba(14, 18, 22, .16);
+  -webkit-backdrop-filter: blur(19px) saturate(.82);
+  backdrop-filter: blur(19px) saturate(.82);
+}
+
+.app-group-stage {
+  --shopping-ink: #171a1d;
+  --shopping-muted: rgba(36, 40, 44, .56);
+  --shopping-bg: rgba(238, 241, 243, .44);
+  --shopping-accent: #315f54;
+  --group-panel-bg: rgba(231, 236, 240, .38);
+  --group-panel-border: rgba(255, 255, 255, .48);
+  --group-icon-bg: rgba(250, 252, 253, .72);
+  --group-icon-border: rgba(255, 255, 255, .62);
+  --group-icon-ink: #647a83;
+  --group-icon-shadow: 0 8px 22px rgba(29, 45, 54, .12);
+  width: min(336px, calc(100vw - 36px));
+  max-height: calc(var(--app-height, 100vh) - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 36px);
+  display: grid;
+  gap: 14px;
+  color: var(--shopping-ink);
+  font-family: var(--font-family-base, inherit);
+  animation: appGroupOpen .2s cubic-bezier(.2, .8, .2, 1);
+}
+
+.app-group-panel {
+  min-height: 294px;
+  overflow: hidden auto;
+  border: 1px solid var(--group-panel-border);
+  border-radius: 28px;
+  background: var(--group-panel-bg);
+  box-shadow: 0 24px 62px rgba(8, 13, 18, .18), inset 0 1px rgba(255, 255, 255, .32);
+  -webkit-backdrop-filter: blur(26px) saturate(1.12);
+  backdrop-filter: blur(26px) saturate(1.12);
+}
+
+.app-group-header {
+  position: relative;
+  min-height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0 40px;
+}
+
+.app-group-header h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 520;
+  letter-spacing: .025em;
+  text-align: center;
+  text-shadow: 0 1px 7px rgba(0, 0, 0, .42);
+}
+
+.app-group-close {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-group-grid.shopping-hub-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px 12px;
+  align-content: start;
+  padding: 27px 18px 25px;
+}
+.app-group--shopping .app-group-grid.shopping-hub-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: center;
+  gap: 22px 12px;
+}
+
+.app-group-item.shopping-app { grid-template-rows: auto auto 13px; gap: 6px; }
+.app-group-item.shopping-app:not(.together-folder-app) { grid-template-rows: auto auto; }
+.app-group-item .shopping-app-icon { width: 64px; height: 64px; border-radius: 17px; }
+.app-group-icon > svg,
+.app-group-icon [data-home-icon-fallback] > svg { width: 34px; height: 34px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.app-group-icon [data-home-icon-fallback] { width: 100%; height: 100%; display: grid; place-items: center; border-radius: inherit; overflow: hidden; }
+.app-group-icon [data-home-icon-fallback] > img,
+.app-group-icon > .app-group-custom-icon { width: 100%; height: 100%; display: block; border-radius: inherit; object-fit: cover; }
+.app-group-item strong { font-size: 12px; font-weight: 560; }
+.app-group-item small {
+  color: var(--shopping-muted);
+  font-size: 9px;
+  line-height: 13px;
+  letter-spacing: .05em;
+}
+
+.app-group--together .together-folder-app .together-folder-icon {
+  border: 1px solid var(--group-icon-border);
+  background: var(--group-icon-bg);
+  box-shadow: var(--group-icon-shadow);
+  color: var(--group-icon-ink);
+}
+.app-group--together .together-folder-icon::after {
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .28), transparent 56%);
+}
+
+html[data-home-template="scrapbook"] .app-group-stage {
+  --shopping-ink: #5f6262;
+  --shopping-muted: rgba(87, 91, 91, .54);
+  --group-panel-bg: rgba(247, 240, 233, .52);
+  --group-panel-border: rgba(255, 253, 249, .62);
+  --group-icon-bg: linear-gradient(145deg, rgba(255, 253, 249, .92), rgba(242, 235, 228, .8));
+  --group-icon-border: rgba(139, 128, 117, .12);
+  --group-icon-ink: #718087;
+  --group-icon-shadow: 0 8px 20px rgba(104, 91, 79, .1);
+}
+
+html[data-home-template="sea"] .app-group-stage {
+  --shopping-ink: #3f5d6c;
+  --shopping-muted: rgba(58, 88, 103, .56);
+  --group-panel-bg: rgba(218, 236, 244, .34);
+  --group-panel-border: rgba(238, 249, 253, .58);
+  --group-icon-bg: rgba(245, 251, 253, .62);
+  --group-icon-border: rgba(255, 255, 255, .58);
+  --group-icon-ink: #557b8e;
+  --group-icon-shadow: 0 8px 23px rgba(40, 74, 92, .12);
+}
+
+html[data-home-template="window"] .app-group-stage {
+  --shopping-ink: #4f5a60;
+  --shopping-muted: rgba(74, 86, 94, .52);
+  --group-panel-bg: rgba(236, 239, 239, .32);
+  --group-panel-border: rgba(255, 255, 255, .52);
+  --group-icon-bg: rgba(255, 255, 255, .3);
+  --group-icon-border: rgba(255, 255, 255, .46);
+  --group-icon-ink: rgba(74, 86, 94, .66);
+  --group-icon-shadow: 0 8px 24px rgba(70, 86, 96, .12);
+}
+
+html[data-home-template="album"] .app-group-stage {
+  --shopping-ink: #454744;
+  --shopping-muted: rgba(82, 82, 78, .54);
+  --group-panel-bg: rgba(249, 247, 242, .54);
+  --group-panel-border: rgba(255, 255, 255, .66);
+  --group-icon-bg: rgba(252, 252, 249, .86);
+  --group-icon-border: rgba(52, 55, 53, .1);
+  --group-icon-ink: #626561;
+  --group-icon-shadow: 0 7px 18px rgba(45, 50, 47, .08);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+html[data-home-template="window"] .app-group-stage { font-family: var(--mw-font-en, var(--font-family-base, inherit)); }
+html[data-home-template="album"] .app-group-panel { border-radius: 22px; }
+html[data-home-template="album"] .app-group--together .together-folder-app .together-folder-icon { border-radius: 13px; }
+
+.app-group-panel :is(button, [tabindex]):focus-visible {
+  outline: 2px solid var(--shopping-accent);
+  outline-offset: 3px;
+}
+
+[data-color-mode="dark"] .app-group-overlay,
+.theme-dark .app-group-overlay { background: rgba(0, 0, 0, .36); }
+
+[data-color-mode="dark"] .app-group-stage,
+.theme-dark .app-group-stage {
+  --shopping-ink: #f0f2f3;
+  --shopping-muted: rgba(225, 230, 232, .54);
+  --shopping-bg: rgba(24, 28, 31, .46);
+  --group-panel-bg: rgba(25, 29, 32, .48);
+  --group-panel-border: rgba(255, 255, 255, .13);
+  --group-icon-bg: rgba(48, 54, 58, .66);
+  --group-icon-border: rgba(255, 255, 255, .12);
+  --group-icon-ink: rgba(236, 241, 243, .76);
+  --group-icon-shadow: 0 9px 24px rgba(0, 0, 0, .2);
+}
+[data-color-mode="dark"] .app-group-panel,
+.theme-dark .app-group-panel {
+  border-color: rgba(255, 255, 255, .12);
+  background: var(--group-panel-bg);
+  box-shadow: 0 28px 78px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .07);
+}
+
+@keyframes appGroupOpen {
+  from { opacity: 0; transform: scale(.92) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (max-width: 350px) {
+  .app-group-stage { width: calc(100vw - 24px); }
+  .app-group-panel { min-height: 280px; border-radius: 24px; }
+  .app-group-grid.shopping-hub-grid { gap: 18px 8px; padding-inline: 12px; }
+  .app-group-item .shopping-app-icon { width: 60px; height: 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-group-stage { animation: none; }
+}

@@ -1,0 +1,859 @@
+.cal-page {
+  background: var(--bg-paper);
+  --cal-period-accent: #d98a93;
+}
+
+.cal-scroll {
+  padding-top: 8px;
+}
+
+.cal-hero {
+  position: relative;
+  padding: 18px 16px 14px;
+  margin-bottom: 12px;
+  transform: rotate(-0.4deg);
+}
+
+.cal-hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cal-mode-badge,
+.cal-holiday-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--font-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.cal-mode-badge {
+  background: rgba(182, 205, 224, 0.35);
+  color: var(--ink-brown);
+}
+
+.cal-mode-badge.is-virtual {
+  background: rgba(241, 185, 143, 0.45);
+}
+
+.cal-holiday-badge {
+  background: rgba(255, 214, 165, 0.55);
+  color: #8a5a28;
+}
+
+.cal-now-line {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--ink-brown);
+  line-height: 1.45;
+}
+
+.cal-holiday-hint {
+  margin-top: 8px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cal-section {
+  padding: 14px 14px 16px;
+  margin-bottom: 12px;
+}
+
+.cal-section-title {
+  margin-bottom: 10px;
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--tape-orange);
+  letter-spacing: 0.06em;
+}
+
+.cal-mode-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cal-mode-btn {
+  padding: 10px 12px;
+  border: 1px dashed rgba(139, 107, 79, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink-brown);
+  font-size: var(--font-sm);
+  font-weight: 600;
+}
+
+.cal-mode-btn.is-active {
+  border-style: solid;
+  border-color: rgba(241, 185, 143, 0.85);
+  background: rgba(255, 248, 240, 0.95);
+  box-shadow: var(--shadow-paper);
+}
+
+.cal-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cal-custom-delta {
+  margin-bottom: 10px;
+}
+
+.cal-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--ink-brown);
+}
+
+.cal-month-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cal-month-label {
+  font-size: var(--font-md);
+  color: var(--ink-brown);
+}
+
+.cal-month-nav {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(139, 107, 79, 0.12);
+  color: var(--ink-brown);
+}
+
+.cal-month-nav:not(.is-next) svg {
+  transform: rotate(180deg);
+}
+
+.cal-page-weekdays,
+.cal-page-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-page-wd {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding-bottom: 4px;
+}
+
+.cal-page-cell {
+  position: relative;
+  min-height: 42px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--ink-brown);
+  font-size: var(--font-sm);
+  font-weight: 600;
+}
+
+.cal-page-cell.is-empty {
+  background: transparent;
+  pointer-events: none;
+}
+
+.cal-page-cell.is-today {
+  background: rgba(182, 205, 224, 0.45);
+  box-shadow: inset 0 0 0 1.5px rgba(120, 150, 180, 0.45);
+}
+
+.cal-page-cell.is-holiday {
+  background: rgba(255, 232, 196, 0.75);
+}
+
+.cal-page-cell.is-today.is-holiday {
+  background: linear-gradient(135deg, rgba(182, 205, 224, 0.5), rgba(255, 232, 196, 0.8));
+}
+
+.cal-page-cell.is-period {
+  box-shadow: inset 0 -3px 0 0 var(--cal-period-accent, #d98a93);
+}
+
+.cal-page-cell.is-period-predicted {
+  box-shadow: inset 0 -3px 0 0 rgba(217, 138, 147, 0.4);
+}
+
+.cal-page-cell.is-selected {
+  box-shadow: inset 0 0 0 2px var(--tape-orange, #e8a04c);
+}
+
+.cal-page-cell.is-today.is-selected {
+  box-shadow: inset 0 0 0 1.5px rgba(120, 150, 180, 0.45), inset 0 0 0 2px var(--tape-orange, #e8a04c);
+}
+
+.cal-page-day {
+  display: block;
+  padding-top: 6px;
+}
+
+.cal-page-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  display: flex;
+  gap: 3px;
+  transform: translateX(-50%);
+}
+
+.cal-page-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e8a04c;
+}
+
+.cal-page-dot.is-memo-dot {
+  background: #6f8fae;
+}
+
+.cal-upcoming-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-secondary);
+  font-size: var(--font-sm);
+  line-height: 1.7;
+}
+
+/* ════════════════════════════════════════════════
+   选中日期面板：日程备忘
+   ════════════════════════════════════════════════ */
+
+.cal-day-card {
+  padding: 14px 14px 16px;
+  margin-bottom: 12px;
+}
+
+.cal-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.cal-day-title {
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--ink-brown);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cal-day-week {
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.cal-day-add {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(139, 107, 79, 0.18);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink-brown);
+  flex-shrink: 0;
+}
+
+.cal-day-add.is-active {
+  background: var(--tape-orange, #e8a04c);
+  border-color: transparent;
+  color: #fff;
+}
+
+.cal-day-empty {
+  margin: 10px 0 2px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.cal-create-form {
+  margin: 10px 0 4px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px dashed rgba(139, 107, 79, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cal-create-row {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 8px;
+}
+
+.cal-create-remind {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cal-create-remind-label {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.cal-create-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cal-remind-chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(139, 107, 79, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink-brown);
+  font-size: var(--font-xs);
+  font-weight: 600;
+}
+
+.cal-remind-chip.is-active {
+  background: var(--ink-brown);
+  border-color: transparent;
+  color: #fff;
+}
+
+.cal-create-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.cal-memo-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cal-memo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  border-bottom: 1px solid rgba(139, 107, 79, 0.1);
+}
+
+.cal-memo-row:last-child {
+  border-bottom: none;
+}
+
+.cal-memo-time {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--tape-orange, #e8a04c);
+  flex-shrink: 0;
+  width: 40px;
+}
+
+.cal-memo-title {
+  flex: 1;
+  font-size: var(--font-sm);
+  color: var(--ink-brown);
+}
+
+.cal-memo-del {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.cal-memo-del:active {
+  opacity: 1;
+}
+
+/* 角色备忘：白色小卡片，头像 + 备注 + 时间装饰 */
+
+.cal-char-memo-grid {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cal-char-memo-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 34px 12px 12px;
+  border-radius: 14px;
+  background: #fffefc;
+  box-shadow: var(--shadow-paper);
+}
+
+.cal-char-memo-card.is-done {
+  opacity: 0.55;
+}
+
+.cal-char-memo-avatar,
+.cal-char-memo-avatar.is-fallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface-card);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cal-char-memo-avatar.is-fallback svg {
+  width: 66%;
+  height: 66%;
+}
+
+.cal-char-memo-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cal-char-memo-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.cal-char-memo-title {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--ink-brown);
+  line-height: 1.4;
+}
+
+.cal-char-memo-note {
+  margin-top: 2px;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.cal-char-memo-time {
+  position: absolute;
+  top: -7px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--tape-orange, #e8a04c);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(232, 160, 76, 0.4);
+}
+
+.cal-char-memo-time .svg-icon {
+  width: 10px;
+  height: 10px;
+}
+
+.cal-char-memo-del {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.cal-char-memo-del:active {
+  opacity: 1;
+}
+
+/* ════════════════════════════════════════════════
+   经期记录
+   ════════════════════════════════════════════════ */
+
+.cal-period-status {
+  margin: 8px 0 10px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--cal-period-accent, #d98a93);
+}
+
+.cal-period-status.is-empty {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.cal-period-status.is-during {
+  color: #c25c68;
+}
+
+.cal-period-character-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.cal-period-character-row {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.cal-period-character-row::-webkit-scrollbar {
+  display: none;
+}
+
+.cal-period-character-chip {
+  flex: 0 0 auto;
+}
+
+.cal-period-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cal-period-record-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(140, 115, 98, 0.12);
+}
+
+.cal-period-date-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+}
+
+.cal-period-start-date {
+  min-width: 0;
+}
+
+.cal-period-edit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.cal-period-start-delete {
+  color: #a85d66;
+  border-color: rgba(168, 93, 102, 0.22);
+}
+
+.cal-period-settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cal-period-num-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+/* ════════════════════════════════════════════════
+   时间与假期设置：折叠入口
+   ════════════════════════════════════════════════ */
+
+.cal-advanced-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+  font-weight: 600;
+}
+
+.cal-advanced-toggle .svg-icon {
+  width: 14px;
+  height: 14px;
+  transform: rotate(90deg);
+}
+
+.cal-timezone-field {
+  margin-top: 14px;
+}
+
+.cal-timezone-current {
+  display: block;
+  margin-top: 5px;
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+}
+
+.cal-time-notice {
+  width: min(88vw, 380px) !important;
+}
+
+.cal-time-notice .modal-body {
+  padding-bottom: 10px;
+}
+
+.cal-time-notice .modal-body p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  line-height: 1.75;
+}
+
+.cal-time-notice-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 4px 16px 16px;
+}
+
+.cal-time-notice-actions .btn {
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-day-add,
+  .cal-remind-chip,
+  .cal-char-memo-card {
+    transition: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .cal-period-record-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .cal-period-edit-actions .btn {
+    flex: 1;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   海 / 窗主题：ins 玻璃变体
+   ════════════════════════════════════════════════ */
+
+.cal-page--ins {
+  --cal-ink: #3a3a3f;
+  --cal-ink-soft: rgba(58, 58, 63, 0.6);
+  --cal-line: rgba(17, 17, 17, 0.07);
+  --cal-surface: rgba(255, 255, 255, 0.58);
+  --cal-surface-strong: rgba(255, 255, 255, 0.86);
+  --cal-accent: var(--accent-orange, #cf9a4c);
+  --cal-period-accent: #d98a93;
+}
+
+.cal-page--ins .scrapbook-card {
+  background: var(--cal-surface);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 22px rgba(30, 30, 34, 0.06);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  backdrop-filter: blur(14px) saturate(115%);
+}
+
+.cal-page--ins .scrapbook-card::before,
+.cal-page--ins .scrapbook-tape {
+  display: none;
+}
+
+.cal-page--ins .cal-hero,
+.cal-page--ins .cal-day-card,
+.cal-page--ins .cal-month-card,
+.cal-page--ins .cal-section {
+  transform: none;
+  border-radius: 20px;
+}
+
+.cal-page--ins .cal-now-line,
+.cal-page--ins .cal-day-title,
+.cal-page--ins .cal-month-label,
+.cal-page--ins .cal-memo-title,
+.cal-page--ins .cal-char-memo-title {
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-holiday-hint,
+.cal-page--ins .cal-day-week,
+.cal-page--ins .cal-day-empty,
+.cal-page--ins .cal-char-memo-name,
+.cal-page--ins .cal-char-memo-note,
+.cal-page--ins .cal-create-remind-label,
+.cal-page--ins .cal-period-num-field,
+.cal-page--ins .cal-upcoming-list {
+  color: var(--cal-ink-soft);
+}
+
+.cal-page--ins .cal-timezone-current {
+  color: var(--cal-ink-soft);
+}
+
+.cal-page--ins .cal-section-title {
+  color: var(--cal-accent);
+}
+
+.cal-page--ins .cal-mode-badge {
+  background: rgba(58, 58, 63, 0.08);
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-mode-badge.is-virtual,
+.cal-page--ins .cal-holiday-badge {
+  background: rgba(207, 154, 76, 0.16);
+  color: #93672a;
+}
+
+.cal-page--ins .cal-mode-btn {
+  border: 1px solid var(--cal-line);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-mode-btn.is-active {
+  border-color: transparent;
+  background: var(--cal-ink);
+  color: #fff;
+  box-shadow: none;
+}
+
+.cal-page--ins .cal-month-nav {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--cal-line);
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-page-cell {
+  background: rgba(255, 255, 255, 0.4);
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-page-cell.is-today {
+  background: rgba(58, 58, 63, 0.08);
+  box-shadow: none;
+}
+
+.cal-page--ins .cal-page-cell.is-holiday {
+  background: rgba(207, 154, 76, 0.14);
+}
+
+.cal-page--ins .cal-page-cell.is-today.is-holiday {
+  background: linear-gradient(135deg, rgba(58, 58, 63, 0.08), rgba(207, 154, 76, 0.16));
+}
+
+.cal-page--ins .cal-page-cell.is-selected {
+  box-shadow: inset 0 0 0 2px var(--cal-ink);
+}
+
+.cal-page--ins .cal-page-dot {
+  background: var(--cal-accent);
+}
+
+.cal-page--ins .cal-page-dot.is-memo-dot {
+  background: var(--cal-ink);
+}
+
+.cal-page--ins .cal-day-add {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--cal-line);
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-day-add.is-active {
+  background: var(--cal-ink);
+  color: #fff;
+}
+
+.cal-page--ins .cal-create-form {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--cal-line);
+}
+
+.cal-page--ins .cal-remind-chip {
+  border: 1px solid var(--cal-line);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-remind-chip.is-active {
+  background: var(--cal-ink);
+  color: #fff;
+}
+
+.cal-page--ins .cal-memo-time {
+  color: var(--cal-accent);
+}
+
+.cal-page--ins .cal-memo-row {
+  border-bottom: 1px solid var(--cal-line);
+}
+
+.cal-page--ins .cal-char-memo-card {
+  background: var(--cal-surface-strong);
+  box-shadow: 0 8px 20px rgba(30, 30, 34, 0.08);
+}
+
+.cal-page--ins .cal-char-memo-time {
+  background: var(--cal-ink);
+  box-shadow: none;
+}
+
+.cal-page--ins .cal-toggle-row,
+.cal-page--ins .cal-period-status.is-empty {
+  color: var(--cal-ink);
+}
+
+.cal-page--ins .cal-advanced-toggle {
+  color: var(--cal-ink-soft);
+}

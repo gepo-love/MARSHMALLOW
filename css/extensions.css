@@ -1,0 +1,474 @@
+.ext-page {
+  --ext-ink: #20272d;
+  --ext-muted: #78828b;
+  --ext-line: rgba(28, 43, 54, 0.12);
+  --ext-paper: rgba(255, 255, 255, 0.86);
+  --ext-accent: #456f78;
+  background:
+    linear-gradient(180deg, rgba(236, 246, 247, 0.9), rgba(249, 250, 250, 0.96) 42%),
+    var(--bg-page);
+  color: var(--ext-ink);
+}
+
+.ext-navbar {
+  background: rgba(247, 251, 251, 0.8);
+  border-bottom: 1px solid var(--ext-line);
+  backdrop-filter: blur(18px);
+}
+
+.ext-scroll {
+  height: calc(100% - var(--navbar-height));
+  overflow-y: auto;
+  padding: 18px 16px calc(30px + var(--safe-bottom, 0px));
+}
+
+.ext-rule-entry {
+  width: 100%;
+  min-height: 72px;
+  padding: 15px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--ext-line);
+  border-radius: 16px;
+  background: var(--ext-paper);
+  color: var(--ext-ink);
+  text-align: left;
+  box-shadow: 0 8px 26px rgba(37, 63, 70, 0.05);
+}
+
+.ext-rule-entry > span:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.ext-rule-entry strong {
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.ext-rule-entry small {
+  color: var(--ext-muted);
+  font-size: 12px;
+}
+
+.ext-rule-entry .svg-icon {
+  width: 17px;
+  color: var(--ext-muted);
+}
+
+.ext-section-head {
+  margin: 25px 3px 9px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ext-section-head h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.ext-section-head span {
+  color: var(--ext-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ext-section-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+
+.ext-section-actions button {
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ext-accent);
+  font-size: 12px;
+}
+
+.ext-section-actions button:disabled {
+  color: var(--ext-muted);
+  opacity: 0.45;
+}
+
+.ext-list {
+  display: grid;
+  gap: 8px;
+}
+
+.ext-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border: 1px solid var(--ext-line);
+  border-radius: 14px;
+  background: var(--ext-paper);
+  overflow: hidden;
+}
+
+.ext-item.is-off {
+  opacity: 0.58;
+}
+
+.ext-item-main {
+  min-width: 0;
+  padding: 13px 12px 13px 15px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.ext-item-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.ext-item-trigger {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ext-muted);
+  font-size: 11px;
+}
+
+.ext-item-target {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  color: var(--ext-accent);
+  font-size: 10px;
+}
+
+.ext-switch {
+  padding: 12px 14px 12px 4px;
+}
+
+.ext-switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ext-switch span {
+  width: 34px;
+  height: 20px;
+  display: block;
+  position: relative;
+  border-radius: 999px;
+  background: #c9d0d3;
+  transition: background 160ms ease;
+}
+
+.ext-switch span::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  transition: transform 160ms ease;
+}
+
+.ext-switch input:checked + span {
+  background: var(--ext-accent);
+}
+
+.ext-switch input:checked + span::after {
+  transform: translateX(14px);
+}
+
+.ext-empty {
+  min-height: 126px;
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  border: 1px dashed rgba(69, 111, 120, 0.28);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--ext-ink);
+}
+
+.ext-empty span {
+  color: var(--ext-muted);
+  font-size: 12px;
+}
+
+.ext-editor-overlay {
+  z-index: 1300;
+}
+
+.ext-editor {
+  max-height: min(88vh, 780px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px 22px 0 0;
+  background: #f8faf9;
+}
+
+.ext-editor-head {
+  min-height: 54px;
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: 42px 1fr 56px;
+  align-items: center;
+  border-bottom: 1px solid var(--ext-line);
+}
+
+.ext-editor-head h2 {
+  margin: 0;
+  font-size: 15px;
+  text-align: center;
+}
+
+.ext-editor-save {
+  padding: 7px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ext-accent);
+  font-weight: 700;
+}
+
+.ext-editor-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 17px calc(24px + var(--safe-bottom, 0px));
+  scroll-padding-block: 14px 24px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ext-editor-scroll :is(input, textarea, select) {
+  scroll-margin-block: 14px 24px;
+}
+
+.ext-targets {
+  display: flex;
+  gap: 9px;
+}
+
+.ext-targets label {
+  flex: 1;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--ext-line);
+  border-radius: 11px;
+  background: #fff;
+  font-size: 13px;
+}
+
+.ext-template {
+  min-height: 240px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+.ext-template-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ext-template-label button {
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ext-accent);
+  font: 600 12px/1.4 system-ui, sans-serif;
+}
+
+.ext-template-label button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ext-accent) 55%, transparent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.ext-placeholder-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -4px 0 15px;
+}
+
+.ext-placeholder-line code {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(69, 111, 120, 0.08);
+  color: var(--ext-accent);
+  font-size: 11px;
+}
+
+.ext-preview {
+  padding-top: 4px;
+}
+
+.ext-preview [data-html-extension-host] {
+  margin-top: 8px;
+}
+
+.ext-delete {
+  width: 100%;
+  margin-top: 23px;
+  padding: 11px;
+  border: 1px solid rgba(171, 79, 74, 0.22);
+  border-radius: 11px;
+  background: transparent;
+  color: #a44d49;
+}
+
+.ext-share-overlay {
+  z-index: 1310;
+}
+
+.ext-share-sheet {
+  width: min(100%, 520px);
+  max-height: min(78vh, 620px);
+  background: #f8faf9;
+}
+
+.ext-share-head,
+.ext-share-footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+}
+
+.ext-share-head {
+  border-bottom: 1px solid var(--ext-line);
+}
+
+.ext-share-head h2 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.ext-share-head button,
+.ext-share-footer button {
+  border: 0;
+  background: transparent;
+  color: var(--ext-accent);
+}
+
+.ext-share-head button {
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+}
+
+.ext-share-list {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 16px;
+}
+
+.ext-share-list label {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--ext-line);
+}
+
+.ext-share-list input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ext-accent);
+}
+
+.ext-share-list span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.ext-share-list strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.ext-share-list small {
+  color: var(--ext-muted);
+  font-size: 11px;
+}
+
+.ext-share-footer {
+  padding-bottom: max(13px, var(--safe-bottom, 0px));
+  border-top: 1px solid var(--ext-line);
+}
+
+.ext-share-footer .is-primary {
+  min-width: 104px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: var(--ext-accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.ext-share-footer .is-primary:disabled {
+  opacity: 0.42;
+}
+
+.ext-rule-entry:focus-visible,
+.ext-item-main:focus-visible,
+.ext-empty:focus-visible,
+.ext-editor-save:focus-visible,
+.ext-section-actions button:focus-visible,
+.ext-delete:focus-visible,
+.ext-share-head button:focus-visible,
+.ext-share-footer button:focus-visible,
+.ext-switch input:focus-visible + span {
+  outline: 2px solid var(--ext-accent);
+  outline-offset: 2px;
+}
+
+.html-extension-dialog::backdrop {
+  background: rgba(20, 28, 33, 0.34);
+  backdrop-filter: blur(2px);
+}
+
+@media (min-width: 720px) {
+  .ext-scroll {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .ext-editor {
+    width: min(620px, 92vw);
+    margin: auto auto 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ext-switch span,
+  .ext-switch span::after {
+    transition: none;
+  }
+}

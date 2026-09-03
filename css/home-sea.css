@@ -1,0 +1,1171 @@
+/* ============================================================
+   棉花糖之海 · 首页专属样式（独立于默认棉花糖手账）
+   取向：壁纸为主角 · 大留白 · 淡透明组件融壁纸 · 线性单色图标 · 碎金点睛
+   仅作用于 .home-sea-shell，避免影响其它主题与页面。
+   ============================================================ */
+/* 换页后的独立组件带：不进图标网格，保持自然尺寸 */
+.home-sea-shell .sea-loose-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 4px 0 10px;
+  position: relative;
+  z-index: 2;
+}
+.home-sea-shell .sea-loose-card {
+  position: relative;
+}
+
+/* 第四页 · 潮汐来信：玻璃横卡只留一个圆形影像焦点，避免与前三页拍立得重复。 */
+.home-sea-shell .sea-fourth-decor {
+  position: relative;
+  min-height: 142px;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: 26px 9px 26px 9px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(222, 240, 247, 0.2));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 12px 30px rgba(40, 74, 92, 0.1);
+}
+.home-sea-shell .sea-fourth-orb {
+  width: 82px;
+  height: 82px;
+  padding: 5px;
+  border: 1px solid rgba(210, 154, 63, 0.42);
+  border-radius: 50%;
+}
+.home-sea-shell .sea-fourth-orb .sea-slot {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 50%;
+}
+.home-sea-shell .sea-fourth-copy { min-width: 0; }
+.home-sea-shell .sea-fourth-kicker {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--sea-gold);
+  font: 700 9px/1 var(--sea-font-en);
+  letter-spacing: 0.18em;
+}
+.home-sea-shell .sea-fourth-title,
+.home-sea-shell .sea-fourth-text { display: block; }
+.home-sea-shell .sea-fourth-title {
+  color: var(--sea-ink);
+  font: 500 18px/1.25 var(--font-family-base);
+  letter-spacing: 0.08em;
+}
+.home-sea-shell .sea-fourth-text {
+  max-width: 210px;
+  margin-top: 9px;
+  color: var(--sea-ink-soft);
+  font: 400 11px/1.55 var(--font-family-base);
+}
+.home-sea-shell .sea-loose-card .sea-p2-mid,
+.home-sea-shell .sea-loose-float {
+  min-height: 160px;
+  margin: 0;
+}
+.home-sea-shell .sea-p2-mid .home-widget-controls,
+.home-sea-shell .sea-streak-bars .home-widget-controls,
+.home-sea-shell .sea-p3-polaroid .home-widget-controls,
+.home-sea-shell .sea-p3-postcard .home-widget-controls,
+.home-sea-shell .sea-loose-card .home-widget-controls {
+  display: none;
+}
+.is-sea-editing .home-sea-shell .sea-p2-mid .home-widget-controls,
+.is-sea-editing .home-sea-shell .sea-streak-bars .home-widget-controls,
+.is-sea-editing .home-sea-shell .sea-p3-polaroid .home-widget-controls,
+.is-sea-editing .home-sea-shell .sea-p3-postcard .home-widget-controls,
+.is-sea-editing .home-sea-shell .sea-loose-card .home-widget-controls {
+  display: flex;
+}
+
+/* 自定义组件进图标网格：占格只负责定位，视觉居中留白 */
+.home-sea-shell .sea-apps {
+  grid-auto-flow: dense;
+  align-items: start;
+  --mm-widget-grid-row-size: 78px;
+  --mm-widget-grid-row-gap: 18px;
+}
+.home-sea-shell .sea-apps .home-custom-widget {
+  justify-self: center;
+  align-self: start;
+  width: calc(100% - 16px);
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 10px;
+  border-radius: 18px;
+  background: var(--mm-widget-shell-bg, var(--sea-w-card, rgba(255, 255, 255, 0.46)));
+  -webkit-backdrop-filter: var(--mm-widget-shell-filter, var(--sea-w-blur, blur(20px) saturate(120%)));
+  backdrop-filter: var(--mm-widget-shell-filter, var(--sea-w-blur, blur(20px) saturate(120%)));
+  border: 1px solid var(--sea-w-border, rgba(255, 255, 255, 0.46));
+  box-shadow: var(--sea-w-shadow, 0 8px 26px rgba(40, 74, 92, 0.12));
+  color: var(--mm-widget-text, var(--sea-ink, #36586a));
+  overflow: hidden;
+  position: relative;
+}
+.home-sea-shell .sea-apps .home-custom-widget.home-code-widget {
+  padding: 0;
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-cols="1"] {
+  width: min(72px, calc(100% - 12px));
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-cols="2"] {
+  width: min(168px, calc(100% - 16px));
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-cols="3"] {
+  width: min(252px, calc(100% - 16px));
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-cols="4"] {
+  width: calc(100% - 20px);
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-rows="2"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap));
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-rows="3"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap));
+}
+.home-sea-shell .sea-apps .home-custom-widget[data-widget-rows="4"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap));
+}
+.is-sea-editing .sea-apps .home-custom-widget {
+  cursor: grab;
+  touch-action: none;
+  animation: seaWiggle 0.18s ease-in-out infinite alternate;
+}
+.is-sea-reordering .sea-apps .home-custom-widget {
+  animation: none !important;
+}
+.sea-apps .home-custom-widget.is-real-dragging {
+  opacity: 0.22;
+}
+
+/* 旧版独立组件条（兼容残留） */
+.home-sea-shell .sea-custom-widgets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 4px 4px 0;
+}
+.home-sea-shell .sea-custom-widgets .home-custom-widget {
+  flex: 1 1 140px;
+  min-height: 72px;
+  padding: 14px;
+  border-radius: 20px;
+  background: var(--mm-widget-shell-bg, var(--sea-w-card, rgba(255, 255, 255, 0.46)));
+  -webkit-backdrop-filter: var(--mm-widget-shell-filter, var(--sea-w-blur, blur(20px) saturate(120%)));
+  backdrop-filter: var(--mm-widget-shell-filter, var(--sea-w-blur, blur(20px) saturate(120%)));
+  border: 1px solid var(--sea-w-border, rgba(255, 255, 255, 0.46));
+  box-shadow: var(--sea-w-shadow, 0 8px 26px rgba(40, 74, 92, 0.12));
+  color: var(--mm-widget-text, var(--sea-ink, #36586a));
+  overflow: hidden;
+}
+.home-sea-shell .sea-custom-widgets .home-custom-widget.home-code-widget {
+  padding: 0;
+}
+
+.home-sea-shell {
+  /* 字色可由美化设置里的「主屏字色」覆盖（仅作用于 .home-sea-shell） */
+  --sea-ink: var(--ink-blue, #36586a);
+  --sea-ink-soft: var(--text-secondary, #6b8fa4);
+  --sea-ink-line: var(--ink-blue, #467890);
+  --sea-gold: var(--accent-orange, #d29a3f);
+  --sea-gold-soft: #f0cf86;
+  --sea-w-bg: rgba(255, 255, 255, 0.20);
+  --sea-w-card: rgba(255, 255, 255, 0.46);
+  --sea-w-border: rgba(255, 255, 255, 0.46);
+  --sea-w-blur: blur(20px) saturate(120%);
+  --sea-w-shadow: 0 8px 26px rgba(40, 74, 92, 0.12);
+  --sea-app-label-shadow: none;
+  --sea-font-en: "Helvetica Neue", "PingFang SC", sans-serif;
+
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  background-color: #d7ebf1;
+  color: var(--sea-ink);
+}
+
+/* ── 壁纸 crossfade 层（在 ::before 暗化遮罩之下，分页 slide 叠放淡入淡出，消除横滑拼贴感）── */
+.home-sea-shell .sea-wallpaper-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* 兜底底色：弱网/大图时真实壁纸还没解码完成的空档，露出的是这层海蓝而不是通用奶白，
+     不会看起来像「加载出错、糊了一半」。壁纸一旦画出来会完全盖住这层，互不冲突。 */
+  background-color: #d7ebf1;
+}
+.home-sea-shell .sea-wallpaper-layer.has-home-pano {
+  background-color: transparent;
+}
+.home-sea-shell .sea-wallpaper-slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: #d7ebf1;
+}
+.home-sea-shell .home-wallpaper-img,
+.home-pano-strip .home-wallpaper-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.home-sea-shell .home-wallpaper-img--base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.home-sea-shell .home-wallpaper-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 横图全景层：一整张横图横跨 N 页、随滑动 1:1 平移，无缝拼接（手账/海/窗通用）。
+   geometry 干净（inset:0、无缩放），px 平移精准，不受各主题壁纸层缩放影响。 */
+.home-pano-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+.home-pano-strip {
+  position: absolute;
+  top: -2%;
+  left: 0;
+  height: 104%;
+  overflow: hidden;
+  will-change: transform;
+  contain: layout paint;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+.home-pano-strip .home-pano-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 渐变遮罩：比初版略重；顶/底浅浅橘色，中段更透让壁纸露出来。
+   整体强度由 --sea-overlay-strength 控制（接「壁纸透明度」滑块）。 */
+.home-sea-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--sea-overlay-strength, 1);
+  background: linear-gradient(180deg,
+    var(--sea-overlay-warm-strong, rgba(246, 214, 138, 0.24)) 0%,
+    rgba(255, 255, 255, 0.06) 38%,
+    var(--sea-overlay-cool-mid, rgba(196, 226, 240, 0.14)) 52%,
+    rgba(255, 255, 255, 0.05) 62%,
+    var(--sea-overlay-cool-strong, rgba(170, 215, 235, 0.22)) 82%,
+    var(--sea-overlay-warm-soft, rgba(246, 214, 138, 0.20)) 100%);
+}
+
+/* ── 横向分页 ── */
+.sea-pages {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.sea-pages::-webkit-scrollbar { display: none; }
+.sea-page {
+  min-width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: calc(28px + var(--safe-top, 0px)) 26px 8px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sea-page::-webkit-scrollbar { display: none; }
+
+/* ── 组件基底 ── */
+.sea-glass {
+  background: var(--sea-w-bg);
+  -webkit-backdrop-filter: var(--sea-w-blur);
+  backdrop-filter: var(--sea-w-blur);
+  border: 1px solid var(--sea-w-border);
+  box-shadow: var(--sea-w-shadow);
+}
+.sea-card {
+  background: var(--sea-w-card);
+  -webkit-backdrop-filter: var(--sea-w-blur);
+  backdrop-filter: var(--sea-w-blur);
+  border: 1px solid var(--sea-w-border);
+  box-shadow: var(--sea-w-shadow);
+}
+
+/* 移动端横滑时 WebKit / WebView 对动态 backdrop-filter 容易先清空再重建合成层。
+   用稳定的半透明表面模拟同一玻璃质感，避免页面间出现“透明 → 毛玻璃”的闪帧。 */
+@media (hover: none), (pointer: coarse) {
+  .home-sea-shell {
+    --sea-w-bg: rgba(247, 252, 254, 0.64);
+    --sea-w-card: rgba(250, 253, 254, 0.74);
+  }
+
+  .home-sea-shell .sea-custom-widgets .home-custom-widget,
+  .home-sea-shell .sea-glass,
+  .home-sea-shell .sea-card,
+  .home-sea-shell .sea-app .ic,
+  .home-sea-shell .sea-dock,
+  .home-sea-shell .sea-dock .ic,
+  .home-sea-shell .sea-bar,
+  .home-sea-shell .sea-drop-slot {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .home-sea-shell .sea-app .ic,
+  .home-sea-shell .sea-dock .ic {
+    background: rgba(248, 252, 254, 0.66);
+  }
+
+  .home-sea-shell .sea-dock {
+    background: linear-gradient(180deg, rgba(250, 253, 254, 0.76), rgba(242, 249, 252, 0.64));
+  }
+
+  .home-sea-shell .sea-bar {
+    background: rgba(248, 252, 254, 0.66);
+  }
+}
+
+/* 触屏设备常驻使用稳定半透明表面。不要在滑动前后切换 backdrop-filter：
+   切换本身会重建合成层，表现为透明度闪烁；高特异性同时压住导入 CSS 里的毛玻璃。 */
+@media (hover: none), (pointer: coarse) {
+  html body #page-container > .home-sea-shell.page,
+  html body #page-container > .home-sea-shell.page * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ── 海主题极简图标：统一 24px 光学校准，纯线条无多余装饰 ── */
+.ic-line { stroke: rgba(70, 120, 144, 0.7); stroke-width: 1.4; fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+/* ── 页1 · 氛围（左对齐，整体再下移） ── */
+.sea-ambient { padding-top: calc(38px + var(--safe-top, 0px)); }
+.sea-top-block { align-self: flex-start; width: 100%; max-width: 300px; margin-top: 6px; }
+.sea-date {
+  font: 600 13px var(--sea-font-en);
+  color: var(--sea-ink);
+  letter-spacing: 1px;
+  opacity: 0.92;
+  margin-top: 4px;
+}
+.sea-clock {
+  font: 300 72px/1 var(--sea-font-en);
+  color: var(--sea-ink);
+  letter-spacing: 1px;
+  margin: 14px 0 10px;
+  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.45);
+}
+.sea-clock b { font-weight: 600; }
+.sea-sub {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--sea-ink-soft);
+  font-size: 12.5px;
+}
+.sea-sub .gold-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sea-gold);
+  flex: 0 0 auto;
+}
+
+/* ── 页1 · 圆形 char 头像 + 美化文字（靠左，无粗边框） ── */
+.sea-portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+}
+.sea-portrait-avatar {
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  background: linear-gradient(145deg, rgba(248, 211, 197, 0.85), rgba(191, 227, 242, 0.75));
+  box-shadow: 0 6px 20px rgba(40, 74, 92, 0.14);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.14s ease;
+}
+.sea-portrait-avatar:active { transform: scale(0.95); }
+.sea-portrait-avatar .sea-portrait-default { width: 100%; height: 100%; display: block; }
+.sea-portrait-avatar svg,
+.sea-portrait-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sea-portrait-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  text-align: left;
+  max-width: 240px;
+}
+.sea-portrait-lines .sea-editable:first-child {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sea-ink);
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
+  line-height: 1.45;
+}
+.sea-portrait-lines .sea-editable:last-child {
+  font-size: 12px;
+  color: var(--sea-ink-soft);
+  line-height: 1.5;
+  font-family: var(--sea-font-en);
+}
+.sea-apps-p1 { margin-top: auto; padding-top: 28px; }
+.sea-ambient.is-open-layout .sea-apps-p1,
+.sea-ambient.is-no-music .sea-apps-p1 {
+  margin-top: 24px;
+  padding-top: 0;
+  align-content: start;
+}
+.sea-ambient.is-apps-first .sea-apps-p1 {
+  margin-top: 4px;
+}
+
+/* ── App 网格 ── */
+.sea-apps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 12px; }
+.sea-apps.col2 { grid-template-columns: repeat(2, 1fr); align-content: start; }
+.sea-drop-slot {
+  display: block;
+  min-height: 78px;
+  border-radius: 19px;
+  visibility: hidden;
+  pointer-events: none;
+}
+.is-sea-editing .sea-drop-slot {
+  visibility: visible;
+  border: 1.5px dashed rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  backdrop-filter: blur(10px) saturate(110%);
+  box-shadow: inset 0 0 0 1px rgba(217, 171, 82, 0.10);
+}
+.sea-p2-top.is-apps-only {
+  display: block;
+}
+.sea-p2-top.is-apps-only .sea-apps.col2 {
+  width: 100%;
+  flex: 0 0 auto !important;
+  grid-template-columns: repeat(4, 1fr);
+}
+.sea-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.sea-app .ic {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 19px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease;
+  /* 不要建立独立堆叠上下文：少数 WebKit/WebView 会漏画离屏分页首个图标的中间层。 */
+}
+.sea-app .ic::before,
+.sea-app .ic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: var(--app-icon-frame-opacity, 1);
+  pointer-events: none;
+}
+.sea-app .ic::before {
+  z-index: 0;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.52), rgba(239, 248, 251, 0.24));
+  /* 每个离屏图标单独做 backdrop-filter 会让 WebKit/WebView 偶发漏画分页首项。 */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64), 0 6px 18px rgba(40, 74, 92, 0.10);
+}
+.sea-app .ic::after {
+  z-index: 2;
+  border: 1px solid var(--sea-w-border);
+}
+.sea-app .ic > svg,
+.sea-app .ic .sea-custom-icon {
+  position: relative;
+  z-index: 1;
+}
+
+.sea-app:active .ic { transform: scale(0.92); }
+.sea-app .ic svg { width: 26px; height: 26px; overflow: visible; filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.7)); }
+/* 新增入口沿用商用线稿，但按海主题的蓝灰、细线和玻璃内芯重新校准。 */
+.home-sea-shell .sea-app.is-commercial-icon .ic::before,
+.home-sea-shell .sea-dock-ic.is-commercial-icon .ic::before {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.58), rgba(223, 241, 248, 0.3));
+}
+.home-sea-shell .sea-app.is-commercial-icon .ic svg,
+.home-sea-shell .sea-dock-ic.is-commercial-icon .ic svg {
+  width: 25px;
+  height: 25px;
+  color: rgba(70, 120, 144, 0.74);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.72));
+}
+.home-sea-shell .sea-app.is-commercial-icon .ic svg *,
+.home-sea-shell .sea-dock-ic.is-commercial-icon .ic svg * {
+  vector-effect: non-scaling-stroke;
+}
+.sea-app .ic .sea-custom-icon,
+.sea-dock .ic .sea-custom-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  forced-color-adjust: none;
+}
+
+.sea-app .ic.has-ready-custom-icon > [data-home-icon-fallback],
+.sea-dock .ic.has-ready-custom-icon > [data-home-icon-fallback] {
+  display: none !important;
+}
+
+/* 关闭图标底框：底色、描边、毛玻璃与阴影全部隐藏，只保留图标内容和点击区 */
+html.app-icon-edge-off .sea-app .ic,
+html.app-icon-edge-off .sea-dock .ic,
+html.app-icon-edge-off .home-shell-page .app-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.app-icon-edge-off .sea-app .ic .sea-custom-icon,
+html.app-icon-edge-off .sea-dock .ic .sea-custom-icon {
+  border-radius: inherit;
+}
+html.app-icon-edge-off .sea-app .ic::before,
+html.app-icon-edge-off .sea-app .ic::after,
+html.app-icon-edge-off .sea-dock .ic::before,
+html.app-icon-edge-off .sea-dock .ic::after {
+  display: none;
+}
+.sea-app-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--sea-gold);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+.sea-app .lb {
+  font-size: 11px;
+  color: var(--sea-ink);
+  text-shadow: var(--sea-app-label-shadow, none);
+}
+.home-sea-shell .future-app-mark {
+  background: rgba(49, 92, 113, 0.88);
+  border-color: rgba(236, 248, 252, 0.78);
+  box-shadow: 0 2px 7px rgba(37, 72, 90, 0.18);
+}
+
+/* ── 音乐 pill ── */
+.sea-music {
+  margin-top: auto;
+  margin-bottom: 8px;
+  background: var(--sea-music-bg, var(--sea-w-bg));
+  border-radius: 22px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  cursor: pointer;
+}
+.sea-music .info { flex: 1; min-width: 0; }
+.sea-music .info .t { font-size: 13.5px; font-weight: 700; color: var(--sea-music-text, var(--sea-ink)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sea-music .info .t .now { color: var(--sea-music-accent, var(--sea-gold)); font-weight: 700; font-size: 11px; margin-right: 4px; }
+.sea-music .info .a { font-size: 11px; color: var(--sea-music-text-soft, var(--sea-ink-soft)); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sea-music .info .bar { height: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.55); margin-top: 9px; overflow: hidden; position: relative; }
+.sea-music .info .bar > i { position: absolute; inset: 0; transform-origin: left; background: linear-gradient(90deg, var(--sea-music-accent-soft, var(--sea-gold-soft)), var(--sea-music-accent, var(--sea-gold))); border-radius: 999px; }
+.sea-music .disc {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background:
+    radial-gradient(circle, #fff 0 16%, transparent 17% 30%, rgba(255, 255, 255, 0.35) 31%),
+    linear-gradient(135deg, #7fc4e3, var(--sea-music-accent, #f0cf86));
+  border: 4px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 6px 16px rgba(40, 74, 92, 0.2);
+  background-size: cover;
+}
+.sea-music .disc.playing { animation: sea-spin 8s linear infinite; }
+@keyframes sea-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── 可编辑文字 ── */
+.sea-editable { outline: none; cursor: text; border-radius: 4px; transition: background 0.15s; }
+.sea-editable:hover { background: rgba(255, 255, 255, 0.22); }
+.sea-editable:focus { background: rgba(255, 255, 255, 0.42); box-shadow: 0 0 0 1px rgba(217, 171, 82, 0.5); }
+.sea-editable:empty::before { content: attr(data-placeholder); color: var(--sea-ink-soft); opacity: 0.6; }
+
+/* ── 可上传图片槽位（柔边） ── */
+.sea-slot { position: relative; overflow: hidden; cursor: pointer; }
+.sea-slot.empty {
+  background: linear-gradient(150deg, rgba(174, 224, 240, 0.34), rgba(246, 214, 138, 0.22));
+  border: 1.5px dashed rgba(217, 171, 82, 0.40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sea-slot .hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--sea-gold);
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 5px 12px;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(40, 74, 92, 0.08);
+  pointer-events: none;
+}
+.sea-slot .hint::before { content: "+"; font-size: 15px; line-height: 1; }
+.sea-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* 页1 横向柔边图片 */
+.sea-photo-wide { border-radius: 26px; padding: 9px; margin-top: 16px; }
+.sea-photo-wide .sea-slot { border-radius: 19px; aspect-ratio: 1.78 / 1; }
+.sea-photo-wide .cap { display: flex; align-items: center; justify-content: space-between; padding: 9px 8px 3px; font-size: 12px; color: var(--sea-ink-soft); }
+.sea-photo-wide .cap .heart { color: var(--sea-gold); display: inline-flex; }
+
+/* 页2 竖向 char 卡 */
+.sea-photo-tall { border-radius: 20px; padding: 8px; flex: 0 0 138px; display: flex; flex-direction: column; }
+.sea-photo-tall .sea-slot { border-radius: 14px; flex: 1 1 auto; min-height: 180px; }
+.sea-photo-tall .cap { text-align: center; font-size: 11.5px; color: var(--sea-ink-soft); padding: 7px 0 3px; }
+
+/* 页2 · 中空位（单层叠放：左上行 / 右下行 / 左下圆 — 对齐 PS 参考） */
+.sea-p2-mid {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 172px;
+  margin: 2px 0 10px;
+  padding-bottom: 8px;
+}
+.sea-p2-mid > .sea-editable {
+  position: absolute;
+  max-width: 72%;
+  transform: none;
+}
+.sea-p2-line-a {
+  left: 38px;
+  top: 10px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sea-ink);
+  line-height: 1.55;
+  text-shadow: 0 1px 5px rgba(255, 255, 255, 0.62);
+}
+.sea-p2-line-b {
+  left: auto;
+  right: 22px;
+  top: 42px;
+  text-align: right;
+  font: italic 12px/1.65 var(--sea-font-en);
+  color: var(--sea-ink-soft);
+}
+.sea-p2-orb-wrap {
+  position: absolute;
+  left: 0;
+  bottom: 18px;
+  width: 118px;
+  height: 118px;
+}
+.sea-p2-orb-wrap .sea-slot {
+  width: 118px;
+  height: 118px;
+  border-radius: 50%;
+}
+.sea-p2-orb-wrap .sea-slot .hint { font-size: 11px; padding: 4px 10px; }
+
+/* 页3 · 顶卡紧凑 + 左色条 + 右竖拍立得 */
+.sea-atmo-compact { padding: 12px 16px; border-radius: 18px; }
+.sea-atmo-compact .big { font-size: 26px; margin: 2px 0; }
+.sea-atmo-compact .prog { margin-top: 8px; }
+.sea-p3-mid {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  margin: 10px 0 14px;
+  min-height: 148px;
+}
+.sea-p3-mid.is-single {
+  min-height: 0;
+}
+.sea-p3-mid.is-single .sea-streak-bars {
+  min-height: 112px;
+}
+.sea-p3-mid.is-single .sea-p3-polaroid {
+  flex: 0 0 120px;
+  min-height: 148px;
+}
+.sea-streak-bars {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 4px 0;
+}
+.sea-bar {
+  height: 32px;
+  border-radius: 11px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--sea-ink);
+  background: rgba(255, 255, 255, 0.24);
+  -webkit-backdrop-filter: var(--sea-w-blur);
+  backdrop-filter: var(--sea-w-blur);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  box-shadow: 0 3px 10px rgba(40, 74, 92, 0.07);
+}
+.sea-bar:nth-child(1) { width: 68%; align-self: flex-start; }
+.sea-bar:nth-child(2) { width: 86%; align-self: flex-end; margin-right: 2px; }
+.sea-bar:nth-child(3) { width: 58%; align-self: flex-start; margin-left: 10px; }
+.sea-bar.on {
+  background: rgba(240, 207, 134, 0.28);
+  border-color: rgba(217, 171, 82, 0.32);
+}
+.sea-bar .dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--sea-ink-line);
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+.sea-bar.on .dot { background: var(--sea-gold); border-color: var(--sea-gold); }
+.sea-bar-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sea-bar-val {
+  flex: 0 0 auto;
+  font: 700 10px var(--sea-font-en);
+  color: var(--sea-ink-soft);
+}
+.sea-p3-polaroid {
+  flex: 0 0 96px;
+  height: 148px;
+  min-height: 148px;
+  max-height: 148px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  padding: 6px 6px 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+.sea-p3-polaroid .sea-slot {
+  border-radius: 9px;
+  flex: 1 1 auto;
+  height: 108px;
+  min-height: 108px;
+  max-height: 108px;
+}
+.sea-p3-polaroid .cap {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 1.55em;
+  line-height: 1.55;
+  margin-top: 5px;
+  font-size: 10px;
+  color: var(--sea-ink-soft);
+  text-align: center;
+  font-family: var(--font-family-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sea-p3-polaroid .cap > .sea-editable {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  line-height: inherit;
+  white-space: inherit;
+  overflow: hidden;
+  text-overflow: inherit;
+}
+.sea-p3-polaroid .cap > .sea-editable:focus {
+  overflow-x: auto;
+  text-overflow: clip;
+  scrollbar-width: none;
+}
+.sea-p3-polaroid .cap > .sea-editable:focus::-webkit-scrollbar {
+  display: none;
+}
+.sea-apps-p3 { margin-top: auto; padding-top: 16px; }
+.sea-page-three.is-open-layout .sea-apps-p3 {
+  margin-top: 18px;
+  padding-top: 0;
+}
+.sea-page-three.is-no-postcard .sea-apps-p3 {
+  margin-top: 12px;
+}
+.sea-page-three .sea-atmo-compact { margin-top: 2px; }
+
+/* 页3 · 明信片上传卡 */
+.sea-p3-postcard {
+  position: relative;
+  border-radius: 14px;
+  padding: 10px 12px 9px;
+  margin: 0 0 10px;
+  max-width: 200px;
+  align-self: flex-start;
+  background: rgba(255, 252, 245, 0.48);
+}
+.sea-postcard-stamp {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 14px;
+  color: var(--sea-gold);
+  opacity: 0.75;
+  pointer-events: none;
+  line-height: 1;
+}
+.sea-p3-postcard .sea-slot {
+  border-radius: 8px;
+  aspect-ratio: 1.35 / 1;
+  min-height: 88px;
+}
+.sea-p3-postcard .cap {
+  margin-top: 7px;
+  font-size: 10.5px;
+  color: var(--sea-ink-soft);
+  font-family: var(--font-family-base);
+  text-align: left;
+  padding-left: 2px;
+}
+
+/* ── 页3 · 氛围信息卡 ── */
+.sea-atmo { border-radius: 22px; padding: 16px 18px; text-align: center; }
+.sea-atmo .h { font: 700 10px var(--sea-font-en); letter-spacing: 1.5px; color: var(--sea-gold); }
+.sea-atmo .h em { color: var(--sea-ink-soft); font-style: normal; }
+.sea-atmo .big { font: 600 30px var(--sea-font-en); color: var(--sea-ink); margin: 4px 0; letter-spacing: 1px; }
+.sea-atmo .d { font: 500 11px var(--sea-font-en); color: var(--sea-ink-soft); }
+.sea-atmo .prog { display: flex; align-items: center; gap: 8px; margin-top: 12px; font: 600 10px var(--sea-font-en); color: var(--sea-ink-soft); }
+.sea-atmo .prog .bar { flex: 1; height: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.6); overflow: hidden; position: relative; }
+.sea-atmo .prog .bar > i { position: absolute; inset: 0; transform-origin: left; background: var(--sea-gold); border-radius: 999px; }
+
+/* ── 打卡 pill 行 ── */
+.sea-streak { display: flex; flex-direction: column; gap: 9px; flex: 1; background: none; border: none; box-shadow: none; padding: 0; }
+.sea-streak .row {
+  border-radius: 999px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--sea-ink);
+}
+.sea-streak .row .k { display: inline-flex; align-items: center; gap: 7px; flex: 1; min-width: 0; }
+.sea-streak .row .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--sea-ink-line); flex: 0 0 auto; cursor: pointer; }
+.sea-streak .row.on .dot { background: var(--sea-gold); border-color: var(--sea-gold); }
+.sea-streak .row .v { font: 700 12px var(--sea-font-en); color: var(--sea-ink-soft); }
+
+.sea-row { display: flex; align-items: center; gap: 16px; }
+.sea-row.stretch { align-items: stretch; }
+
+/* ── 底部 dock + 指示点 ── */
+.sea-bottom { position: relative; z-index: 3; flex: 0 0 auto; padding: 6px 24px calc(20px + var(--safe-bottom)); }
+.sea-dots { display: flex; justify-content: center; gap: 7px; margin-bottom: 12px; }
+.sea-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(40, 74, 92, 0.26); transition: width 0.2s, background 0.2s; }
+.sea-dots i.on { background: var(--sea-gold); width: 16px; border-radius: 999px; }
+.sea-dock {
+  height: 78px;
+  border-radius: 26px;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0.18) 100%);
+  -webkit-backdrop-filter: var(--sea-w-blur);
+  backdrop-filter: var(--sea-w-blur);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  box-shadow: 0 8px 24px rgba(40, 74, 92, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 14px;
+}
+.sea-dock .sea-dock-ic {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sea-dock .sea-dock-ic .ic {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease;
+  /* 与分页 App 保持相同的非隔离绘制，避免图标内容层在恢复后丢失。 */
+}
+.sea-dock .sea-dock-ic .ic::before,
+.sea-dock .sea-dock-ic .ic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: var(--app-icon-frame-opacity, 1);
+  pointer-events: none;
+}
+.sea-dock .sea-dock-ic .ic::before {
+  z-index: 0;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.58), rgba(239, 248, 251, 0.26));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66), 0 5px 16px rgba(40, 74, 92, 0.10);
+}
+.sea-dock .sea-dock-ic .ic::after {
+  z-index: 2;
+  border: 1px solid var(--sea-w-border);
+}
+.sea-dock .sea-dock-ic .ic > svg {
+  position: relative;
+  z-index: 1;
+}
+.sea-dock .sea-dock-ic:active .ic { transform: scale(0.9); }
+.sea-dock .sea-dock-ic .ic svg { width: 22px; height: 22px; overflow: visible; filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.7)); }
+
+/* ── 图标编辑 · 长按换位 / 拖拽 / 动态分页（手感对齐棉花糖手账） ── */
+@keyframes seaWiggle {
+  from { transform: rotate(-0.35deg); }
+  to { transform: rotate(0.35deg); }
+}
+/* 非编辑态优先把横滑交给原生分页。Android Edge/Chrome 若从图标起手时为 none，
+ * 会直接失去横向滚动仲裁，随后长按计时器还可能误进入编辑态。窗主题复用。 */
+.sea-app[data-app-id],
+.sea-dock-ic[data-app-id],
+.sea-apps .home-custom-widget[data-custom-widget-id],
+.sea-apps .home-grid-builtin[data-home-longpress-item] {
+  touch-action: pan-x;
+}
+/* iOS WebKit 仍保留首帧拦截，避免根层下拉刷新抢走长按；Chromium 不命中。 */
+@supports (-webkit-touch-callout: none) {
+  .sea-app[data-app-id],
+  .sea-dock-ic[data-app-id],
+  .sea-apps .home-custom-widget[data-custom-widget-id],
+  .sea-apps .home-grid-builtin[data-home-longpress-item] {
+    touch-action: none;
+  }
+}
+/* 编辑态可拖图标：grab 光标 + touch-action:none，防止手指拖动时被页面滚动抢手势（手账同款，关键手感差异） */
+.is-sea-editing .sea-app[data-app-id],
+.is-sea-editing .sea-dock-ic[data-app-id] {
+  cursor: grab;
+  touch-action: none;
+}
+.is-sea-editing .sea-app,
+.is-sea-editing .sea-dock-ic {
+  animation: seaWiggle 0.18s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+/* 拖拽进行中：停掉抖动（会盖掉 FLIP 的位移），让其它图标平滑挤开/排齐 */
+.is-sea-reordering .sea-app,
+.is-sea-reordering .sea-dock-ic {
+  animation: none !important;
+}
+.is-sea-reordering .sea-app.is-real-dragging,
+.is-sea-reordering .sea-dock-ic.is-real-dragging {
+  transition: none !important;
+}
+.is-sea-reordering .sea-pages {
+  touch-action: none;
+}
+/* 占位空格：被拖起的源图标淡出留位 */
+.sea-app.is-real-dragging,
+.sea-dock-ic.is-real-dragging {
+  opacity: 0.22;
+}
+/* 跟手残影 */
+.sea-real-drag-ghost {
+  position: fixed;
+  z-index: 10000;
+  margin: 0;
+  pointer-events: none;
+  opacity: 0.96;
+  transform: scale(1.06);
+  filter: drop-shadow(0 12px 20px rgba(40, 74, 92, 0.28));
+}
+
+/* 编辑工具条（叠在顶部安全区下方） */
+.sea-edit-bar {
+  position: absolute;
+  top: calc(10px + var(--safe-top));
+  left: 16px;
+  right: 16px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 0 6px 18px rgba(40, 74, 92, 0.12);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.is-sea-reordering .sea-edit-bar {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+.is-sea-reordering .sea-edit-bar > * { pointer-events: none; }
+.sea-edit-bar[hidden] { display: none; }
+.sea-edit-btn {
+  pointer-events: auto;
+  min-width: 0;
+  min-height: 34px;
+  flex: 1 1 auto;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(47, 72, 84, 0.78);
+  box-shadow: none;
+  font: 600 12px var(--font-family-base, inherit);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sea-edit-bar { transition: none; }
+}
+.sea-edit-btn.primary {
+  flex: 0 0 auto;
+  padding-inline: 14px;
+  background: rgba(70, 105, 121, 0.9);
+  color: #fff;
+}
+.sea-edit-btn[data-sea-edit-remove] {
+  color: rgba(145, 76, 73, 0.86);
+}
+.sea-edit-btn:disabled {
+  color: rgba(47, 72, 84, 0.3);
+}
+@media (max-width: 380px) {
+  .sea-edit-btn {
+    padding-inline: 4px;
+    font-size: 11px;
+  }
+}
+
+/* 用户自建分页：纯图标网格，撑满整页方便拖入 */
+.sea-page-extra {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: calc(64px + var(--safe-top));
+  scroll-snap-stop: always;
+}
+.sea-extra-head {
+  font: 700 12px var(--font-family-base, inherit);
+  letter-spacing: 1px;
+  color: var(--sea-ink-soft);
+  opacity: 0.7;
+  margin: 0 2px 14px;
+}
+.sea-apps-extra {
+  flex: 1;
+  align-content: flex-start;
+  min-height: 240px;
+}

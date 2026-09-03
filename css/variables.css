@@ -1,0 +1,92 @@
+:root {
+  color-scheme: only light;
+  /* 棉花糖手账 · 唯一 design token 源 */
+  --bg-paper: #fbf6f0;
+  --bg-paper-deep: #f3ebe2;
+  --icon-blue: #b6cde0;
+  --icon-blue-light: #d5e4ed;
+  --icon-peach: #f8d3c5;
+  --icon-cream: #fdf8f4;
+  --icon-pink: #f5d0d8;
+  --tape-orange: #f1b98f;
+  --tape-blue: #a8c2d8;
+  --ink-blue: #5c7b8f;
+  --ink-brown: #8c7362;
+
+  /* 低饱和暖 accent（标签 / 图标） */
+  --accent-orange: #a8856e;
+  --accent-orange-ink: #8a6a55;
+  --accent-pink: #c49a96;
+  --accent-pink-ink: #9a7572;
+
+  /* 半透明按钮面（磨砂贴纸感） */
+  --btn-primary-bg: rgba(241, 185, 143, 0.38);
+  --btn-primary-border: rgba(255, 255, 255, 0.78);
+  --btn-outline-bg: #fffdf8;
+  --btn-outline-border: rgba(140, 115, 98, 0.18);
+  --btn-soft-bg: #fdf4f6;
+  --btn-soft-border: rgba(140, 115, 98, 0.12);
+
+  --grid-line: #ece4dc;
+
+  --bg: var(--bg-paper);
+  --bg-card: #fffdf8;
+  --bg-sheet: #fdf8f4;
+  --bg-input: #fffdf8;
+
+  --text: var(--ink-brown);
+  --text-accent: var(--accent-orange);
+  --text-secondary: #a08978;
+  --text-hint: rgba(140, 115, 98, 0.58);
+
+  --shadow-paper: 2px 4px 12px rgba(140, 115, 98, 0.08);
+  --shadow-sticker: 0 4px 12px rgba(168, 133, 110, 0.1);
+  --shadow-float: 0 10px 28px rgba(168, 133, 110, 0.12);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-sticker: 22px;
+  --radius-full: 9999px;
+
+  --font-xs: 11px;
+  --font-sm: 13px;
+  --font-md: 15px;
+  --font-lg: 17px;
+  --font-xl: 20px;
+
+  --navbar-h: 52px;
+  /* 安全区统一走这组变量。原生壳保持透明边到边，顶部和导航区仍由页面避让；
+   * 键盘仅由原生 IME inset 临时缩短 WebView，不写入这些静态安全区变量。 */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --native-safe-top: 0px;
+  --native-safe-right: 0px;
+  --native-safe-bottom: 0px;
+  --native-safe-left: 0px;
+  --safe-top: max(var(--safe-area-inset-top), var(--native-safe-top));
+  --safe-bottom: max(var(--safe-area-inset-bottom), var(--native-safe-bottom));
+  --safe-left: max(var(--safe-area-inset-left), var(--native-safe-left));
+  --safe-right: max(var(--safe-area-inset-right), var(--native-safe-right));
+
+  --settings-wallpaper-opacity: 0.1;
+
+  /* 默认手写体（与旧 home.css body 一致）；上传自定义字体时由 JS 写入 inline --font-family-base 覆盖 */
+  --font-family-base: "Kaiti", "STKaiti", "KaiTi", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+  --border: rgba(140, 115, 98, 0.22);
+  --bg-card-solid: #fffdf8;
+  --surface-card: #fffdf8;
+  --surface-card-border: rgba(140, 115, 98, 0.14);
+  --chat-paper: #fffdf8;
+  --form-label: var(--text-secondary);
+}
+
+/* 旧 APK 或原生接口确实不可用时，才保留三键导航的底部兜底。
+ * 正在读取或成功返回 0 都不能视为缺失，避免自带底栏的页面重复垫高。 */
+html.capacitor-native:not(.ios-webkit).native-safe-bottom-missing:not(.keyboard-visible):not(.native-ime-visible) {
+  --safe-bottom: max(var(--safe-area-inset-bottom), 48px);
+}

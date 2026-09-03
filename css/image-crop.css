@@ -1,0 +1,214 @@
+/* 头像裁剪弹层 —— 暗台 + 圆形取景框，与主题卡片解耦的工具层 */
+
+/* 独立于 #modal-container，避免裁剪时拆掉父设置弹层 */
+#image-crop-host {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  pointer-events: none;
+}
+
+#image-crop-host.active {
+  display: block;
+  pointer-events: auto;
+}
+
+.image-crop-overlay {
+  align-items: center;
+  padding: 16px;
+  background: rgba(18, 22, 28, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.image-crop-sheet {
+  width: min(92vw, 420px);
+  max-width: min(92vw, 420px);
+  height: min(92vh, 640px);
+  max-height: min(92vh, 640px);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  background: #11161c;
+  color: #e8eef4;
+  overflow: hidden;
+  animation: modalSlideUp 0.24s ease-out;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+}
+
+.image-crop-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 14px;
+}
+
+.image-crop-header h3 {
+  color: #f2f6fa;
+  font-size: var(--font-md);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.image-crop-header .modal-close-btn {
+  color: rgba(242, 246, 250, 0.72);
+}
+
+.image-crop-header .modal-close-btn:focus-visible {
+  outline: 2px solid rgba(180, 210, 235, 0.7);
+  outline-offset: 2px;
+}
+
+.image-crop-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: min(52vh, 360px);
+  max-height: min(52vh, 360px);
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  background: #0a0d11;
+  overflow: hidden;
+  border-radius: 0;
+  contain: layout paint;
+}
+
+.image-crop-stage:active {
+  cursor: grabbing;
+}
+
+.image-crop-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.image-crop-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: none;
+  max-height: none;
+  pointer-events: none;
+  will-change: transform;
+  /* 首帧 layoutFrame 完成前隐藏，避免手机原图按 intrinsic 尺寸闪一下撑开 */
+  opacity: 0;
+}
+
+.image-crop-img.is-ready {
+  opacity: 1;
+}
+
+.image-crop-frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border: 1.5px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.52);
+  pointer-events: none;
+}
+
+.image-crop-frame.is-circle {
+  border-radius: 50%;
+}
+
+.image-crop-frame.is-square {
+  border-radius: 10px;
+}
+
+.image-crop-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 4px;
+}
+
+.image-crop-zoom-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  flex: 0 0 auto;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #e8eef4;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.image-crop-zoom-btn:focus-visible {
+  outline: 2px solid rgba(180, 210, 235, 0.7);
+  outline-offset: 2px;
+}
+
+.image-crop-zoom {
+  flex: 1 1 auto;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  outline: none;
+}
+
+.image-crop-zoom::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #d7e6f2;
+  border: 2px solid #11161c;
+  cursor: pointer;
+}
+
+.image-crop-zoom::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #d7e6f2;
+  border: 2px solid #11161c;
+  cursor: pointer;
+}
+
+.image-crop-hint {
+  margin: 0;
+  padding: 4px 16px 0;
+  font-size: var(--font-xs);
+  color: rgba(232, 238, 244, 0.48);
+  text-align: center;
+}
+
+.image-crop-footer {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px calc(14px + var(--safe-bottom));
+}
+
+.image-crop-footer .btn {
+  flex: 1;
+}
+
+.image-crop-footer .btn-outline {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #e8eef4;
+}
+
+.image-crop-footer .btn-primary {
+  background: rgba(180, 210, 235, 0.28);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f5f9fc;
+}
+
+.image-crop-footer .btn:focus-visible {
+  outline: 2px solid rgba(180, 210, 235, 0.7);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-crop-sheet {
+    animation: none;
+  }
+}

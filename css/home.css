@@ -1,0 +1,1354 @@
+:root {
+  /* 从参考图中提取的精确色彩 */
+  --bg-paper: #fbf6f0;        /* 整体奶油底色 */
+  --icon-blue: #b6cde0;       /* 软雾蓝 */
+  --icon-blue-light: #d5e4ed; /* 浅雾蓝 */
+  --icon-peach: #f8d3c5;      /* 奶油杏/蜜桃色 */
+  --icon-cream: #fdf8f4;      /* 图标底色 */
+  --tape-orange: #f1b98f;     /* 橘色胶带 */
+  --tape-blue: #a8c2d8;       /* 蓝色胶带 */
+  --ink-blue: #5c7b8f;        /* 深蓝灰（用于文字和深色图形） */
+  --ink-brown: #8c7362;       /* 暖棕色（用于文字） */
+
+  --radius-icon: 22px;
+  --shadow-icon: 0 4px 10px rgba(182, 205, 224, 0.3);
+  --shadow-paper: 2px 4px 12px rgba(140, 115, 98, 0.08);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-base); /* 跟随全局字体变量，可被自定义上传字体覆盖 */
+  background-color: #dcd6d0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* 模拟手机外壳 */
+.device-mockup {
+  width: 375px;
+  height: 812px;
+  background-color: var(--bg-paper);
+  background-image:
+    linear-gradient(rgba(251, 246, 240, 0.22), rgba(251, 246, 240, 0.22)),
+    url("assets/wallpapers/home-mood-default.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 40px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15), inset 0 0 0 6px #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 状态栏 */
+.status-bar {
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-blue);
+  z-index: 10;
+  font-family: -apple-system, sans-serif;
+}
+
+/* 页面容器 */
+.home-pages-container {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.home-pages-container::-webkit-scrollbar { display: none; }
+
+/* 触屏设备常驻降级毛玻璃；不随滑动切换，避免透明度与合成层闪烁。 */
+@media (hover: none), (pointer: coarse) {
+  html body #page-container > .home-shell-page.page,
+  html body #page-container > .home-shell-page.page * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+.home-page {
+  min-width: 100%;
+  padding: 10px 24px 24px;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+.device-mockup .home-page {
+  padding-bottom: 150px;
+}
+
+/* 装饰性胶带 */
+.deco-tape {
+  position: absolute;
+  height: 24px;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+}
+.tape-1 {
+  top: 10px; left: -10px; width: 100px;
+  background-color: var(--tape-orange);
+  transform: rotate(-15deg);
+  /* 格子纹理 */
+  background-image: linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+/* 手账风卡片组件 */
+.widget-card {
+  background: var(--icon-cream);
+  border-radius: 8px; /* 稍微圆润一点的纸张角 */
+  padding: 16px;
+  box-shadow: var(--shadow-paper);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+/* 替换图片/背景的悬浮提示 */
+.replaceable {
+  position: relative;
+  cursor: default;
+}
+.replaceable::after {
+  content: '';
+  display: none;
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink-brown);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(140, 115, 98, 0.2);
+  font-weight: bold;
+  z-index: 20;
+}
+.replaceable:hover::after {
+  opacity: 1;
+}
+
+/* 网格纸样式 */
+.grid-paper {
+  background-color: #fff;
+  background-image: linear-gradient(#e8eef3 1px, transparent 1px), linear-gradient(90deg, #e8eef3 1px, transparent 1px);
+  background-size: 16px 16px;
+  border: 1px solid #e8eef3;
+  transform: rotate(1deg);
+}
+
+/* 撕纸边缘效果 - 优化边缘 */
+.torn-paper {
+  background: #fff;
+  filter: drop-shadow(0 4px 6px rgba(140, 115, 98, 0.1));
+  border-radius: 8px 8px 0 0;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+.torn-paper::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-size: 16px 16px;
+  background-image: linear-gradient(135deg, #fff 25%, transparent 25%), linear-gradient(225deg, #fff 25%, transparent 25%);
+  background-position: 0 0;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transform: rotate(-1deg);
+}
+.avatar-placeholder {
+  width: 50px; height: 50px;
+  background: var(--icon-blue-light);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-paper);
+  overflow: hidden;
+}
+.user-info .greeting {
+  font-size: 18px; font-weight: bold; color: var(--ink-brown);
+}
+.user-info .status-text {
+  font-size: 13px; color: var(--ink-blue); margin-top: 4px;
+}
+
+/* 图标网格 */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px 16px;
+  --mm-widget-grid-row-size: 82px;
+  --mm-widget-grid-row-gap: 18px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+  grid-auto-flow: dense;
+  align-items: start;
+}
+.app-grid .home-custom-widget,
+.app-grid .home-grid-builtin {
+  justify-self: center;
+  align-self: start;
+  width: calc(100% - 16px);
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+.app-grid .home-custom-widget[data-widget-cols="1"],
+.app-grid .home-grid-builtin[data-widget-cols="1"] {
+  width: min(72px, calc(100% - 12px));
+}
+.app-grid .home-custom-widget[data-widget-cols="2"],
+.app-grid .home-grid-builtin[data-widget-cols="2"] {
+  width: min(168px, calc(100% - 16px));
+}
+.app-grid .home-custom-widget[data-widget-cols="3"],
+.app-grid .home-grid-builtin[data-widget-cols="3"] {
+  width: min(252px, calc(100% - 16px));
+}
+.app-grid .home-custom-widget[data-widget-cols="4"],
+.app-grid .home-grid-builtin[data-widget-cols="4"] {
+  width: calc(100% - 20px);
+}
+.app-grid .home-custom-widget[data-widget-rows="2"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap));
+}
+.app-grid .home-custom-widget[data-widget-rows="3"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap));
+}
+.app-grid .home-custom-widget[data-widget-rows="4"] {
+  height: calc(var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-size) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap) + var(--mm-widget-grid-row-gap));
+}
+.app-grid .home-polaroid-feature {
+  min-height: 0;
+  width: 100%;
+}
+.app-grid .home-polaroid-feature .photo-area {
+  aspect-ratio: 1.02 / 1;
+  flex: 0 0 auto;
+  min-height: 120px;
+}
+.is-home-editing .app-grid .home-custom-widget,
+.is-home-editing .app-grid .home-grid-builtin {
+  cursor: grab;
+  touch-action: none;
+}
+.app-grid .home-custom-widget.is-real-dragging,
+.app-grid .home-grid-builtin.is-real-dragging {
+  opacity: 0.22;
+}
+.app-drop-slot {
+  display: block;
+  min-height: 82px;
+  border-radius: var(--radius-icon);
+  visibility: hidden;
+  pointer-events: none;
+}
+.is-home-editing .app-drop-slot {
+  visibility: visible;
+  border: 1.5px dashed rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(140, 115, 98, 0.08);
+}
+.page-two-grid {
+  margin-top: -4px;
+}
+.page-one .polaroid-widget {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.page-one .app-grid {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.page-three .app-grid {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 用户自建分页：纯 App 网格，撑满整页高度，方便把图标拖进空页放置 */
+.page-extra .page-extra-grid {
+  flex: 1;
+  align-content: flex-start;
+  min-height: 240px;
+  margin-top: 6px;
+}
+.home-shell-page .page-extra {
+  padding-bottom: 128px;
+  scroll-snap-stop: always;
+}
+.app-label {
+  color: var(--ink-brown);
+  font-size: 12px;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.app-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-icon);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s;
+  position: relative;
+  /* 离屏分页不要建立独立堆叠上下文；WebKit/WebView 可能漏画首个图标内容层。 */
+}
+
+.app-icon::before,
+.app-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: var(--app-icon-frame-opacity, 1);
+  pointer-events: none;
+}
+.app-icon::before {
+  z-index: 0;
+  background: var(--icon-cream);
+  box-shadow: 0 4px 10px rgba(140, 115, 98, 0.15);
+}
+.app-icon::after {
+  z-index: 2;
+  border: 4px solid #ffffff;
+}
+.app-icon > svg,
+.app-icon .custom-img {
+  z-index: 1;
+}
+.app-icon:active { transform: scale(0.92); }
+.app-icon svg {
+  width: 36px; height: 36px;
+}
+.future-app-mark {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  z-index: 4;
+  min-width: 42px;
+  height: 15px;
+  padding: 0 5px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  background: rgba(83, 96, 103, 0.88);
+  box-shadow: 0 2px 6px rgba(52, 63, 68, 0.16);
+  color: #fff;
+  font: 700 9px/13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.02em;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.test-app-mark {
+  position: absolute;
+  right: -7px;
+  top: -5px;
+  z-index: 4;
+  min-width: 31px;
+  height: 15px;
+  padding: 0 4px;
+  border: 1px solid rgba(255, 255, 255, .84);
+  border-radius: 999px;
+  background: #284d45;
+  box-shadow: 0 2px 6px rgba(25, 47, 42, .18);
+  color: #fff;
+  font: 700 8px/13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .02em;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.is-coming-soon > svg,
+.is-coming-soon > .custom-img,
+.is-coming-soon .ic > svg,
+.is-coming-soon .ic > .sea-custom-icon {
+  opacity: 0.52;
+  filter: grayscale(0.35) !important;
+}
+/* 商用线稿只提供图形语义；在手账主题里重新收成柔和的贴纸内芯。 */
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon {
+  color: #71838b;
+}
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon.bg-peach { color: #98796e; }
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon.bg-blue { color: #52778d; }
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon.bg-blue-light { color: #5f7f91; }
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon.bg-cream { color: #71838b; }
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon::before {
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.9) 0 18%, transparent 19%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(250, 246, 241, 0.9));
+}
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon svg {
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  padding: 3px;
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.82));
+}
+.home-shell-page:not(.home-album-shell) .app-icon.is-commercial-icon svg * {
+  vector-effect: non-scaling-stroke;
+}
+/* 贴纸图标占位图覆盖层（用于上传图片后覆盖SVG） */
+.app-icon .custom-img {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  border-radius: calc(var(--radius-icon) - 4px);
+  object-fit: cover;
+  display: none; /* 默认隐藏，上传后显示 */
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  forced-color-adjust: none;
+}
+
+/* 按钮重置不能盖掉贴纸白边；关闭边缘时见 html.app-icon-edge-off */
+button.app-icon,
+button.home-dock-icon {
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+html:not(.app-icon-edge-off) button.app-icon {
+  border: none;
+}
+html.app-icon-edge-off .app-icon,
+html.app-icon-edge-off button.app-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.app-icon-edge-off .app-icon::before,
+html.app-icon-edge-off .app-icon::after {
+  display: none;
+}
+html.app-icon-edge-off .app-icon .custom-img {
+  border-radius: inherit;
+}
+
+.app-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #e77878;
+  border: 2px solid rgba(255, 253, 248, 0.96);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(90, 70, 55, 0.18);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.app-badge.chat-unread-badge,
+.sea-app-badge.chat-unread-badge,
+.home-window-shell .sea-app-badge.chat-unread-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: #ff3040;
+  border: 2px solid rgba(255, 255, 255, 0.96);
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(168, 25, 39, 0.28);
+  /* 自定义图标和图标装饰允许自行建立层级；未读数始终是图标最上层的状态。 */
+  z-index: 2147483647 !important;
+}
+
+/* 图标底色分类 */
+.bg-peach { background-color: var(--icon-peach); }
+.bg-blue { background-color: var(--icon-blue); }
+.bg-blue-light { background-color: var(--icon-blue-light); }
+.bg-cream { background-color: var(--icon-cream); }
+
+/* 底部 Dock */
+.dock {
+  position: absolute;
+  bottom: 22px;
+  left: 24px;
+  right: 24px;
+  height: 74px;
+  background: rgba(253, 248, 244, 0.88);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+  box-shadow: 0 10px 30px rgba(182, 205, 224, 0.2);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+.dock .app-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+}
+.dock .app-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* 页面指示器 */
+.page-indicators {
+  position: absolute;
+  bottom: 106px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(92, 123, 143, 0.2);
+}
+.dot.active {
+  background: var(--ink-blue);
+}
+
+/* 小组件内部样式 */
+.note-title { color: var(--tape-orange); font-weight: bold; font-size: 16px; margin-bottom: 8px; outline: none; }
+.note-list { margin: 0; padding-left: 20px; color: var(--ink-brown); font-size: 15px; line-height: 1.8; outline: none; }
+.note-list li { margin-bottom: 4px; }
+
+/* 拍立得组件 */
+.polaroid-widget {
+  padding-bottom: 14px;
+}
+.photo-area {
+  background: #e8eef3;
+  aspect-ratio: 1.1 / 1;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.photo-area svg { width: 100%; height: 100%; object-fit: cover; }
+.caption { text-align: center; color: var(--ink-brown); font-size: 14px; outline: none; }
+
+/* 胶片/贴纸组件：左侧留镂空胶片图片区，右侧留小贴纸图片区 */
+.film-widget {
+  min-height: 136px;
+  background: rgba(255, 255, 255, 0.84);
+  overflow: visible;
+  margin-top: 2px;
+}
+.film-layout {
+  position: relative;
+  min-height: 106px;
+}
+.film-ring {
+  position: absolute;
+  left: 10px;
+  bottom: -4px;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 42%, #ffffff 43% 50%, transparent 51%),
+    conic-gradient(from 0deg, var(--icon-blue), var(--icon-blue-light), var(--icon-peach), var(--icon-blue));
+  border: 5px solid #fff;
+  box-shadow: 0 6px 16px rgba(140, 115, 98, 0.14);
+}
+.film-sticker {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  width: 86px;
+  height: 118px;
+  border: 4px solid #fff;
+  border-radius: 4px;
+  background: rgba(253, 248, 244, 0.7);
+  box-shadow: 0 6px 14px rgba(140, 115, 98, 0.12);
+}
+.film-sticker::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  bottom: -12px;
+  width: 92px;
+  height: 22px;
+  transform: rotate(-5deg);
+  background-color: var(--tape-blue);
+  opacity: 0.75;
+  background-image: radial-gradient(rgba(255,255,255,0.55) 2px, transparent 2px);
+  background-size: 10px 10px;
+}
+
+/* 日历组件 */
+.calendar-widget { background: #fff; padding: 20px; }
+.cal-header { color: var(--tape-orange); font-weight: bold; text-align: center; margin-bottom: 16px; font-size: 16px; outline: none; }
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px 4px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-brown);
+}
+.cal-grid .day-name { color: var(--ink-blue); font-weight: bold; margin-bottom: 4px; }
+.cal-grid .marked {
+  position: relative;
+  color: #fff;
+  z-index: 1;
+  font-weight: bold;
+}
+.cal-grid .marked::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px; height: 24px;
+  background: var(--tape-orange);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* ── 真机壳内主屏 ── */
+.home-shell-page {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-paper);
+}
+
+.home-shell-page .home-pages-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.home-shell-page .home-page {
+  height: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(10px + var(--safe-top)) 24px 18px;
+}
+
+.home-shell-page .page-one {
+  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  min-height: 720px;
+  padding-bottom: 128px;
+}
+
+.home-shell-page .page-one .user-header {
+  min-height: 96px;
+  padding: 18px 16px;
+  box-sizing: border-box;
+}
+
+.home-polaroid-feature {
+  width: 100%;
+  min-height: 390px;
+  padding: 16px 16px 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-polaroid-feature .photo-area {
+  flex: 1 1 auto;
+  min-height: 0;
+  aspect-ratio: 1.02 / 1;
+}
+
+.home-polaroid-feature .caption {
+  flex: 0 0 auto;
+  font-size: 18px;
+  line-height: 1.25;
+  padding-top: 4px;
+}
+
+.home-shell-page .page-one .app-grid {
+  flex: 0 0 auto;
+  margin: 0;
+  gap: 18px 16px;
+}
+
+.home-shell-page .page-one .app-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-icon);
+}
+
+.home-shell-page .page-one .app-label {
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+@media (max-height: 700px) {
+  .home-shell-page .page-one {
+    padding-left: 20px;
+    padding-right: 20px;
+    min-height: 690px;
+  }
+
+  .home-shell-page .avatar-placeholder {
+    width: 44px;
+    height: 44px;
+  }
+
+  .home-shell-page .user-info .greeting {
+    font-size: 17px;
+  }
+
+  .home-shell-page .user-info .status-text {
+    font-size: 12px;
+  }
+}
+
+.home-custom-widget {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  background: var(--mm-widget-shell-bg, var(--icon-cream));
+  -webkit-backdrop-filter: var(--mm-widget-shell-filter, none);
+  backdrop-filter: var(--mm-widget-shell-filter, none);
+}
+
+/* 第四页 · 手账纸样收藏票：用纸样、编号与色票补足留白，不再增加另一张拍立得。 */
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-decor {
+  position: relative;
+  min-height: 142px;
+  padding: 24px 24px 20px;
+  overflow: visible;
+  border: 1px solid rgba(148, 126, 111, 0.16);
+  border-radius: 8px 18px 10px 14px;
+  background:
+    linear-gradient(90deg, transparent 0 28px, rgba(202, 150, 137, 0.16) 29px, transparent 30px),
+    repeating-linear-gradient(0deg, rgba(113, 131, 139, 0.08) 0 1px, transparent 1px 24px),
+    rgba(255, 252, 246, 0.94);
+  box-shadow: 0 9px 22px rgba(122, 101, 87, 0.11);
+  color: var(--ink-brown);
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-index {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--ink-blue);
+  font: 700 9px/1 var(--font-family-base);
+  letter-spacing: 0.18em;
+  opacity: 0.66;
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-decor b,
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-decor p {
+  display: block;
+  max-width: calc(100% - 116px);
+  outline: none;
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-decor b {
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-decor p {
+  margin: 9px 0 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-tape {
+  position: absolute;
+  top: -9px;
+  right: 34px;
+  width: 54px;
+  height: 18px;
+  transform: rotate(2.5deg);
+  background: rgba(182, 205, 224, 0.6);
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-swatches {
+  position: absolute;
+  right: 20px;
+  bottom: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, 34px);
+  gap: 5px;
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-swatches i {
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 2px 6px rgba(98, 84, 76, 0.1);
+}
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-swatches i:nth-child(1) { background: #dce7ec; }
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-swatches i:nth-child(2) { background: #eadbd4; }
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-swatches i:nth-child(3) { background: #e7e2cf; }
+.home-shell-page:not(.home-album-shell) .scrapbook-fourth-swatches i:nth-child(4) { background: #d9ded7; }
+
+/* 代码组件：内容走 shadow DOM，外壳只负责占位与裁切 */
+.home-custom-widget.home-code-widget {
+  display: block;
+  gap: 0;
+  padding: 0;
+}
+
+.home-custom-widget-image {
+  min-height: 0;
+  flex: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(182, 205, 224, 0.22);
+}
+
+.home-custom-widget-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-custom-widget-title {
+  color: var(--ink-brown);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.home-custom-widget-body {
+  color: var(--text-secondary, #a08978);
+  font-size: 12px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.home-real-edit-bar {
+  position: absolute;
+  top: calc(10px + var(--safe-top));
+  left: 14px;
+  right: 14px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 0 6px 18px rgba(62, 71, 78, 0.12);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+/* 大组件需要把预览轮廓送进首行；拖动期间工具条退场，避免遮住目标格和接走松手后的点击。 */
+.is-reordering .home-real-edit-bar {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+.is-reordering .home-real-edit-bar > * {
+  pointer-events: none;
+}
+
+.home-real-edit-bar[hidden] {
+  display: none;
+}
+
+.home-real-edit-action,
+.home-real-edit-done {
+  min-width: 0;
+  min-height: 34px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(49, 58, 65, 0.78);
+  box-shadow: none;
+  font: 600 12px var(--font-family-base, inherit);
+  pointer-events: auto;
+}
+
+.home-real-edit-action[data-edit-remove-page] {
+  color: rgba(137, 74, 72, 0.86);
+}
+
+.home-real-edit-action:disabled {
+  color: rgba(49, 58, 65, 0.3);
+}
+
+@media (max-width: 380px) {
+  .home-real-edit-action,
+  .home-real-edit-done {
+    padding-inline: 5px;
+    font-size: 11px;
+  }
+}
+
+.home-real-edit-action {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.home-real-edit-action.home-real-edit-wide {
+  flex: 1.35 1 auto;
+  width: auto;
+  padding: 0 7px;
+}
+
+.home-real-edit-done {
+  flex: 0 0 auto;
+  padding-inline: 13px;
+  background: rgba(70, 105, 121, 0.9);
+  color: #fff;
+}
+
+.home-wallpaper-pick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-edit-delete {
+  display: none;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 8;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(220, 220, 220, 0.92);
+  color: #6f6660;
+  font: 700 18px/18px var(--font-family-base, inherit);
+  box-shadow: 0 3px 8px rgba(140, 115, 98, 0.18);
+}
+
+.is-home-editing .home-edit-delete {
+  display: block;
+}
+
+/* 自定义组件的编辑控件（删除 + 换页）：贴组件内侧角，避免被外壳 overflow:hidden 裁掉 */
+.home-widget-controls {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 9;
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.home-widget-controls .home-edit-delete {
+  position: static;
+  display: block;
+}
+
+.home-widget-move {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.is-home-editing .home-custom-widget,
+.is-sea-editing .home-custom-widget {
+  cursor: grab;
+  touch-action: none;
+}
+
+.home-custom-widget.is-widget-dragging {
+  opacity: 0.2;
+}
+
+.home-widget-drag-ghost {
+  position: fixed !important;
+  z-index: 10000 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+  opacity: 0.96;
+  transform: scale(1.025);
+  filter: drop-shadow(0 14px 22px rgba(40, 56, 65, 0.24));
+}
+
+.is-widget-reordering .home-custom-widget {
+  transition: transform 0.16s ease;
+}
+
+.home-widget-move button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(220, 220, 220, 0.92);
+  color: #6f6660;
+  font-size: 10px;
+  line-height: 1;
+  box-shadow: 0 3px 8px rgba(140, 115, 98, 0.18);
+}
+
+.is-home-editing .home-widget-controls,
+.is-sea-editing .home-widget-controls {
+  display: inline-flex;
+}
+
+/* 非编辑态优先把横滑交给原生分页。Android Edge/Chrome 若从图标起手时为 none，
+ * 会直接失去横向滚动仲裁，随后长按计时器还可能误进入编辑态。 */
+.home-shell-page .app-item[data-home-longpress-item],
+.home-shell-page .home-dock-slot[data-home-longpress-item],
+.home-shell-page .app-grid .home-custom-widget[data-home-longpress-item],
+.home-shell-page .app-grid .home-grid-builtin[data-home-longpress-item] {
+  touch-action: pan-x;
+}
+
+/* iOS WebKit 的根层下拉刷新会在长按成立前抢走指针，保留首帧拦截；首页整壳的
+ * touchmove guard 继续负责空白区域。Chromium（含 Android Edge）不会命中。 */
+@supports (-webkit-touch-callout: none) {
+  .home-shell-page .app-item[data-home-longpress-item],
+  .home-shell-page .home-dock-slot[data-home-longpress-item],
+  .home-shell-page .app-grid .home-custom-widget[data-home-longpress-item],
+  .home-shell-page .app-grid .home-grid-builtin[data-home-longpress-item] {
+    touch-action: none;
+  }
+}
+
+.is-home-editing .app-item[data-home-longpress-item],
+.is-home-editing .home-dock-slot[data-home-longpress-item] {
+  cursor: grab;
+  touch-action: none;
+  -webkit-touch-callout: none;
+}
+
+.is-home-editing .widget-card[data-home-longpress-item],
+.is-home-editing .home-custom-widget[data-home-longpress-item] {
+  cursor: default;
+  touch-action: auto;
+}
+
+.home-inline-editable {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.home-inline-editable:focus {
+  outline: 2px solid rgba(92, 123, 143, 0.28);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.is-home-editing .home-inline-editable {
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.is-reordering .home-pages-container {
+  touch-action: none;
+}
+
+.is-home-editing .app-item,
+.is-home-editing .home-dock-slot,
+.is-home-editing .widget-card[data-home-longpress-item],
+.is-home-editing .home-custom-widget[data-home-longpress-item] {
+  animation: home-edit-wiggle 0.18s ease-in-out infinite alternate;
+}
+
+.is-real-dragging {
+  opacity: 0.25;
+}
+
+/* 拖拽重排进行中：停掉抖动（rotate 会盖掉 FLIP 的位移），让其它图标平滑挤开/排齐 */
+.is-reordering .app-item,
+.is-reordering .home-dock-slot,
+.is-reordering .widget-card[data-home-longpress-item],
+.is-reordering .home-custom-widget[data-home-longpress-item] {
+  animation: none !important;
+}
+
+.is-reordering .app-item.is-real-dragging,
+.is-reordering .home-dock-slot.is-real-dragging {
+  transition: none !important;
+}
+
+.home-real-drag-ghost {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0.96;
+  transform: scale(1.04);
+  filter: drop-shadow(0 14px 22px rgba(90, 70, 55, 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-real-edit-bar {
+    transition: none;
+  }
+}
+
+.home-edit-toast {
+  position: absolute;
+  left: 50%;
+  bottom: calc(106px + var(--safe-bottom));
+  transform: translateX(-50%);
+  z-index: 20;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.94);
+  color: var(--ink-brown);
+  box-shadow: var(--shadow-paper);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@keyframes home-edit-wiggle {
+  from { transform: rotate(-0.35deg); }
+  to { transform: rotate(0.35deg); }
+}
+
+/* ── 手账主屏 · 全屏壁纸 crossfade 层（含 dock 下方区域，与分页同步）── */
+.home-shell-page .home-wallpaper-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--bg-paper, #fbf6f0);
+}
+
+.home-shell-page .home-wallpaper-layer.has-home-pano {
+  background-color: transparent;
+}
+
+.home-shell-page .sea-wallpaper-slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--bg-paper, #fbf6f0);
+}
+
+.home-shell-page .home-wallpaper-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.home-shell-page .home-wallpaper-img--base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-shell-page .home-wallpaper-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.home-shell-page .home-pages-container {
+  position: relative;
+  z-index: 2;
+}
+
+.home-shell-page .home-bottom-chrome {
+  flex: 0 0 auto;
+  padding: 4px 16px calc(6px + var(--safe-bottom));
+  z-index: 6;
+}
+
+.home-shell-page .page-indicators {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  margin-bottom: 6px;
+}
+
+.home-shell-page .dock {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  margin: 0;
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.home-dock-slot {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+button.app-icon:disabled {
+  opacity: 0.42;
+}
+
+.app-icon .custom-img,
+.photo-area .photo-custom,
+.avatar-placeholder .avatar-custom {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.film-ring,
+.film-sticker {
+  overflow: hidden;
+}
+
+.film-ring .film-custom,
+.film-sticker .film-custom {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-tape-top-center {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 16px;
+  background: var(--tape-blue);
+}
+
+.home-tape-polaroid-p1 {
+  top: -10px;
+  right: 20px;
+  width: 40px;
+  height: 16px;
+  background: var(--tape-blue);
+  transform: rotate(-5deg);
+}
+
+.home-tape-note {
+  top: -10px;
+  left: 20px;
+  width: 60px;
+  height: 20px;
+  background: var(--tape-orange);
+  transform: rotate(5deg);
+}
+
+.home-tape-polaroid-p3 {
+  top: -12px;
+  right: 30px;
+  width: 50px;
+  height: 20px;
+  background: var(--tape-blue);
+  transform: rotate(-10deg);
+}
+
+/* 第三页拍立得：照片填满整张蓝卡片，文字只占底部一条 */
+.page-three .polaroid-widget {
+  align-self: center;
+  width: 100%;
+  max-width: 240px;
+  padding: 12px 12px 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.page-three .polaroid-widget .photo-area {
+  flex: 1 1 auto;
+  aspect-ratio: auto;
+  min-height: 180px;
+  margin-bottom: 8px;
+}
+.page-three .polaroid-widget .caption {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 1.3em;
+  font-size: 13px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.page-three .polaroid-widget .caption:focus {
+  overflow-x: auto;
+  text-overflow: clip;
+  scrollbar-width: none;
+}
+.page-three .polaroid-widget .caption:focus::-webkit-scrollbar {
+  display: none;
+}
+
+.home-shell-page .deco-tape {
+  position: absolute;
+  opacity: 0.85;
+}
+.home-shell-page img,
+.home-sea-shell img,
+.home-window-shell img {
+  -webkit-user-drag: none;
+  user-select: none;
+}

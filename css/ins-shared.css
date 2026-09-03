@@ -1,0 +1,385 @@
+/* 海 / 窗（以及复用窗皮肤的相册）最后加载的表单弹窗收口层。
+ * 仅统一非匿名弹窗的基础表面；业务语义色与匿名信专属皮肤继续由各模块维护。 */
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container {
+  --bg-card: var(--ins-surface-solid);
+  --bg-paper: var(--ins-page-bg);
+  --bg-paper-deep: var(--ins-input);
+  --bg-input: var(--ins-input);
+  --bg-sheet: var(--ins-surface-solid);
+  --surface-card: var(--ins-surface-solid);
+  --surface-card-border: var(--ins-line);
+  --grid-line: var(--ins-line);
+  --border: var(--ins-line);
+  --text: var(--ins-ink);
+  --text-main: var(--ins-ink);
+  --text-primary: var(--ins-ink);
+  --text-secondary: var(--ins-muted);
+  --text-muted: var(--ins-muted);
+  --text-hint: var(--ins-muted);
+  --ink-brown: var(--ins-ink);
+  --ink-brown-soft: var(--ins-muted);
+  --ink-muted: var(--ins-muted);
+  --ink-soft: var(--ins-muted);
+  --accent-orange: var(--ins-accent);
+  --accent-orange-soft: var(--ins-accent-soft);
+  --shadow-paper: none;
+  --shadow-paper-soft: none;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) {
+  color: var(--ins-ink);
+  background: var(--ins-surface-solid) !important;
+  border-color: var(--ins-line) !important;
+  box-shadow: var(--ins-shadow) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  transform: none;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(button, input, textarea, select) {
+  font-family: inherit;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .modal-header,
+  .modal-body,
+  .modal-footer,
+  .social-settings-sheet > .modal-footer
+) {
+  color: var(--ins-ink);
+  background: transparent;
+  border-color: var(--ins-line);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .form-input,
+  .form-textarea,
+  .pay-input,
+  .appearance-input,
+  .appearance-textarea,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  select
+) {
+  color: var(--ins-ink) !important;
+  background: var(--ins-input) !important;
+  background-image: none !important;
+  border: 1px solid var(--ins-line) !important;
+  box-shadow: none !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .form-input,
+  .form-textarea,
+  .pay-input,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  select
+):focus {
+  border-color: color-mix(in srgb, var(--ins-accent) 42%, transparent) !important;
+  outline: 3px solid var(--ins-accent-soft) !important;
+  outline-offset: 1px;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .form-label,
+  .field-label,
+  .edit-bubble-label,
+  .vote-option-heading,
+  .form-hint,
+  .field-hint,
+  small
+) {
+  color: var(--ins-muted);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .edit-bubble-type-pill,
+  .vote-option-add,
+  .option-picker-item,
+  .settings-option,
+  .preset-option
+) {
+  color: var(--ins-ink);
+  background: var(--ins-input);
+  border-color: var(--ins-line);
+  border-style: solid;
+  box-shadow: none;
+  transform: none;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) [role="tablist"] {
+  background: var(--ins-input) !important;
+  border: 1px solid var(--ins-line) !important;
+  box-shadow: none !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) [role="tab"] {
+  color: var(--ins-muted) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) [role="tab"].is-active,
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) [role="tab"][aria-selected="true"] {
+  color: var(--ins-ink) !important;
+  background: var(--ins-surface-solid) !important;
+  border-color: var(--ins-line) !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--ins-ink) 8%, transparent) !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .chat-voice-sheet-head {
+  border-bottom: 1px solid var(--ins-line);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .chat-voice-sheet-mode-btn {
+  color: var(--ins-muted);
+  background: var(--ins-input);
+  border: 1px solid var(--ins-line);
+  box-shadow: none;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .chat-voice-sheet-mode-btn.is-active {
+  color: var(--ins-ink);
+  background: var(--ins-surface-solid);
+  border-color: var(--ins-line);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--ins-ink) 8%, transparent);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .chat-voice-sheet-apk-note {
+  color: var(--ins-muted);
+  background: var(--ins-accent-soft);
+  border-left-color: var(--ins-accent);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .chat-voice-sheet-hold {
+  color: var(--ins-ink);
+  background: var(--ins-input);
+  border-color: var(--ins-line);
+  box-shadow: none;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .chat-voice-sheet-hold.is-recording {
+  color: var(--ins-accent);
+  background: var(--ins-accent-soft);
+  border-color: color-mix(in srgb, var(--ins-accent) 28%, transparent);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) .vote-option-editor {
+  --vote-option-ink: var(--ins-ink);
+  --vote-option-muted: var(--ins-muted);
+  --vote-option-border: var(--ins-line);
+  --vote-option-soft: var(--ins-input);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"]
+) {
+  accent-color: var(--ins-accent);
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(.btn-primary, .edit-bubble-save, .vote-editor-save) {
+  color: #ffffff !important;
+  background: var(--ins-accent) !important;
+  border-color: var(--ins-accent) !important;
+  box-shadow: none !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(.btn-secondary, .btn-outline, .btn-soft) {
+  color: var(--ins-ink) !important;
+  background: var(--ins-input) !important;
+  border: 1px solid var(--ins-line) !important;
+  box-shadow: none !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(.scrapbook-tape, .paper-tape, .modal-tape) {
+  display: none !important;
+}
+
+html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :focus-visible {
+  outline: 2px solid var(--ins-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container :is(.modal-overlay, .modal-sheet) {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* 海 / 窗 / 相册内页的完整夜间 token。设置与 API 先前只有浅色 token，
+ * 与全局夜间背景叠加后会形成深底深字；这里在最终皮肤层统一改为成套深色。 */
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) :is(
+  .settings-hub-page,
+  .settings-sub-page,
+  .settings-debug-page,
+  .generation-error-page,
+  .backup-migration-page,
+  .settings-page,
+  .api-manager-page
+) {
+  --ins-page-bg: #101214;
+  --ins-surface: rgba(24, 27, 31, 0.96);
+  --ins-surface-solid: #181b1f;
+  --ins-input: #1d2125;
+  --ins-ink: #edf1f3;
+  --ins-muted: #aeb7bd;
+  --ins-line: rgba(232, 237, 240, 0.14);
+  --ins-accent: #738f9b;
+  --ins-accent-soft: rgba(115, 143, 155, 0.16);
+  --ins-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --bg: var(--ins-page-bg);
+  --bg-paper: var(--ins-page-bg);
+  --bg-paper-deep: var(--ins-input);
+  --bg-card: var(--ins-surface-solid);
+  --bg-sheet: var(--ins-surface-solid);
+  --bg-input: var(--ins-input);
+  --surface-card: var(--ins-surface);
+  --surface-card-border: var(--ins-line);
+  --text: var(--ins-ink);
+  --text-main: var(--ins-ink);
+  --text-primary: var(--ins-ink);
+  --text-secondary: var(--ins-muted);
+  --text-muted: var(--ins-muted);
+  --text-hint: var(--ins-muted);
+  --ink-brown: var(--ins-ink);
+  --ink-brown-soft: var(--ins-muted);
+  --ink-muted: var(--ins-muted);
+  --ink-soft: var(--ins-muted);
+  --border: var(--ins-line);
+  --grid-line: var(--ins-line);
+  color: var(--ins-ink) !important;
+  background: var(--ins-page-bg) !important;
+  color-scheme: dark;
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) :is(
+  .settings-hub-page,
+  .settings-sub-page,
+  .settings-debug-page,
+  .generation-error-page,
+  .backup-migration-page,
+  .settings-page,
+  .api-manager-page
+) :is(.navbar, .scrapbook-navbar) {
+  color: var(--ins-ink);
+  background: color-mix(in srgb, var(--ins-page-bg) 86%, transparent);
+  border-color: var(--ins-line);
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) :is(
+  .settings-hub-page,
+  .settings-sub-page,
+  .settings-debug-page,
+  .generation-error-page,
+  .backup-migration-page,
+  .settings-page,
+  .api-manager-page
+) :is(.settings-scroll, .scrapbook-scroll, .api-manager-scroll, .backup-migration-scroll) {
+  color: var(--ins-ink);
+  background: var(--ins-page-bg);
+}
+
+/* 深色模式必须与上面的高优先级浅色表面成对出现，避免白底继承浅色文字。 */
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container {
+  --ins-dark-surface: #181b1f;
+  --ins-dark-input: #1d2125;
+  --ins-dark-ink: #edf1f3;
+  --ins-dark-muted: #aeb7bd;
+  --ins-dark-line: rgba(232, 237, 240, 0.14);
+  --text: var(--ins-dark-ink);
+  --text-main: var(--ins-dark-ink);
+  --text-primary: var(--ins-dark-ink);
+  --text-secondary: var(--ins-dark-muted);
+  --text-muted: var(--ins-dark-muted);
+  --text-hint: var(--ins-dark-muted);
+  --ink-brown: var(--ins-dark-ink);
+  --ink-brown-soft: var(--ins-dark-muted);
+  --ink-muted: var(--ins-dark-muted);
+  --ink-soft: var(--ins-dark-muted);
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) {
+  color: var(--ins-dark-ink) !important;
+  background: var(--ins-dark-surface) !important;
+  border-color: var(--ins-dark-line) !important;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.38) !important;
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .modal-header,
+  .modal-body,
+  .modal-footer,
+  .social-settings-sheet > .modal-footer
+) {
+  color: var(--ins-dark-ink);
+  background: transparent;
+  border-color: var(--ins-dark-line);
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .form-input,
+  .form-textarea,
+  .pay-input,
+  .appearance-input,
+  .appearance-textarea,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  select
+) {
+  color: var(--ins-dark-ink) !important;
+  background: var(--ins-dark-input) !important;
+  border-color: var(--ins-dark-line) !important;
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .release-notes-prompt-lead,
+  .release-notes-prompt-list,
+  .release-notes-prompt-title,
+  .modal-header h3,
+  .form-label,
+  .field-label,
+  strong
+) {
+  color: var(--ins-dark-ink) !important;
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .release-notes-prompt-meta,
+  .release-notes-prompt-hint,
+  .release-note-times,
+  .form-hint,
+  .field-hint,
+  small
+) {
+  color: var(--ins-dark-muted) !important;
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) [role="tablist"],
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  .btn-secondary,
+  .btn-outline,
+  .btn-soft,
+  .chat-voice-sheet-mode-btn,
+  .chat-voice-sheet-hold,
+  .vote-option-add
+) {
+  color: var(--ins-dark-muted) !important;
+  background: var(--ins-dark-input) !important;
+  border-color: var(--ins-dark-line) !important;
+  box-shadow: none !important;
+}
+
+html[data-color-mode="dark"]:is([data-ui-skin="sea"], [data-ui-skin="window"]) #modal-container .modal-sheet:not(.anon-modal-sheet) :is(
+  [role="tab"].is-active,
+  [role="tab"][aria-selected="true"],
+  .chat-voice-sheet-mode-btn.is-active
+) {
+  color: var(--ins-dark-ink) !important;
+  background: color-mix(in srgb, var(--ins-dark-surface) 78%, white 4%) !important;
+  border-color: var(--ins-dark-line) !important;
+}

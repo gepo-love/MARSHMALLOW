@@ -1,0 +1,1272 @@
+.memory-vector-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.memory-vector-search .form-input:focus-visible {
+  outline: 2px solid var(--accent, #7c8fbc);
+  outline-offset: 2px;
+}
+
+.memory-vector-status-line {
+  margin: 2px 0 7px;
+  color: var(--text-primary, #5a4a3f);
+  font-size: var(--font-sm, 13px);
+  font-weight: 700;
+}
+
+.memory-vector-progress {
+  display: block;
+  width: 100%;
+  height: 5px;
+  margin: 0 0 9px;
+  overflow: hidden;
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--grid-line, #ece4dc);
+}
+
+.memory-vector-progress::-webkit-progress-bar {
+  background: var(--grid-line, #ece4dc);
+  border-radius: inherit;
+}
+
+.memory-vector-progress::-webkit-progress-value {
+  background: var(--tape-blue, #a8c2d8);
+  border-radius: inherit;
+  transition: inline-size 180ms ease-out;
+}
+
+.memory-vector-progress::-moz-progress-bar {
+  background: var(--tape-blue, #a8c2d8);
+  border-radius: inherit;
+  transition: inline-size 180ms ease-out;
+}
+
+.memory-vector-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.memory-vector-counts span {
+  min-width: 0;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm, 8px);
+  background: color-mix(in srgb, var(--tape-blue, #a8c2d8) 12%, transparent);
+  color: var(--text-secondary, #8c7362);
+  font-size: var(--font-xs, 11px);
+  line-height: 1.25;
+  text-align: center;
+}
+
+.memory-vector-counts b {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text-primary, #5a4a3f);
+  font-size: var(--font-sm, 13px);
+}
+
+.memory-vector-counts .has-failure {
+  background: rgba(201, 106, 106, 0.1);
+  color: #a85b5b;
+}
+
+.memory-vector-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.memory-vector-tech-details {
+  margin-top: 9px;
+  color: var(--text-secondary, #8c7362);
+  font-size: var(--font-xs, 11px);
+}
+
+.memory-vector-tech-details summary {
+  width: fit-content;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.memory-vector-tech-details > div {
+  padding: 6px 0 0 14px;
+  overflow-wrap: anywhere;
+}
+
+.memory-vector-filters {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 2px 0 4px;
+  scrollbar-width: none;
+}
+
+.memory-vector-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.memory-vector-filters button {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid var(--surface-card-border, rgba(140, 115, 98, 0.14));
+  border-radius: var(--radius-full, 9999px);
+  background: var(--surface-card, #fffdf8);
+  color: var(--text-secondary, #8c7362);
+  font: inherit;
+  font-size: var(--font-xs, 11px);
+  cursor: pointer;
+}
+
+.memory-vector-filters button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--ink-blue, #5c7b8f) 28%, transparent);
+  background: color-mix(in srgb, var(--tape-blue, #a8c2d8) 24%, var(--surface-card, #fffdf8));
+  color: var(--text-primary, #5a4a3f);
+}
+
+.memory-vector-filters button span {
+  margin-left: 5px;
+  opacity: 0.72;
+}
+
+.memory-vector-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px 0;
+  color: var(--text-primary, #5a4a3f);
+  font-size: var(--font-sm, 13px);
+  font-weight: 700;
+}
+
+.memory-vector-list-head span:last-child {
+  color: var(--text-secondary, #8c7362);
+  font-size: var(--font-xs, 11px);
+  font-weight: 400;
+}
+
+.memory-vector-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.memory-vector-entry {
+  position: relative;
+  flex: 0 0 auto;
+  border-inline-start: 3px solid var(--tape-blue, #a8c2d8);
+}
+
+.memory-vector-entry.is-pending {
+  border-inline-start-color: var(--tape-orange, #f1b98f);
+}
+
+.memory-vector-entry.is-failed {
+  border-inline-start-color: #c96a6a;
+}
+
+.memory-vector-entry-state {
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  border-radius: var(--radius-full, 9999px);
+  background: color-mix(in srgb, var(--tape-blue, #a8c2d8) 18%, transparent);
+  color: var(--ink-blue, #5c7b8f);
+  font-size: var(--font-xs, 11px);
+  font-weight: 700;
+}
+
+.memory-vector-entry-state.is-pending {
+  background: color-mix(in srgb, var(--tape-orange, #f1b98f) 18%, transparent);
+  color: var(--accent-orange-ink, #8a6a55);
+}
+
+.memory-vector-entry-state.is-failed {
+  background: rgba(201, 106, 106, 0.1);
+  color: #a85b5b;
+}
+
+.memory-vector-entry .memory-card-btn {
+  min-height: 36px;
+}
+
+.memory-vector-actors {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 7px 0 2px;
+  color: var(--text-secondary, #8c7362);
+  font-size: var(--font-xs, 11px);
+  line-height: 1.4;
+}
+
+.memory-vector-actors strong {
+  color: var(--text-primary, #5a4a3f);
+  font-size: var(--font-sm, 13px);
+}
+
+.memory-vector-failure-detail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--surface-card-border, rgba(140, 115, 98, 0.14));
+  color: #a85b5b;
+  font-size: var(--font-xs, 11px);
+}
+
+.memory-vector-retry {
+  margin-top: 8px;
+}
+
+.memory-vector-status-card button:disabled,
+.memory-vector-entry button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.memory-vector-filters button:focus-visible,
+.memory-vector-tech-details summary:focus-visible,
+.memory-vector-status-card button:focus-visible,
+.memory-vector-entry button:focus-visible {
+  outline: 2px solid var(--accent, #7c8fbc);
+  outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+  .memory-vector-search {
+    grid-template-columns: 1fr;
+  }
+
+  .memory-vector-counts {
+    gap: 5px;
+  }
+
+  .memory-vector-counts span {
+    padding-inline: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-vector-progress::-webkit-progress-value,
+  .memory-vector-progress::-moz-progress-bar {
+    transition: none;
+  }
+}
+/* 记忆馆 · 便当格子厅 */
+
+.memory-hall {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.memory-hall-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  position: relative;
+  padding: 12px 16px 28px;
+}
+
+/* 壁纸压低透明度做底纹；图缺失时回退到柔和渐变 */
+.memory-hall-scroll::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(170deg, rgba(255, 246, 238, 0.9), rgba(243, 246, 250, 0.9));
+}
+.memory-hall-scroll::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url(../assets/memory/bg-wallpaper.png) center / cover no-repeat;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.memory-hall-intro {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin: 4px 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.memory-hall-intro .mh-sub {
+  font-size: 12px;
+  color: var(--text-secondary, #8c7362);
+}
+.mh-slot-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-blue, #5a7a96);
+  background: #fffdf8;
+  border: 1px solid rgba(182, 205, 224, 0.45);
+  border-radius: 999px;
+  padding: 4px 12px;
+  box-shadow: 0 2px 6px rgba(140, 115, 98, 0.06);
+}
+
+/* 角色选择 */
+.mh-picker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.mh-pick-card {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--surface-card-border, rgba(140, 115, 98, 0.14));
+  border-radius: 20px;
+  padding: 18px 12px 14px;
+  background: var(--surface-card, #fffdf8);
+  box-shadow:
+    inset 0 3px 9px rgba(140, 115, 98, 0.1),
+    0 2px 4px rgba(140, 115, 98, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.mh-pick-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(140, 115, 98, 0.16);
+}
+.mh-pick-card:active { transform: translateY(-1px) scale(0.99); }
+.mh-pick-global { grid-column: 1 / -1; flex-direction: row; justify-content: center; gap: 14px; padding: 14px; background: #f3f8f5; border: 1px solid rgba(140, 115, 98, 0.12); }
+
+.mh-pick-card.is-ghost {
+  border: 1px dashed rgba(140, 115, 98, 0.3);
+  background: rgba(140, 115, 98, 0.05);
+  opacity: 0.72;
+}
+.mh-pick-card.is-ghost .mh-pick-name { color: var(--text-secondary, #8c7362); }
+.mh-pick-ghost-del {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffdf8;
+  color: #c0705a;
+  box-shadow: 0 2px 6px rgba(140, 115, 98, 0.16);
+}
+.mh-pick-ghost-del svg { width: 14px; height: 14px; }
+
+.mh-pick-avatar {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffdf8;
+  box-shadow: 0 2px 6px rgba(140, 115, 98, 0.12);
+}
+.mh-pick-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+.mh-pick-avatar.is-fallback,
+.mh-pick-avatar .is-fallback { color: var(--accent-orange, #e8a066); }
+.mh-pick-avatar-icon svg { width: 40px; height: 40px; }
+.mh-pick-name,
+.mh-pick-hint {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+.mh-pick-name { font-size: 13.5px; font-weight: 700; color: var(--text-primary, #5a4a3f); }
+.mh-pick-hint { font-size: 11px; color: var(--text-secondary, #8c7362); }
+.mh-pick-global .mh-pick-name,
+.mh-pick-global .mh-pick-hint { align-self: center; }
+
+.mh-pick-global .mh-pick-name,
+.mh-pick-global .mh-pick-hint {
+  width: auto;
+  max-width: calc(50% - 38px);
+}
+
+.memory-hall-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "journal journal"
+    "flower  candy"
+    "rings   id"
+    "habits  anon"
+    "jar     jar";
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 32px;
+  padding: 16px;
+  box-shadow:
+    inset 0 4px 12px rgba(140, 115, 98, 0.05),
+    0 8px 24px rgba(140, 115, 98, 0.08);
+}
+
+.memory-hall-grid.has-travel-album {
+  grid-template-areas:
+    "travel travel"
+    "journal journal"
+    "flower  candy"
+    "favorites favorites"
+    "rings   id"
+    "habits  offline"
+    "anon    anon"
+    "jar     jar";
+}
+
+.mh-cell {
+  position: relative;
+  border: none;
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  cursor: pointer;
+  /* 初始状态：凹陷的冰格坑 */
+  box-shadow:
+    inset 0 4px 8px rgba(0, 0, 0, 0.08),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  isolation: isolate;
+}
+
+/* 果冻/玻璃盖子，浮在内容上方 */
+.mh-cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 10;
+  pointer-events: none;
+  /* 初始状态：凹陷时的微弱反光 */
+  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%);
+  box-shadow: inset 0 0 0 rgba(255, 255, 255, 0);
+  transition: all 0.3s ease;
+}
+
+.mh-cell:hover {
+  /* Hover 状态：微微凸起 */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.6),
+    0 6px 12px rgba(140, 115, 98, 0.08);
+}
+.mh-cell:hover::after {
+  /* Hover 状态：凸起后表面高光增强 */
+  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.9),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.05),
+    inset 2px 0 4px rgba(255, 255, 255, 0.6);
+}
+
+.mh-cell:active {
+  /* Active 状态：按下去，比初始更深 */
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    inset 0 6px 12px rgba(0, 0, 0, 0.12),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.4);
+}
+.mh-cell:active::after {
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+  box-shadow: inset 0 0 0 rgba(255, 255, 255, 0);
+}
+
+.mh-cell[data-area="journal"] { grid-area: journal; }
+.mh-cell[data-area="travel"]  { grid-area: travel; }
+.mh-cell[data-area="flower"]  { grid-area: flower; }
+.mh-cell[data-area="favorites"] { grid-area: favorites; }
+.mh-cell[data-area="candy"]   { grid-area: candy; }
+.mh-cell[data-area="rings"]   { grid-area: rings; }
+.mh-cell[data-area="id"]      { grid-area: id; }
+.mh-cell[data-area="habits"] { grid-area: habits; }
+.mh-cell[data-area="anon"]    { grid-area: anon; }
+.mh-cell[data-area="offline"] { grid-area: offline; }
+.mh-cell[data-area="jar"]     { grid-area: jar; }
+
+/* 宽格当主菜 */
+.mh-cell.mh-wide {
+  grid-column: span 2;
+}
+.mh-cell.mh-square { min-height: 132px; }
+
+.mh-icon, .mh-text {
+  position: relative;
+  z-index: 2;
+}
+
+.mh-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.mh-icon svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.65;
+}
+
+.mh-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+}
+.mh-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: inherit;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+}
+.mh-hint {
+  font-size: 11px;
+  color: inherit;
+  opacity: 0.85;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* 拼色：每格不同浅色底，平面插画风，降低透明度透出底图 */
+.mh-cell.tint-yellow { background: rgba(255, 250, 204, 0.45); color: #b38600; }
+.mh-cell.tint-peach { background: rgba(255, 235, 224, 0.45); color: #cc6644; }
+.mh-cell.tint-blue { background: rgba(224, 240, 255, 0.45); color: #3377cc; }
+.mh-cell.tint-orange { background: rgba(255, 240, 214, 0.45); color: #cc7700; }
+.mh-cell.tint-cream { background: rgba(250, 242, 220, 0.45); color: #8c7352; }
+.mh-cell.tint-sky { background: rgba(224, 240, 255, 0.45); color: #3377aa; }
+.mh-cell.tint-lavender { background: rgba(236, 228, 250, 0.5); color: #7a5bc7; }
+.mh-travel-album-cell {
+  min-height: 96px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.32) 0 46px, transparent 46px),
+    rgba(255, 235, 224, 0.5);
+}
+
+/* 角标：浮起来的泡泡 */
+.mh-bubble {
+  position: absolute;
+  top: 9px;
+  right: 11px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #6a8597;
+  background: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.95), rgba(192, 216, 233, 0.78) 72%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 4px 10px rgba(150, 175, 195, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  animation: mh-bob 3s ease-in-out infinite;
+}
+.mh-bubble::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 5px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fffdf8;
+  border: 1px solid rgba(182, 205, 224, 0.35);
+}
+.mh-bubble.is-empty { opacity: 0.55; }
+.mh-new-dot {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  z-index: 12;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.96);
+  border-radius: 50%;
+  background: #e5484d;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(130, 38, 42, 0.28);
+  pointer-events: none;
+}
+.mh-travel-album-cell .mh-new-dot { right: 42px; }
+@keyframes mh-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3.5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mh-bubble { animation: none; }
+}
+
+/* ---- 区块详情页 ---- */
+.memory-region-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: 12px 14px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.memory-region-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 2px 8px;
+}
+.memory-region-head .mri svg { width: 46px; height: 46px; }
+.memory-region-head .mrt { display: flex; flex-direction: column; gap: 2px; }
+.memory-region-head .mrt b { font-size: 16px; color: var(--text-primary, #5a4a3f); }
+.memory-region-head .mrt span { font-size: 12px; color: var(--text-secondary, #8c7362); }
+
+.memory-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.memory-compact-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 2px;
+}
+
+.memory-compact-sheet .modal-body {
+  min-height: 0;
+}
+
+.memory-compact-list {
+  min-height: 0;
+  max-height: min(56vh, 520px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px;
+}
+
+.memory-compact-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 10px 11px;
+  border: 1px solid var(--surface-card-border, rgba(218, 210, 198, 0.8));
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.42);
+  cursor: pointer;
+}
+
+.memory-compact-option input {
+  margin-top: 3px;
+  accent-color: var(--accent, #7aaed8);
+}
+
+.memory-compact-option > span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.memory-compact-option b {
+  color: var(--text-primary, #5a4a3f);
+  font-size: 13px;
+}
+
+.memory-compact-option span span {
+  color: var(--text-secondary, #8c7362);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.memory-compact-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.memory-compact-option:focus-within,
+.memory-card-btn:focus-visible {
+  outline: 2px solid var(--accent, #7aaed8);
+  outline-offset: 2px;
+}
+
+.memory-region-scroll > .memory-card {
+  /* 这里本身是纵向 flex 滚动容器。部分 Android WebView 会把默认
+     flex-shrink:1 的高收藏卡压到只剩标题栏，而不是让容器正常滚动。 */
+  flex: 0 0 auto;
+}
+
+.memory-favorite-card {
+  height: auto;
+  max-height: none;
+  overflow: hidden;
+}
+
+.memory-favorite-note {
+  margin-top: 6px;
+  color: var(--text-muted, #8b7a70);
+  font-size: 12px;
+}
+
+.memory-favorite-dialogue {
+  margin-top: 10px;
+}
+
+.memory-favorite-empty {
+  padding: 12px;
+  color: var(--text-secondary, #8c7362);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.memory-card.is-clickable {
+  cursor: pointer;
+}
+
+.memory-card.is-clickable:active {
+  transform: translateY(-1px);
+}
+
+.memory-card-image {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius-md, 14px);
+  border: 1px solid var(--surface-card-border, rgba(218, 210, 198, 0.8));
+  margin: 10px 0;
+}
+.memory-card-btn {
+  border: none;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-secondary, #8c7362);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.memory-card-btn.is-danger { color: #c96a6a; background: rgba(201, 106, 106, 0.1); }
+.memory-card-evidence {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-secondary, #8c7362);
+}
+
+.memory-card-expand-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-secondary, #8c7362);
+  opacity: 0.85;
+}
+
+.memory-card.is-open .memory-card-expand-hint {
+  opacity: 0.6;
+}
+
+.memory-card-full {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--surface-card-border, rgba(218, 210, 198, 0.8));
+}
+
+.memory-card-fulltext p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary, #5b4636);
+  white-space: pre-wrap;
+}
+
+.memory-card-fulltext p:last-child {
+  margin-bottom: 0;
+}
+
+.memory-card-fragments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.memory-card-fragments span {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 235, 224, 0.6);
+  color: #cc6644;
+}
+.memory-archive-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-blue, #5a7a96);
+  margin: 8px 2px 2px;
+}
+.memory-region-placeholder {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--text-secondary, #8c7362);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ---- 旅行相册 ---- */
+/* 相册是空的时候不套底纹壁纸：淡色壁纸叠在空状态图标上很容易被看成"一张显示不出来的
+   照片"，反而更像是坏了。有真实照片时壁纸留着当桌面质感，翻到空状态就退回纯色底。 */
+.travel-album-scroll.is-empty::before,
+.travel-album-scroll.is-empty::after {
+  content: none;
+}
+
+/* 相册页面本体：撑满导航栏和底部翻页栏之间的整段空间，不留大片空白墙纸。 */
+.travel-album-scroll {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 14px;
+}
+
+.travel-album-book {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  padding: 18px 12px 22px 30px;
+  border-radius: 18px 8px 8px 18px;
+  background:
+    linear-gradient(90deg, rgba(140, 115, 98, 0.18) 0 12px, transparent 12px),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(255, 244, 232, 0.96));
+  border: 1px solid rgba(140, 115, 98, 0.18);
+  box-shadow:
+    0 18px 36px rgba(92, 74, 63, 0.16),
+    inset 10px 0 18px rgba(140, 115, 98, 0.1);
+  overflow: hidden;
+}
+
+.travel-album-spine {
+  position: absolute;
+  inset: 0 auto 0 8px;
+  width: 18px;
+  border-right: 1px dashed rgba(140, 115, 98, 0.25);
+  background:
+    radial-gradient(circle, rgba(140, 115, 98, 0.22) 0 3px, transparent 4px) center 34px / 18px 56px repeat-y;
+}
+
+.travel-album-page {
+  position: relative;
+  display: none;
+  padding: 0;
+  transform: rotate(var(--album-tilt, -1deg));
+}
+
+/* 不设 min-height:0：内容比屏幕高时让整页跟着变长、交给外层滚动，而不是被裁掉。 */
+.travel-album-page.is-active {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+/* 一页 = 一条从上到下的之字形时间线：照片一行贴左一行贴右，手写备注写在照片旁的空位，
+   行与行之间一根手绘粗箭头从上一张指向下一张。没有固定侧栏，字跟着照片走。 */
+.travel-album-paper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+  padding: 26px 16px 22px;
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(182, 205, 224, 0.12) 0 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(180deg, #fffdf8, #fff7ed);
+  box-shadow:
+    0 12px 24px rgba(140, 115, 98, 0.1),
+    inset 4px 0 0 rgba(241, 185, 143, 0.18);
+  overflow: hidden;
+}
+
+.travel-album-paper::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 68px;
+  height: 18px;
+  transform: translateX(-50%) rotate(-2deg);
+  border-radius: 3px;
+  background: rgba(241, 185, 143, 0.32);
+  box-shadow: 0 2px 5px rgba(140, 115, 98, 0.08);
+}
+
+.travel-album-page-head {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.travel-album-page-head strong {
+  color: var(--text-primary, #5a4a3f);
+  font-size: 14.5px;
+  line-height: 1.3;
+}
+
+.travel-album-page-date {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-hint, #a89282);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 之字形时间线容器：行数少时均匀撑开整页高度，行数多时收紧。 */
+.travel-album-flow {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-top: 8px;
+}
+
+.travel-album-flow[data-count="1"] {
+  justify-content: center;
+}
+
+/* 一行 = 照片 + 旁边的手写备注；is-right 行整体镜像，照片换到右边、字换到左边。 */
+.travel-flow-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.travel-flow-row.is-right {
+  flex-direction: row-reverse;
+}
+
+/* 拍立得：占行宽的一半多一点，位置由行的方向决定，不再绝对定位。
+   （scoped 在 flow 里，避免污染旅行事件页共用的 .travel-polaroid 明信片样式。） */
+.travel-album-flow .travel-polaroid {
+  flex: 0 0 auto;
+  width: min(54%, 185px);
+  margin: 0;
+  padding: 7px 7px 4px;
+  background: #fffefb;
+  border-radius: 3px;
+  box-shadow: 0 9px 18px rgba(140, 115, 98, 0.2);
+  transform: rotate(var(--p-tilt, -2deg));
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.travel-album-flow .travel-polaroid:hover,
+.travel-album-flow .travel-polaroid:focus-within {
+  z-index: 8;
+  transform: rotate(0deg) scale(1.05);
+}
+
+/* 单张收尾页（明信片 + 总结）：照片略收一点，把宽度让给旁边整段总结便签；三张页稍收保证整页装得下。 */
+.travel-album-flow[data-count="1"] .travel-polaroid {
+  width: min(50%, 190px);
+}
+
+.travel-album-flow[data-count="3"] .travel-polaroid {
+  width: min(47%, 158px);
+}
+
+.travel-polaroid-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(140, 115, 98, 0.08);
+}
+
+.travel-polaroid.is-cover .travel-polaroid-frame {
+  box-shadow: inset 0 0 0 2px rgba(241, 185, 143, 0.55);
+}
+
+.travel-polaroid-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+}
+
+/* 地点名写在拍立得下方的白边上，绝不压在照片画面里。 */
+.travel-album-flow .travel-polaroid figcaption {
+  padding: 5px 3px 3px;
+  color: #8a7256;
+  font-family: var(--font-family-base);
+  font-size: 11.5px;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 顶端一小截胶带，橙/蓝交替，跟站内其它手账场景共用同一套胶带纹样。 */
+.travel-polaroid-tape {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 44px;
+  height: 16px;
+  transform: translateX(-50%) rotate(-3deg);
+  border-radius: 2px;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  background-color: var(--tape-orange, #f1b98f);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+  background-size: 8px 8px;
+  z-index: 1;
+}
+
+.travel-flow-row.is-right .travel-polaroid-tape {
+  background-color: var(--tape-blue, #a8c2d8);
+  transform: translateX(-50%) rotate(3deg);
+}
+
+/* 手写备注：直接写在横线本子上，不套框，靠手写字体和微倾斜撑起手账感；
+   文字贴着照片那一侧对齐，像是特意写给旁边那张照片的批注。
+   上方一个小小的钟点戳 + 一截细线，第一句略大于后面几句，做出随手日记的层次。 */
+.travel-flow-note {
+  flex: 1;
+  min-width: 0;
+  transform: rotate(var(--n-tilt, 0deg));
+}
+
+.travel-flow-row.is-right .travel-flow-note {
+  text-align: right;
+}
+
+.travel-flow-note-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+  color: #b39c89;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+.travel-flow-note-time::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* 右侧行整体镜像：细线换到钟点前面，朝向照片。 */
+.travel-flow-row.is-right .travel-flow-note-time {
+  flex-direction: row-reverse;
+}
+
+.travel-flow-note p {
+  margin: 0 0 5px;
+  color: #6f5442;
+  font-family: var(--font-family-base);
+  font-size: 13px;
+  line-height: 1.72;
+}
+
+.travel-flow-note p:first-of-type {
+  font-size: 14.5px;
+  color: #5f4636;
+}
+
+.travel-flow-note p:last-child {
+  margin-bottom: 0;
+}
+
+/* 归来明信片旁的总结：一整段角色口吻的话，套一张带图钉的便签纸，跟随手备注区分开。 */
+.travel-flow-note.is-summary {
+  position: relative;
+  padding: 16px 12px 12px 14px;
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 25px, rgba(182, 205, 224, 0.24) 25px 26px),
+    #fffaf1;
+  border: 1px solid rgba(140, 115, 98, 0.14);
+  box-shadow: 0 6px 14px rgba(140, 115, 98, 0.1);
+  text-align: left;
+}
+
+.travel-flow-note.is-summary p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #7a5d4a;
+}
+
+.travel-flow-note-pin {
+  position: absolute;
+  top: -7px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffb3a0, #d1573f 76%);
+  box-shadow: 0 2px 4px rgba(140, 115, 98, 0.32);
+}
+
+/* 行间的路线箭头：地图航线式的点状虚线弧 + 小箭头收尾，从上一张照片那侧引向下一张。
+   负 margin 让它嵌进两行之间的缝里，不额外吃竖向空间。 */
+.travel-flow-arrow {
+  flex: 0 0 auto;
+  width: clamp(84px, 34%, 128px);
+  margin: -10px 0;
+  color: rgba(122, 93, 74, 0.55);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.travel-flow-arrow path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.travel-flow-arrow-dash {
+  stroke-width: 3.4;
+  stroke-dasharray: 0.4 8.4;
+}
+
+.travel-flow-arrow-head {
+  stroke-width: 2.8;
+}
+
+/* 指向右下：箭头从左列照片下方出发，落点偏右。 */
+.travel-flow-arrow.to-right {
+  align-self: center;
+  transform: translateX(-16%) rotate(8deg);
+}
+
+/* 指向左下：整体水平镜像。 */
+.travel-flow-arrow.to-left {
+  align-self: center;
+  transform: translateX(16%) scaleX(-1) rotate(8deg);
+}
+
+/* 翻页栏贴在屏幕底部，跟相册内容分开——不管这一页内容多少，翻页按钮永远在同一个位置。 */
+.travel-album-controls {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px calc(10px + var(--safe-bottom, 0px));
+  background: linear-gradient(180deg, rgba(255, 250, 241, 0.7), rgba(255, 250, 241, 0.96) 40%);
+  border-top: 1px solid rgba(140, 115, 98, 0.14);
+}
+
+.travel-album-controls span {
+  color: var(--text-secondary, #8c7362);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .travel-album-book {
+    padding: 16px 10px 22px 26px;
+  }
+
+  .travel-album-paper {
+    padding: 22px 14px 18px;
+  }
+
+  .travel-flow-row {
+    gap: 10px;
+  }
+}
